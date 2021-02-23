@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from NewSalientArtifact import NewSalientArtifact
 
 
 class Ui_Builder_Window(object):
@@ -171,6 +172,8 @@ class Ui_Builder_Window(object):
         self.NSArtifact_Button.setFont(font)
         self.NSArtifact_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.NSArtifact_Button.setObjectName("NSArtifact_Button")
+        self.NSArtifact_Button.clicked.connect(self.newSalientArtifact)
+
         self.Filters_label_2 = QtWidgets.QLabel(self.centralwidget)
         self.Filters_label_2.setGeometry(QtCore.QRect(20, 10, 135, 21))
         font = QtGui.QFont()
@@ -247,6 +250,10 @@ class Ui_Builder_Window(object):
             items = ["Screenshot 1", "Screenshot 2", "Screenshot 3"]
             for item in items:
                 self.RelationshipsWidget.addItem(item)
+
+    def newSalientArtifact(self):
+        self.salientArtifact = NewSalientArtifact()
+        self.salientArtifact.show()
 
     def retranslateUi(self, Builder_Window):
         _translate = QtCore.QCoreApplication.translate
