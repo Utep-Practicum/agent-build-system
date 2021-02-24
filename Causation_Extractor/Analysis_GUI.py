@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QWidget
 import time
 
@@ -52,6 +53,7 @@ class Ui_Analyzing_Window(QWidget):
         font.setFamily("MS Sans Serif")
         font.setPointSize(10)
         self.Time_Elapsed.setFont(font)
+        self.Time_Elapsed.setStyleSheet("color:black;")
         self.Time_Elapsed.setObjectName("Time_Elapsed")
         self.Time_Elapsed_A = QtWidgets.QLabel(Analyzing_Window)
         self.Time_Elapsed_A.setGeometry(QtCore.QRect(300, 190, 71, 16))
@@ -59,6 +61,7 @@ class Ui_Analyzing_Window(QWidget):
         font.setFamily("MS Sans Serif")
         font.setPointSize(10)
         self.Time_Elapsed_A.setFont(font)
+        self.Time_Elapsed_A.setStyleSheet("color:black;")
         self.Time_Elapsed_A.setObjectName("Time_Elapsed_A")
         self.Relationships = QtWidgets.QLabel(Analyzing_Window)
         self.Relationships.setGeometry(QtCore.QRect(150, 220, 111, 16))
@@ -66,6 +69,7 @@ class Ui_Analyzing_Window(QWidget):
         font.setFamily("MS Sans Serif")
         font.setPointSize(10)
         self.Relationships.setFont(font)
+        self.Relationships.setStyleSheet("color:black;")
         self.Relationships.setObjectName("Relationships")
         self.Relationships_A = QtWidgets.QLabel(Analyzing_Window)
         self.Relationships_A.setGeometry(QtCore.QRect(300, 220, 71, 16))
@@ -73,6 +77,7 @@ class Ui_Analyzing_Window(QWidget):
         font.setFamily("MS Sans Serif")
         font.setPointSize(10)
         self.Relationships_A.setFont(font)
+        self.Relationships_A.setStyleSheet("color:black;")
         self.Relationships_A.setObjectName("Relationships_A")
         self.SArtifacts = QtWidgets.QLabel(Analyzing_Window)
         self.SArtifacts.setGeometry(QtCore.QRect(150, 250, 111, 16))
@@ -80,6 +85,7 @@ class Ui_Analyzing_Window(QWidget):
         font.setFamily("MS Sans Serif")
         font.setPointSize(10)
         self.SArtifacts.setFont(font)
+        self.SArtifacts.setStyleSheet("color:black;")
         self.SArtifacts.setObjectName("SArtifacts")
         self.SArtifacts_A = QtWidgets.QLabel(Analyzing_Window)
         self.SArtifacts_A.setGeometry(QtCore.QRect(300, 250, 71, 16))
@@ -87,9 +93,10 @@ class Ui_Analyzing_Window(QWidget):
         font.setFamily("MS Sans Serif")
         font.setPointSize(10)
         self.SArtifacts_A.setFont(font)
+        self.SArtifacts_A.setStyleSheet("color:black;")
         self.SArtifacts_A.setObjectName("SArtifacts_A")
         self.Export = QtWidgets.QPushButton(Analyzing_Window)
-        self.Export.setGeometry(QtCore.QRect(410, 200, 131, 51))
+        self.Export.setGeometry(QtCore.QRect(410, 200, 141, 51))
         font = QtGui.QFont()
         font.setFamily("MS Sans Serif")
         font.setPointSize(12)
@@ -98,6 +105,7 @@ class Ui_Analyzing_Window(QWidget):
         self.Export.setObjectName("Export")
         self.retranslateUi(Analyzing_Window)
         QtCore.QMetaObject.connectSlotsByName(Analyzing_Window)
+
 
     def retranslateUi(self, Analyzing_Window):
         _translate = QtCore.QCoreApplication.translate
@@ -111,8 +119,10 @@ class Ui_Analyzing_Window(QWidget):
         self.SArtifacts_A.setText(_translate("Analyzing_Window", "0"))
         self.Export.setText(_translate("Analyzing_Window", "Export to builder"))
 
-    def progressBar_update(self,count):
 
+
+    def progressBar_update(self,count):
+        QtWidgets.qApp.processEvents()
         frac = int(100/count)
         prct = 0
         while 100 > prct:
@@ -124,12 +134,15 @@ class Ui_Analyzing_Window(QWidget):
         self.SArtifacts_A.setText("100")
         self.Relationships_A.setText("122")
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Analyzing_Window = QtWidgets.QDialog()
-    ui = Ui_Analyzing_Window()
-    ui.setupUi(Analyzing_Window)
-    Analyzing_Window.show()
+#if __name__ == "__main__":
+#    import sys
+#    app = QtWidgets.QApplication(sys.argv)
+#    Analyzing_Window = QtWidgets.QDialog()
+#    ui = Ui_Analyzing_Window()
+#    ui.setupUi(Analyzing_Window)
 
-    sys.exit(app.exec_())
+
+#    Analyzing_Window.show()
+#    QtWidgets.qApp.processEvents()
+#    ui.progressBar_update(10)
+#    sys.exit(app.exec_())
