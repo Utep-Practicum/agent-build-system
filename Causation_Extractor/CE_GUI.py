@@ -78,8 +78,9 @@ class Ui_CEWindow(QMainWindow):
         self.Analyzing_Window = QtWidgets.QDialog()
         self.ui = Ui_Analyzing_Window()
         self.ui.setupUi(self.Analyzing_Window)
-        self.ui.progressBar_update(self.num_lines)
         self.Analyzing_Window.show()
+        QtWidgets.qApp.processEvents()
+        self.ui.progressBar_update(self.num_lines)
 
     ##############################################################################
 
