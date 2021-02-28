@@ -11,7 +11,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from Analysis_GUI import Ui_Analyzing_Window
+import ceBackend
 import time
+import os #os and json are used for dir json aggregation for now
+import json 
 
 class Ui_CEWindow(QMainWindow):
     def setupUi(self, CEWindow):
@@ -60,13 +63,39 @@ class Ui_CEWindow(QMainWindow):
 
     ######################  BROWSE BUTTON FUNCTION ###############
     def browseFiles(self):
-        name = QFileDialog.getOpenFileName(self.Browse_Button, 'Open file', 'c:\\')
-        file = open(name[0], 'r')
-        self.num_lines = self.count_lines(name[0])
-        with file:
-            self.text = file.read()
-            self.fileName.setText(name[0])
-        file.close()
+        #Original code------------------------------------------
+        #name = QFileDialog.getOpenFileName(self.Browse_Button, 'Open file', 'c:\\')
+        #file = open(name[0], 'r')
+        #self.num_lines = self.count_lines(name[0])
+        #with file:
+        #    self.text = file.read()
+        #    self.fileName.setText(name[0])
+        #file.close()
+
+        #Gets directory name and sets it to a variable
+        name = QFileDialog.getExistingDirectory(self.Browse_Button, 'Choose Src Dir', 'c:\\')
+        print("dirname:",name)
+        directory = os.fsencode(name)
+        self.fileName.setText(name)
+
+        #Get filenames from the given directory (preferably "parsedLogs" within the eceld system)
+        file_list = []
+        head = []
+        for file in os.listdir(directory):
+            file_list.append(file.decode())
+
+        #Stores all json file contents within the "causationSource" json file
+        with open("demo1.json", "w") as outfile:
+            for f in file_list:
+                with open(name+"/"+f, 'rb') as infile:
+                    file_data = json.load(infile)
+                    head += file_data
+            json.dump(head, outfile)
+
+        self.num_lines = self.count_lines("demo1.json")
+        with open("demo1.json") as jsonFile:
+                self.text = jsonFile.read()
+        
 
     def count_lines(self,filename):
         num_lines = sum(1 for line in open(filename,'r'))

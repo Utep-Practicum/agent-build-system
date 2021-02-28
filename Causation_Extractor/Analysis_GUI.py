@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QWidget
+from ceBackend import ceBackend
 import time
 
 class Ui_Analyzing_Window(QWidget):
@@ -112,7 +113,7 @@ class Ui_Analyzing_Window(QWidget):
         Analyzing_Window.setWindowTitle(_translate("Analyzing_Window", "Dialog"))
         self.label.setText(_translate("Analyzing_Window", "Analyzing..."))
         self.Time_Elapsed.setText(_translate("Analyzing_Window", "Time Elapsed"))
-        self.Time_Elapsed_A.setText(_translate("Analyzing_Window", "1:13:13"))
+        self.Time_Elapsed_A.setText(_translate("Analyzing_Window", "0:00:00"))
         self.Relationships.setText(_translate("Analyzing_Window", "Relationships "))
         self.Relationships_A.setText(_translate("Analyzing_Window", "0"))
         self.SArtifacts.setText(_translate("Analyzing_Window", "Salient Artifacts"))
@@ -124,15 +125,25 @@ class Ui_Analyzing_Window(QWidget):
     def progressBar_update(self,count):
         QtWidgets.qApp.processEvents()
         frac = int(100/count)
+        #frac = 20/count
+
         prct = 0
         while 100 > prct:
             prct += frac
-            print(prct)
+            #print(prct)
             time.sleep(1)
             self.progressBar.setValue(prct)
-        self.label.setText("Finished")
-        self.SArtifacts_A.setText("100")
-        self.Relationships_A.setText("122")
+        self.label.setText("Finished!")
+        start_time = time.time()
+
+
+        causationObject = ceBackend() 
+        relationshipList = causationObject.relationshipDefiner()
+        artifactCount = causationObject.getTotalArtifacts(relationshipList)
+        final_time = time.time()-start_time
+        self.Time_Elapsed_A.setText(str(final_time))
+        self.SArtifacts_A.setText(str(artifactCount))
+        self.Relationships_A.setText(str(len(relationshipList)))
 
 #if __name__ == "__main__":
 #    import sys
