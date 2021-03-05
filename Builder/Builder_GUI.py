@@ -9,7 +9,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QPixmap
 from NewSalientArtifact import NewSalientArtifact
+
 
 
 class Ui_Builder_Window(object):
@@ -186,9 +188,26 @@ class Ui_Builder_Window(object):
         self.Filters_label_2.setStyleSheet("color: #13333F;")
         self.Filters_label_2.setObjectName("Filters_label_2")
         self.RelationshipsWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.RelationshipsWidget.setGeometry(QtCore.QRect(20, 40, 521, 281))
+        self.RelationshipsWidget.setGeometry(QtCore.QRect(20, 40, 321, 281))
         self.RelationshipsWidget.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 10px; border: 1px solid #D2D6E0; color: #13333F;")
         self.RelationshipsWidget.setObjectName("RelationshipsWidget")
+
+        self.imageView = QtWidgets.QListView(self.centralwidget)
+        self.imageView.setGeometry(QtCore.QRect(351, 40, 190, 281))
+        self.imageView.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 10px; border: 1px solid #D2D6E0; color: #13333F;")
+        self.imageView.setObjectName("imageView")
+
+        # Image Label
+        self.imageLabel = QtWidgets.QLabel(self.centralwidget)
+        self.imageLabel.setGeometry(QtCore.QRect(300, 360, 221, 151))
+        self.imageLabel.setText("")
+        self.imageLabel.setPixmap(QtGui.QPixmap("/Users/carlosvargasrodriguez/Desktop/Practicum Project/../screenshot-example.png"))
+        self.imageLabel.setScaledContents(True)
+        self.imageLabel.setObjectName("imageLabel")
+        self.imageLabel.setHidden(True)
+    
+
+
         Builder_Window.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Builder_Window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
@@ -228,8 +247,20 @@ class Ui_Builder_Window(object):
         self.MouseClicks_checkBox.stateChanged.connect(self.test_fuction)
         self.Screenshots_checkBox.stateChanged.connect(self.test_fuction)
 
+
+        self.RelationshipsWidget.currentItemChanged.connect(self.check_value)
+
         self.retranslateUi(Builder_Window)
         QtCore.QMetaObject.connectSlotsByName(Builder_Window)
+
+    def check_value(self):
+        print(self.RelationshipsWidget.currentItem().text())
+        if(self.RelationshipsWidget.currentItem().text() == "Network 2"):
+            self.imageLabel.setHidden(False)
+        else:
+            self.imageLabel.setHidden(True)
+
+
 
     def test_fuction(self):
         print(self.Network_checkBox.isChecked())
@@ -282,6 +313,8 @@ class Ui_Builder_Window(object):
         self.actionSave.setStatusTip(_translate("Builder_Window", "Save File"))
         self.actionSave.setShortcut(_translate("Builder_Window", "Ctrl+S"))
 
+        app.setStyle('Fusion')
+
 
 if __name__ == "__main__":
     import sys
@@ -289,5 +322,6 @@ if __name__ == "__main__":
     Builder_Window = QtWidgets.QMainWindow()
     ui = Ui_Builder_Window()
     ui.setupUi(Builder_Window)
+    app.setStyle('Fusion')
     Builder_Window.show()
     sys.exit(app.exec_())

@@ -3,18 +3,21 @@ from  PyQt5.QtWidgets import (QApplication, QWidget, QHBoxLayout, QFormLayout, Q
                               QComboBox, QTextEdit, QFileDialog, QVBoxLayout)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
+from PyQt5 import QtWidgets, QtGui
 
 class NewSalientArtifact(QWidget):
     def __init__(self):
         super().__init__()
         self.initializeUI()
         self.deleted = None
+        
 
     def initializeUI(self):
         self.setGeometry(100, 100, 400, 300)
         self.setWindowTitle("New Salient Artifact")
         self.formArtifact()
         self.show()
+        self.setStyleSheet("background-color: #f4f5f7; color:#13333F;")
 
     def formArtifact(self):
         title = QLabel("New Salient Artifact")
@@ -23,13 +26,27 @@ class NewSalientArtifact(QWidget):
 
         self.typeComboBox = QComboBox()
         self.typeComboBox.addItems(["Select", "Network", "Mouse Clicks", "Keystrokes", "Image"])
+        pal = self.typeComboBox.palette()
+        pal.setColor(QtGui.QPalette.Button, QtGui.QColor(255,255,255))
+        self.typeComboBox.setPalette(pal)
+        self.typeComboBox.setStyleSheet("QListView { color:#13333F; background-color: #FFFFFF; }") 
+
 
         self.packet_label = QLabel("Packet")
         self.packets = QComboBox()
         self.packets.addItems(["TCP", "UDP", "HTTP"])
+        pal = self.packets.palette()
+        pal.setColor(QtGui.QPalette.Button, QtGui.QColor(255,255,255))
+        self.packets.setPalette(pal)
+        self.packets.setStyleSheet("QListView { color:#13333F; background-color: #FFFFFF; }") 
+
         self.flag_label = QLabel("Flag")
         self.flags = QComboBox()
         self.flags.addItems(["SYN", "ACK", "SYN / ACK"])
+        pal = self.flags.palette()
+        pal.setColor(QtGui.QPalette.Button, QtGui.QColor(255,255,255))
+        self.flags.setPalette(pal)
+        self.flags.setStyleSheet("QListView { color:#13333F; background-color: #FFFFFF; }") 
 
         self.packet_layout = QHBoxLayout()
         self.packet_layout.addStretch()
@@ -49,8 +66,10 @@ class NewSalientArtifact(QWidget):
         # Image
         self.browse_button = QPushButton("Browse Image")
         self.browse_button.clicked.connect(self.openFile)
+        self.browse_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
 
         save_button = QPushButton("Save")
+        save_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
         # TODO: Add Save logic
 
         exit_button = QPushButton("Ext")
