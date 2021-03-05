@@ -124,20 +124,20 @@ class Ui_Analyzing_Window(QWidget):
 
     def progressBar_update(self,count):
         QtWidgets.qApp.processEvents()
-        frac = int(100/count)
-        #frac = 20/count
-
+        ##FIX: changed this fraction computation
+        frac = round((100/count),1)
         prct = 0
         while 100 > prct:
             prct += frac
             #print(prct)
-            time.sleep(1)
+            time.sleep(.1)
             self.progressBar.setValue(prct)
+        self.progressBar.setValue(100)
         self.label.setText("Finished!")
         start_time = time.time()
 
 
-        causationObject = ceBackend() 
+        causationObject = ceBackend()
         relationshipList = causationObject.relationshipDefiner()
         artifactCount = causationObject.getTotalArtifacts(relationshipList)
         final_time = time.time()-start_time
