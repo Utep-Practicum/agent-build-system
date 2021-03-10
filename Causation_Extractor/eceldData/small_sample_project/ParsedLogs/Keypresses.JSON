@@ -1,0 +1,7 @@
+[
+	{"keypresses_id" : 0, "content" : "sudo ifconfig[Return]ping 10.0.2.1[Return][Control_L]c", "className" : "Keypresses", "start" : "2021-03-09T21:44:38"},
+	{"keypresses_id" : 1, "content" : "ping 10.0.2.18", "className" : "Keypresses", "start" : "2021-03-09T21:44:43"},
+	{"keypresses_id" : 2, "content" : "[Return][Control_L]c", "className" : "Keypresses", "start" : "2021-03-09T21:45:31"},
+	{"keypresses_id" : 3, "content" : "sudo ls[Return]", "className" : "Keypresses", "start" : "2021-03-09T21:45:36"},
+	{"keypresses_id" : 4, "content" : "print [Shift_L]\"done here[Shift_L]:[Return][Shift_L]\"", "className" : "Keypresses", "start" : "2021-03-09T21:45:43"}
+]

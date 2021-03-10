@@ -1,0 +1,19 @@
+[
+	{"auditd_id" : 0, "content" : "sudo ifconfig", "className" : "auditd", "start" : "2021-03-09T21:44:31"},
+	{"auditd_id" : 1, "content" : "ifconfig", "className" : "auditd", "start" : "2021-03-09T21:44:31"},
+	{"auditd_id" : 2, "content" : "sudo ls", "className" : "auditd", "start" : "2021-03-09T21:45:36"},
+	{"auditd_id" : 3, "content" : "ls", "className" : "auditd", "start" : "2021-03-09T21:45:36"},
+	{"auditd_id" : 4, "content" : "print \/usr\/bin\/print done here:\n", "className" : "auditd", "start" : "2021-03-09T21:45:43"},
+	{"auditd_id" : 5, "content" : "which \/usr\/bin\/which file", "className" : "auditd", "start" : "2021-03-09T21:45:44"},
+	{"auditd_id" : 6, "content" : "file -b --mime-type -e tokens -L -z done here:\n", "className" : "auditd", "start" : "2021-03-09T21:45:44"},
+	{"auditd_id" : 7, "content" : "service \/usr\/sbin\/service auditd stop", "className" : "auditd", "start" : "2021-03-09T21:45:52"},
+	{"auditd_id" : 8, "content" : "basename \/usr\/sbin\/service", "className" : "auditd", "start" : "2021-03-09T21:45:52"},
+	{"auditd_id" : 9, "content" : "basename \/usr\/sbin\/service", "className" : "auditd", "start" : "2021-03-09T21:45:52"},
+	{"auditd_id" : 10, "content" : "systemctl --quiet is-active multi-user.target", "className" : "auditd", "start" : "2021-03-09T21:45:52"},
+	{"auditd_id" : 11, "content" : "xhost -SI:localuser:root", "className" : "auditd", "start" : "2021-03-09T21:45:52"},
+	{"auditd_id" : 12, "content" : "sed -ne s\/\\.socket\\s*[a-z]*\\s*$\/.socket\/p", "className" : "auditd", "start" : "2021-03-09T21:45:52"},
+	{"auditd_id" : 13, "content" : "systemctl list-unit-files --full multi-user.target", "className" : "auditd", "start" : "2021-03-09T21:45:52"},
+	{"auditd_id" : 14, "content" : "auditd_parser.s bash \/home\/kali\/eceld-netsys\/eceld\/plugins\/parsers\/auditd\/auditd_parser.sh \/home\/kali\/eceld-netsys\/eceld\/plugins\/collectors\/auditd\/raw \/home\/kali\/eceld-netsys\/eceld\/plugins\/collectors\/auditd\/parsed", "className" : "auditd", "start" : "2021-03-09T21:45:52"},
+	{"auditd_id" : 15, "content" : "bash \/home\/kali\/eceld-netsys\/eceld\/plugins\/parsers\/auditd\/auditd_parser.sh \/home\/kali\/eceld-netsys\/eceld\/plugins\/collectors\/auditd\/raw \/home\/kali\/eceld-netsys\/eceld\/plugins\/collectors\/auditd\/parsed", "className" : "auditd", "start" : "2021-03-09T21:45:52"},
+	{"auditd_id" : 16, "content" : "cat \/home\/kali\/eceld-netsys\/eceld\/plugins\/collectors\/auditd\/raw\/1615326264_auditd.txt", "className" : "auditd", "start" : "2021-03-09T21:45:52"}
+]
