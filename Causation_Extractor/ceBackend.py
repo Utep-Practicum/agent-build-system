@@ -8,19 +8,18 @@ class ceBackend:
 
 	#defines the relationships based on the master json file created by ce_gui
 	def relationshipDefiner(self):
-		with open("demo1.json") as jsonFile:
+		with open("masterJson.json") as jsonFile:
 			#jsons are loaded as a list of dicts. each dict is a json block
 			data = json.load(jsonFile)
 			
-			#DO THE CONVERSION FOR PACKET DATA HERE
-			for observation in data:
-				if observation["content"] == "network":
+			for observation in data: #Converts PCAP observations to a readable format
+				if observation["content"] == "network": 
 					observation["start"] = parse(observation["start"])
 					observation["start"] = observation["start"]+datetime.timedelta(hours=5)
 					observation["start"] = observation["start"].strftime('%Y-%m-%dT%H:%M:%S')
 
 			sortTest = sorted(data, key = lambda i: i["start"])
-		timeframe = datetime.timedelta(seconds=5) #Check in 15 second blocks
+		timeframe = datetime.timedelta(seconds=5) #Check in 5 second blocks
 		startTime = datetime.datetime.strptime(sortTest[0]["start"], '%Y-%m-%dT%H:%M:%S') #Init time to check against
 		endTime   = startTime+timeframe
 		relationshipList = []
