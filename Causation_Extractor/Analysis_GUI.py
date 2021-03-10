@@ -10,8 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
-from PyQt5.QtWidgets import QWidget
 from ceBackend import ceBackend
+from PyQt5.QtWidgets import QWidget
 import time
 
 class Ui_Analyzing_Window(QWidget):
@@ -113,7 +113,7 @@ class Ui_Analyzing_Window(QWidget):
         Analyzing_Window.setWindowTitle(_translate("Analyzing_Window", "Dialog"))
         self.label.setText(_translate("Analyzing_Window", "Analyzing..."))
         self.Time_Elapsed.setText(_translate("Analyzing_Window", "Time Elapsed"))
-        self.Time_Elapsed_A.setText(_translate("Analyzing_Window", "0:00:00"))
+        self.Time_Elapsed_A.setText(_translate("Analyzing_Window", "1:13:13"))
         self.Relationships.setText(_translate("Analyzing_Window", "Relationships "))
         self.Relationships_A.setText(_translate("Analyzing_Window", "0"))
         self.SArtifacts.setText(_translate("Analyzing_Window", "Salient Artifacts"))
@@ -123,24 +123,26 @@ class Ui_Analyzing_Window(QWidget):
 
 
     def progressBar_update(self,count):
+        causationObject = ceBackend()
         QtWidgets.qApp.processEvents()
-        ##FIX: changed this fraction computation
-        frac = round((100/count),1)
+        frac = round(100/count,1)
         prct = 0
+        start_time = time.time()
         while 100 > prct:
             prct += frac
-            #print(prct)
             time.sleep(.1)
             self.progressBar.setValue(prct)
-        self.progressBar.setValue(100)
-        self.label.setText("Finished!")
-        start_time = time.time()
 
 
-        causationObject = ceBackend()
+
         relationshipList = causationObject.relationshipDefiner()
-        artifactCount = causationObject.getTotalArtifacts(relationshipList)
-        final_time = time.time()-start_time
+        #artifactCount is the issue
+        artifactCount = causationObject.makeArtifacts(relationshipList)
+        causationObject.createRelationshipFile(relationshipList)
+        final_time = time.time() - start_time
+
+        self.progressBar.setValue(100)
+        self.label.setText("Finished")
         self.Time_Elapsed_A.setText(str(final_time))
         self.SArtifacts_A.setText(str(artifactCount))
         self.Relationships_A.setText(str(len(relationshipList)))
