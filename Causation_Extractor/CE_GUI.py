@@ -11,14 +11,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from Analysis_GUI import Ui_Analyzing_Window
-import ceBackend
+from ceBackend import *
 import time
 import os  # os and json are used for dir json aggregation for now
 import json
-import re
+
 
 
 class Ui_CEWindow(QMainWindow):
+    backend = ceBackend()
+
     def setupUi(self, CEWindow):
         CEWindow.setObjectName("CEWindow")
         CEWindow.resize(689, 230)
@@ -85,9 +87,10 @@ class Ui_CEWindow(QMainWindow):
 
         self.retranslateUi(CEWindow)
         QtCore.QMetaObject.connectSlotsByName(CEWindow)
-        #################Button Actions###########################
+        ################# BUTTON ACTIONS ###########################
         self.Browse_Button.clicked.connect(self.browseFiles)
         self.Analyze_Button.clicked.connect(self.show_analyzingWindow)
+        self.SaveProject_Button.clicked.connect(self.saveProject)
 
     ######################  BROWSE BUTTON FUNCTION ###############
     def browseFiles(self):
@@ -97,49 +100,10 @@ class Ui_CEWindow(QMainWindow):
         directory = os.fsencode(name)
         self.fileName.setText(name)
 
-        # Get filenames from the given directory (preferably "parsedLogs" within the eceld system)
-        file_list = []
-        head = []
+        backend = ceBackend()
+        self.num_lines = backend.output_directory(directory,name)
 
-        for file in os.listdir(directory):
-            file_list.append(file.decode())
-
-        ##Set num_lines count to the MouseClicks.json file number of lines for now
-        self.num_lines = self.count_lines(name + "/" + str(file_list[1]))
-
-        # Stores all json file contents within the "causationSource" json file
-        # output file name
-        with open("masterJson.json", "w") as outfile:
-            for f in file_list:
-                with open(name + "/" + f, 'rb') as infile:
-                    if f == "pcapOutput.json":  # start adding 3/8/21
-                        # print("converting pcap file")
-                        data = json.load(infile)
-                        packetList = []
-                        for i in range(len(data)):
-                            level = data[i]["_source"]["layers"]
-                            frame_number = str(level["frame"]["frame.number"])
-                            frame_time = str(level["frame"]["frame.time"])
-                            packetList.append({"start": frame_time})
-                            packetList[i]["data"] = data[i]
-                            packetList[i]["content"] = "network"
-                        head += packetList
-                    else:
-                        file_data = json.load(infile)
-                        head += file_data
-            json.dump(head, outfile)
-        print("done enumerating files")
-
-        #self.num_lines = self.count_lines("masterJson.json")
-        with open("masterJson.json") as jsonFile:
-            self.text = jsonFile.read()
-
-
-    def count_lines(self, filename):
-        num_lines = sum(1 for line in open(filename))
-        return num_lines
-
-    ####################    ANALYSIS WINDOW POPUP  ####################################
+    ###################### ANALYSIS WINDOW POPUP  ####################################
 
     def show_analyzingWindow(self):
         self.hide()
@@ -149,6 +113,11 @@ class Ui_CEWindow(QMainWindow):
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()
         self.ui.progressBar_update(self.num_lines)
+
+    ###################### SAVE PROJECT BUTTON #######################################
+    ##TODO: IMPLEMENT SAVE PROJECT FUNCTIONALITY
+    def saveProject(self):
+        pass
 
     ##############################################################################
 

@@ -2,10 +2,58 @@ import json  # for reading files
 import os  # for accessing files
 import datetime  # For observation grouping
 import re  # for regex in artifact discovery
+import os
 from dateutil.parser import parse  # normalize packet time method
 
 
 class ceBackend:
+
+    ##TODO: implement new project directory structure
+    def output_directory(self,directory,name):
+        # Get filenames from the given directory (preferably "parsedLogs" within the eceld system)
+        file_list = []
+        head = []
+
+        for file in os.listdir(directory):
+            file_list.append(file.decode())
+
+        # Stores all json file contents within the "causationSource" json file
+        # output file name
+        with open("masterJson.json", "w") as outfile:
+            for f in file_list:
+                with open(name + "/" + f, 'rb') as infile:
+                    if f == "pcapOutput.json":  # start adding 3/8/21
+                        # print("converting pcap file")
+                        data = json.load(infile)
+                        packetList = []
+                        for i in range(len(data)):
+                            level = data[i]["_source"]["layers"]
+                            frame_number = str(level["frame"]["frame.number"])
+                            frame_time = str(level["frame"]["frame.time"])
+                            packetList.append({"start": frame_time})
+                            packetList[i]["data"] = data[i]
+                            packetList[i]["content"] = "network"
+                        head += packetList
+                    else:
+                        file_data = json.load(infile)
+                        head += file_data
+            json.dump(head, outfile)
+        print("done enumerating files")
+
+        ##Set num_lines count to the MouseClicks.json file number of lines for now
+        num_lines = self.count_lines(name + "/" + str(file_list[1]))
+
+        # self.num_lines = self.count_lines("masterJson.json")
+        with open("masterJson.json") as jsonFile:
+            self.text = jsonFile.read()
+
+        return num_lines
+
+    ##TODO: Find a better indicator for progress bar
+    # Count lines in file for progress bar
+    def count_lines(self, filename):
+        num_lines = sum(1 for line in open(filename))
+        return num_lines
 
     # defines the relationships based on the master json file created by ce_gui
     def relationshipDefiner(self):
