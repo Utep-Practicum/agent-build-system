@@ -1,7 +1,8 @@
 import json         #for reading files
 import os           #for accessing files
 import datetime     #For observation grouping
-import re 			#for regex in artifact discovery
+import re 			#for regex in artifact discoverysni
+
 from dateutil.parser import parse #normalize packet time method
 
 class ceBackend:
@@ -29,15 +30,15 @@ class ceBackend:
 		for block in sortTest: #Sort through json blocks, adding each to their relationship 
 			dateTimeObj = datetime.datetime.strptime(block["start"], '%Y-%m-%dT%H:%M:%S')
 
-			if 'timed_id' in block.keys(): #Screenshot elements are only important after commands, and we only want 1
-				if auditD_found:
-					tempList.append(block)
-					auditD_found = 0
-				else: #If a screenshot is found but not before a command, we ignore it
-					pass
+			if 'timed_id' in block.keys() and auditD_found: #Screenshot elements are only important after commands, and we only want 1
+				#if auditD_found: --  commented by Alejandro
+				tempList.append(block)
+				auditD_found = 0
+				#else: #If a screenshot is found but not before a command, we ignore it -- commented by Alejandro
+					#pass
 			else: #All logs that aren't screenshots get added
 
-				if 'auditd_id' or 'keypresses_id' in block.keys(): #Turn boolean back on if we find an audit/keypress log
+				if ('auditd_id' or 'keypresses_id') in block.keys(): #Turn boolean back on if we find an audit/keypress log
 					auditD_found = 1
 				tempList.append(block)
 
