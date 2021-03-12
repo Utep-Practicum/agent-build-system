@@ -16,6 +16,7 @@ import time
 import os #os and json are used for dir json aggregation for now
 import json 
 import re
+from pcap_import import pcapImport
 
 class Ui_CEWindow(QMainWindow):
     def setupUi(self, CEWindow):
@@ -106,12 +107,7 @@ class Ui_CEWindow(QMainWindow):
         self.num_lines = self.count_lines(name + "/" + str(file_list[1]))
 
         #Stores all json file contents within the "causationSource" json file
-<<<<<<< HEAD
-        #output file name
-        with open("demo1.json", "w") as outfile:
-=======
         with open("masterJson.json", "w") as outfile:
->>>>>>> origin/causation_seb
             for f in file_list:
 
                 with open(name+"/"+f, 'rb') as infile:
@@ -119,13 +115,14 @@ class Ui_CEWindow(QMainWindow):
                         #print("converting pcap file")
                         data = json.load(infile)
                         packetList = []
+                        node = pcapImport()
                         for i in range(len(data)):
-                            level = data[i]["_source"]["layers"]                            
-                            frame_number = str(level["frame"]["frame.number"])
-                            frame_time = str(level["frame"]["frame.time"])
-                            packetList.append({"start":frame_time})
-                            packetList[i]["data"] = data[i]
-                            packetList[i]["content"] = "network"
+                            node.DFS_mapping(data[i])
+                            frame_time = str(node.frame_info["frame.time"])
+                            packetList.append({"start":frame_time}) #The initial time of the frame capture
+                            packetList[i]["data"] = node.frame_info.copy() #Frame information
+                            packetList[i]["content"] = "network" #Packet type
+                            node.frame_info.clear() #Clears node before next capture
                         head += packetList
                     else:
                         file_data = json.load(infile)
@@ -133,13 +130,8 @@ class Ui_CEWindow(QMainWindow):
             json.dump(head, outfile)
         print("done enumerating files")
 
-<<<<<<< HEAD
-        #self.num_lines = self.count_lines("demo1.json")
-        with open("demo1.json") as jsonFile:
-=======
         self.num_lines = self.count_lines("masterJson.json")
         with open("masterJson.json") as jsonFile:
->>>>>>> origin/causation_seb
                 self.text = jsonFile.read()
         
 
