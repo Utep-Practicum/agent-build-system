@@ -15,15 +15,17 @@ class Ui_BuilderWindow(object):
     def setupUi(self, BuilderWindow):
         BuilderWindow.setObjectName("BuilderWindow")
         BuilderWindow.resize(778, 620)
-        BuilderWindow.setStyleSheet("background-color: white;")
+        BuilderWindow.setStyleSheet("background-color: #f4f5f7;")
         self.centralwidget = QtWidgets.QWidget(BuilderWindow)
         self.centralwidget.setMinimumSize(QtCore.QSize(778, 579))
         self.centralwidget.setObjectName("centralwidget")
         font = QtGui.QFont()
 
+        #########################Detail List#########################
         self.Detail_Rellist = QtWidgets.QListWidget(self.centralwidget)
         self.Detail_Rellist.setGeometry(QtCore.QRect(20, 351, 721, 221))
         self.Detail_Rellist.setObjectName("Detail_Rellist")
+        self.Detail_Rellist.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
         #########################Dependencies Label#########################
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(460, 12, 281, 23))
@@ -36,6 +38,7 @@ class Ui_BuilderWindow(object):
         self.Relationshiplist = QtWidgets.QListWidget(self.centralwidget)
         self.Relationshiplist.setGeometry(QtCore.QRect(460, 40, 281, 293))
         self.Relationshiplist.setObjectName("Relationshiplist")
+        self.Relationshiplist.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
 
         #####################Relationships Label##################################
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -49,6 +52,7 @@ class Ui_BuilderWindow(object):
         self.Dependency_list = QtWidgets.QListWidget(self.centralwidget)
         self.Dependency_list.setGeometry(QtCore.QRect(20, 40, 291, 293))
         self.Dependency_list.setObjectName("Dependency_list")
+        self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
 
         #####################Edit Artifact Button #################################
 
