@@ -15,6 +15,7 @@ import ceBackend
 import time
 import os #os and json are used for dir json aggregation for now
 import json 
+import re
 
 class Ui_CEWindow(QMainWindow):
     def setupUi(self, CEWindow):
@@ -105,17 +106,40 @@ class Ui_CEWindow(QMainWindow):
         self.num_lines = self.count_lines(name + "/" + str(file_list[1]))
 
         #Stores all json file contents within the "causationSource" json file
+<<<<<<< HEAD
         #output file name
         with open("demo1.json", "w") as outfile:
+=======
+        with open("masterJson.json", "w") as outfile:
+>>>>>>> origin/causation_seb
             for f in file_list:
 
                 with open(name+"/"+f, 'rb') as infile:
-                    file_data = json.load(infile)
-                    head += file_data
+                    if f == "pcapOutput.json": #start adding 3/8/21
+                        #print("converting pcap file")
+                        data = json.load(infile)
+                        packetList = []
+                        for i in range(len(data)):
+                            level = data[i]["_source"]["layers"]                            
+                            frame_number = str(level["frame"]["frame.number"])
+                            frame_time = str(level["frame"]["frame.time"])
+                            packetList.append({"start":frame_time})
+                            packetList[i]["data"] = data[i]
+                            packetList[i]["content"] = "network"
+                        head += packetList
+                    else:
+                        file_data = json.load(infile)
+                        head += file_data
             json.dump(head, outfile)
+        print("done enumerating files")
 
+<<<<<<< HEAD
         #self.num_lines = self.count_lines("demo1.json")
         with open("demo1.json") as jsonFile:
+=======
+        self.num_lines = self.count_lines("masterJson.json")
+        with open("masterJson.json") as jsonFile:
+>>>>>>> origin/causation_seb
                 self.text = jsonFile.read()
         
 

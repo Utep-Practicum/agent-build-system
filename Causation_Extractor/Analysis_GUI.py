@@ -139,7 +139,8 @@ class Ui_Analyzing_Window(QWidget):
 
         causationObject = ceBackend()
         relationshipList = causationObject.relationshipDefiner()
-        artifactCount = causationObject.getTotalArtifacts(relationshipList)
+        artifactCount = causationObject.makeArtifacts(relationshipList)
+        causationObject.createRelationshipFile(relationshipList)
         final_time = time.time()-start_time
         self.Time_Elapsed_A.setText(str(final_time))
         self.SArtifacts_A.setText(str(artifactCount))
