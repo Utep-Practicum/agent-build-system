@@ -13,10 +13,9 @@ class NewProject(QWidget):
         Initialize the window and display its contents to the screen.
         """
         self.setGeometry(100, 100, 400, 120)
-        self.setWindowTitle('Edit Form')
-        
-        self.setup_widget_layout()
+        self.setWindowTitle('New Project')
 
+        self.setup_widget_layout()
         self.show()
         self.setStyleSheet("background-color: #f4f5f7; color:#13333F;")
  
@@ -35,7 +34,7 @@ class NewProject(QWidget):
 
         # Button Actions
         cancel_btn.clicked.connect(self.close)
-        save_btn.clicked.connect(self.createFolders)
+        save_btn.clicked.connect(self.create_folders)
 
         # Error label
         self.error_label = QLabel("This project already exists")
@@ -57,7 +56,7 @@ class NewProject(QWidget):
         form_layout.addRow(self.error_label)
 
 
-    def createFolders(self):
+    def create_folders(self):
         print(self.project_name.text())
         self.error_label.setHidden(True)
 
