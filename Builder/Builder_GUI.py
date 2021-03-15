@@ -27,7 +27,7 @@ class Ui_BuilderWindow(object):
         self.Detail_Rellist = QtWidgets.QListWidget(self.centralwidget)
         self.Detail_Rellist.setGeometry(QtCore.QRect(20, 351, 721, 221))
         self.Detail_Rellist.setObjectName("Detail_Rellist")
-        self.Detail_Rellist.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
+        self.Detail_Rellist.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black")
         #########################Dependencies Label#########################
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(460, 12, 281, 23))
@@ -40,7 +40,7 @@ class Ui_BuilderWindow(object):
         self.Relationshiplist = QtWidgets.QListWidget(self.centralwidget)
         self.Relationshiplist.setGeometry(QtCore.QRect(460, 40, 281, 293))
         self.Relationshiplist.setObjectName("Relationshiplist")
-        self.Relationshiplist.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
+        self.Relationshiplist.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black")
 
         #####################Relationships Label##################################
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -54,7 +54,7 @@ class Ui_BuilderWindow(object):
         self.Dependency_list = QtWidgets.QListWidget(self.centralwidget)
         self.Dependency_list.setGeometry(QtCore.QRect(20, 40, 291, 293))
         self.Dependency_list.setObjectName("Dependency_list")
-        self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
+        self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black")
 
         ################################ HARD CODED ####################################################################
         rel = [
