@@ -41,6 +41,7 @@ class Ui_CEWindow(QMainWindow):
         self.fileName.setFont(font)
         self.fileName.setReadOnly(True)
         self.fileName.setObjectName("fileName")
+        self.fileName.setStyleSheet("color: black;")
 
         self.Analyze_Button = QtWidgets.QPushButton(self.centralwidget)
         self.Analyze_Button.setGeometry(QtCore.QRect(390, 110, 121, 31))
@@ -58,6 +59,7 @@ class Ui_CEWindow(QMainWindow):
         self.label.setGeometry(QtCore.QRect(90, 20, 301, 31))
         self.label.setFont(font)
         self.label.setObjectName("label")
+        self.label.setStyleSheet("color: black;")
         CEWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(CEWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 689, 21))
