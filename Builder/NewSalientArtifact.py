@@ -52,9 +52,9 @@ class NewSalientArtifact(QWidget):
         self.packet_layout.addStretch()
         self.packet_layout.setSpacing(5)
         self.packet_layout.addWidget(self.packet_label)
-        self.packet_layout.addWidget(self.packets, 10)
+        self.packet_layout.addWidget(self.packets, 15)
         self.packet_layout.addWidget(self.flag_label)
-        self.packet_layout.addWidget(self.flags, 10)
+        self.packet_layout.addWidget(self.flags, 15)
         self.packet_layout.addStretch()
 
         # Key strokes
