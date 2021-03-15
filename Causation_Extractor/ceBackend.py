@@ -4,7 +4,7 @@ import datetime  # For observation grouping
 import re  # for regex in artifact discovery
 import os
 from dateutil.parser import parse  # normalize packet time method
-
+from pcap_import import pcapImport
 
 class ceBackend:
 
@@ -23,16 +23,17 @@ class ceBackend:
             for f in file_list:
                 with open(name + "/" + f, 'rb') as infile:
                     if f == "pcapOutput.json":  # start adding 3/8/21
-                        # print("converting pcap file")
+                       #print("converting pcap file")
                         data = json.load(infile)
                         packetList = []
+                        node = pcapImport()
                         for i in range(len(data)):
-                            level = data[i]["_source"]["layers"]
-                            frame_number = str(level["frame"]["frame.number"])
-                            frame_time = str(level["frame"]["frame.time"])
-                            packetList.append({"start": frame_time})
-                            packetList[i]["data"] = data[i]
-                            packetList[i]["content"] = "network"
+                            node.DFS_mapping(data[i])
+                            frame_time = str(node.frame_info["frame.time"])
+                            packetList.append({"start":frame_time}) #The initial time of the frame capture
+                            packetList[i]["data"] = node.frame_info.copy() #Frame information
+                            packetList[i]["content"] = "network" #Packet type
+                            node.frame_info.clear() #Clears node before next capture
                         head += packetList
                     else:
                         file_data = json.load(infile)
