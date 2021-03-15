@@ -38,12 +38,11 @@ class ceBackend:
                     else:
                         file_data = json.load(infile)
                         head += file_data
-            json.dump(head, outfile)
+            json.dump(head, outfile, indent=4)
         print("done enumerating files")
 
         ##Set num_lines count to the MouseClicks.json file number of lines for now
         num_lines = self.count_lines(name + "/" + str(file_list[1]))
-
         # self.num_lines = self.count_lines("masterJson.json")
         with open("masterJson.json") as jsonFile:
             self.text = jsonFile.read()
@@ -150,7 +149,7 @@ class ceBackend:
         for i in range(len(relationshipList)):
             filename = "relationships/relationship_" + str(i + 1) + ".json"
             with open(filename, 'w') as json_file:
-                json.dump(relationshipList[i], json_file)
+                json.dump(relationshipList[i], json_file, indent=4)
 
     # Formats the relationship output, used pretty much only for debugging.
     def outputRelationships(self, relationshipList):

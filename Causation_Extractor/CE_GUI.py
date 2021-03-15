@@ -100,12 +100,12 @@ class Ui_CEWindow(QMainWindow):
         self.fileName.setText(name)
 
         backend = ceBackend()
-        self.num_lines = backend.output_directory(directory,name)
+        self.num_lines = backend.output_directory(directory, name)
 
 
-        self.num_lines = self.count_lines("masterJson.json")
-        with open("masterJson.json") as jsonFile:
-                self.text = jsonFile.read()
+        # self.num_lines = self.count_lines("masterJson.json")
+        # with open("masterJson.json") as jsonFile:
+        #         self.text = jsonFile.read()
 
 
     def count_lines(self,filename):
