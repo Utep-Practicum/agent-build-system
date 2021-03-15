@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Edit import *
+from NewSalientArtifact import *
+import json
 
 class Ui_BuilderWindow(object):
     def setupUi(self, BuilderWindow):
@@ -54,8 +56,27 @@ class Ui_BuilderWindow(object):
         self.Dependency_list.setObjectName("Dependency_list")
         self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
 
-        #####################Edit Artifact Button #################################
+        ################################ HARD CODED ####################################################################
+        rel = [
+             {"auditd_id": 4, "content": "sudo ifconfig", "className": "auditd", "start": "2021-02-15T05:19:36"},
+             {"auditd_id": 5, "content": "ifconfig", "className": "auditd", "start": "2021-02-15T05:19:36"},
+            {"timed_id": 9, "type": "point", "classname": "imgPoint",
+             "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1613366376.1490963_screenshot.png",
+             "start": "2021-02-15T05:19:36"}
+            ]
+        self.aver1 = json.dumps({"auditd_id": 4, "content": "sudo ifconfig", "className": "auditd", "start": "2021-02-15T05:19:36"})
+        self.aver2 = json.dumps({"auditd_id": 5, "content": "ifconfig", "className": "auditd", "start": "2021-02-15T05:19:36"})
+        self.aver3 = json.dumps({"timed_id": 9, "type": "point", "classname": "imgPoint",
+                                 "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1613366376.1490963_screenshot.png",
+                                 "start": "2021-02-15T05:19:36"})
 
+        self.Dependency_list.addItem("Relationship 1")
+        self.Dependency_list.addItem("Relationship 2")
+        self.Dependency_list.addItem("Relationship 3")
+        self.Dependency_list.itemClicked.connect(self.imprimit)
+        ################################ END OF HARDCODE ###############################################################
+
+        #####################Edit Artifact Button #################################
         self.EditButton = QtWidgets.QPushButton(self.centralwidget)
         self.EditButton.setGeometry(QtCore.QRect(340, 231, 100, 75))
         self.EditButton.setMinimumSize(QtCore.QSize(100, 75))
@@ -74,6 +95,7 @@ class Ui_BuilderWindow(object):
         self.FilterButton.setFont(font)
         self.FilterButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.FilterButton.setObjectName("FilterButton")
+        self.FilterButton.clicked.connect(self.openFilter)
 
         #####################Relationship -> Dependency Button #####################
         self.MoveButton = QtWidgets.QPushButton(self.centralwidget)
@@ -83,6 +105,7 @@ class Ui_BuilderWindow(object):
         self.MoveButton.setFont(font)
         self.MoveButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.MoveButton.setObjectName("MoveButton")
+        self.MoveButton.clicked.connect(self.passDependency)
         BuilderWindow.setCentralWidget(self.centralwidget)
 
         ###################### Menu Top Bar #########################################
@@ -116,6 +139,10 @@ class Ui_BuilderWindow(object):
         self.wind = EditForm()
         self.wind.initializeUI()
 
+    def openFilter(self):
+        self.wind = NewSalientArtifact()
+        self.wind.initializeUI()
+
     def retranslateUi(self, BuilderWindow):
         _translate = QtCore.QCoreApplication.translate
         BuilderWindow.setWindowTitle(_translate("BuilderWindow", "ABS_Builder"))
@@ -128,6 +155,15 @@ class Ui_BuilderWindow(object):
         self.actionSave_Project.setText(_translate("BuilderWindow", "Save Project"))
         self.actionQuit.setText(_translate("BuilderWindow", "Quit"))
 
+    ##################################### HARDCODED ####################################################################
+    def imprimit(self, item):
+        self.Detail_Rellist.addItem(self.aver1)
+        self.Detail_Rellist.addItem(self.aver2)
+        self.Detail_Rellist.addItem(self.aver3)
+
+    def passDependency(self):
+        self.Relationshiplist.addItem("Dependency 1")
+    ##################################### END HARDCODED ################################################################
 
 if __name__ == "__main__":
     import sys

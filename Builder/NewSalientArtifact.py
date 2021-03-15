@@ -14,13 +14,13 @@ class NewSalientArtifact(QWidget):
 
     def initializeUI(self):
         self.setGeometry(100, 100, 400, 300)
-        self.setWindowTitle("New Salient Artifact")
+        self.setWindowTitle("Filter")
         self.formArtifact()
         self.show()
         self.setStyleSheet("background-color: #f4f5f7; color:#13333F;")
 
     def formArtifact(self):
-        title = QLabel("New Salient Artifact")
+        title = QLabel("Filter")
         title.setFont(QFont('Arial', 18))
         title.setAlignment(Qt.AlignCenter)
 
@@ -52,9 +52,9 @@ class NewSalientArtifact(QWidget):
         self.packet_layout.addStretch()
         self.packet_layout.setSpacing(5)
         self.packet_layout.addWidget(self.packet_label)
-        self.packet_layout.addWidget(self.packets, 5)
+        self.packet_layout.addWidget(self.packets, 10)
         self.packet_layout.addWidget(self.flag_label)
-        self.packet_layout.addWidget(self.flags, 5)
+        self.packet_layout.addWidget(self.flags, 10)
         self.packet_layout.addStretch()
 
         # Key strokes
@@ -68,8 +68,8 @@ class NewSalientArtifact(QWidget):
         self.browse_button.clicked.connect(self.openFile)
         self.browse_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
 
-        save_button = QPushButton("Save")
-        save_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
+        apply_button = QPushButton("Apply")
+        apply_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
         # TODO: Add Save logic
 
         exit_button = QPushButton("Ext")
@@ -78,7 +78,7 @@ class NewSalientArtifact(QWidget):
         self.layout_buttons = QHBoxLayout()
         self.layout_buttons.addStretch()
         self.layout_buttons.addSpacing(10)
-        self.layout_buttons.addWidget(save_button)
+        self.layout_buttons.addWidget(apply_button)
         self.layout_buttons.addWidget(exit_button)
 
         self.form_layout = QFormLayout()
@@ -87,7 +87,7 @@ class NewSalientArtifact(QWidget):
         self.form_layout.addRow(self.packet_layout)
         self.form_layout.addRow(self.text_field)
         self.form_layout.addRow(self.browse_button)
-        self.form_layout.addRow(save_button)
+        self.form_layout.addRow(apply_button)
         self.form_layout.setSpacing(20)
         self.setLayout(self.form_layout)
 
