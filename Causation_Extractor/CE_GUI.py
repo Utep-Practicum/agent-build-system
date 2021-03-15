@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from Analysis_GUI import Ui_Analyzing_Window
 from ceBackend import *
+from new_project import *
 import time
 import os #os and json are used for dir json aggregation for now
 import json
@@ -125,7 +126,8 @@ class Ui_CEWindow(QMainWindow):
     ###################### SAVE PROJECT BUTTON #######################################
     ##TODO: IMPLEMENT SAVE PROJECT FUNCTIONALITY
     def saveProject(self):
-        pass
+        self.project = NewProject()
+        self.project.initializeUI()
 
     ##############################################################################
 
