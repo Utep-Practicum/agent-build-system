@@ -13,10 +13,7 @@ from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from Analysis_GUI import Ui_Analyzing_Window
 from ceBackend import *
 from new_project import *
-import time
 import os #os and json are used for dir json aggregation for now
-import json
-import re
 
 class Ui_CEWindow(QMainWindow):
     backend = ceBackend()
@@ -40,8 +37,8 @@ class Ui_CEWindow(QMainWindow):
         self.fileName.setGeometry(QtCore.QRect(230, 60, 351, 31))
         self.fileName.setFont(font)
         self.fileName.setReadOnly(True)
+        self.fileName.setStyleSheet("color: black")
         self.fileName.setObjectName("fileName")
-        self.fileName.setStyleSheet("color: black;")
 
         self.Analyze_Button = QtWidgets.QPushButton(self.centralwidget)
         self.Analyze_Button.setGeometry(QtCore.QRect(390, 110, 121, 31))
@@ -59,15 +56,20 @@ class Ui_CEWindow(QMainWindow):
         self.label.setGeometry(QtCore.QRect(90, 20, 301, 31))
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.label.setStyleSheet("color: black;")
+        self.label.setStyleSheet("color: black")
         CEWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(CEWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 689, 21))
         self.menubar.setObjectName("menubar")
+        self.menubar.setStyleSheet("color: black")
         self.menuNew_Project = QtWidgets.QMenu(self.menubar)
         self.menuNew_Project.setObjectName("menuNew_Project")
+        self.menuNew_Project.setStyleSheet("color: black")
+        
         self.menuHelp = QtWidgets.QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
+        self.menuNew_Project.setStyleSheet("color: black")
+
         CEWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(CEWindow)
         self.statusbar.setObjectName("statusbar")
@@ -103,17 +105,7 @@ class Ui_CEWindow(QMainWindow):
         self.fileName.setText(name)
 
         backend = ceBackend()
-        self.num_lines = backend.output_directory(directory, name)
-
-
-        # self.num_lines = self.count_lines("masterJson.json")
-        # with open("masterJson.json") as jsonFile:
-        #         self.text = jsonFile.read()
-
-
-    def count_lines(self,filename):
-        num_lines = sum(1 for line in open(filename))
-        return num_lines
+        self.num_lines = backend.output_directory(directory,name)
 
 
     def show_analyzingWindow(self):
@@ -124,6 +116,7 @@ class Ui_CEWindow(QMainWindow):
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()
         self.ui.progressBar_update(self.num_lines)
+        QtWidgets.qApp.processEvents()
 
     ###################### SAVE PROJECT BUTTON #######################################
     ##TODO: IMPLEMENT SAVE PROJECT FUNCTIONALITY
