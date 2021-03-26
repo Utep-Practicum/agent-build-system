@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from Analysis_GUI import Ui_Analyzing_Window
 from ceBackend import *
-from new_project import *
+from saveProject import *
 import os #os and json are used for dir json aggregation for now
 
 class Ui_CEWindow(QMainWindow):
@@ -116,13 +116,15 @@ class Ui_CEWindow(QMainWindow):
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()
         self.ui.progressBar_update(self.num_lines)
-        
+        QtWidgets.qApp.processEvents()
 
     ###################### SAVE PROJECT BUTTON #######################################
     ##TODO: IMPLEMENT SAVE PROJECT FUNCTIONALITY
     def saveProject(self):
-        self.project = NewProject()
-        self.project.initializeUI()
+        self.Form = QtWidgets.QWidget()
+        self.ui = Ui_Form()
+        self.ui.setupUi(self.Form)
+        self.Form.show()
 
     ##############################################################################
 
