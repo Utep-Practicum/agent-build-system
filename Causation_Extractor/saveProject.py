@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtWidgets import QWidget
 
 
-class Ui_Form(QWidget):
+class NewProject(QWidget):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(459, 204)
@@ -62,7 +62,7 @@ class Ui_Form(QWidget):
 
         #################BUTTON ACTIONS##################################
         self.CreateButton.clicked.connect(self.create_folders)
-        self.CancelButton.clicked.connect(self.close)
+        self.CancelButton.clicked.connect(self.destroy)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate

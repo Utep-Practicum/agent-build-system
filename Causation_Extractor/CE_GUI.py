@@ -122,7 +122,7 @@ class Ui_CEWindow(QMainWindow):
     ##TODO: IMPLEMENT SAVE PROJECT FUNCTIONALITY
     def saveProject(self):
         self.Form = QtWidgets.QWidget()
-        self.ui = Ui_Form()
+        self.ui = NewProject()
         self.ui.setupUi(self.Form)
         self.Form.show()
 
