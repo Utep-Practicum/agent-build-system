@@ -116,7 +116,7 @@ class Ui_CEWindow(QMainWindow):
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()
         self.ui.progressBar_update(self.num_lines)
-        QtWidgets.qApp.processEvents()
+        
 
     ###################### SAVE PROJECT BUTTON #######################################
     ##TODO: IMPLEMENT SAVE PROJECT FUNCTIONALITY
