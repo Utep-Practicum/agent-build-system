@@ -106,8 +106,7 @@ class ceBackend:
 
     # Finds artifacts
     def makeArtifacts(self, relationshipList):
-        regexList = [line.rstrip() for line in open('regexLists/userKeywords.txt')]
-        networkList = [line.rstrip() for line in open('regexLists/networkKeywords.txt')]
+        regexList = [line.rstrip() for line in open('regexLists/regexList.txt')]
         count = 0
 
         for relationship in relationshipList:
@@ -122,7 +121,7 @@ class ceBackend:
                             count += 1
                             break  # stops to avoid re-adding field
                 elif 'data' in observation.keys():
-                    for regex in networkList:
+                    for regex in regexList:
                         if re.findall(regex, str(observation["data"])):
                             # print("network artifact:," observation["data"]) #DEBUG
                             observation['artifact'] = 1

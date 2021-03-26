@@ -13,3 +13,7 @@ map
 amp
 nma
 nam
+tcp
+udp
+http
+icmp
