@@ -72,7 +72,6 @@ class NewProject(QtWidgets.QWidget):
 
 
     def create_folders(self):
-        print(self.ProjectName.text())
         self.error_label.setHidden(True)
 
         # Create Projects root path if does not exist
@@ -95,11 +94,14 @@ class NewProject(QtWidgets.QWidget):
             os.makedirs("Project Data/" + self.ProjectName.text() + "/Packager/Packager_logs")
             self.CancelButton.setText("Continue")
             self.CreateButton.hide()
+            
             print("Project was created")
         else:
             self.error_label.setHidden(False)
             print("Project Name Already Exists")
-    
+            
+    def get_projectName(self,Form):
+        return str(self.ProjectName.text())
    
         
 

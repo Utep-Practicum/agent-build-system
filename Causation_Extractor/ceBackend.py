@@ -9,6 +9,7 @@ from pcap_import import pcapImport
 class ceBackend:
 
     ##TODO: implement new project directory structure
+    project_Name = " "
     def output_directory(self,directory,name):
         # Get filenames from the given directory (preferably "parsedLogs" within the eceld system)
         file_list = []
@@ -40,6 +41,9 @@ class ceBackend:
                         head += file_data
             json.dump(head, outfile)
         print("done enumerating files")
+
+        #self.project_Name = project_name
+        #print(self.project_Name)
 
         ##Set num_lines count to the MouseClicks.json file number of lines for now
         num_lines = self.count_lines(name + "/" + str(file_list[1]))
@@ -134,15 +138,16 @@ class ceBackend:
         # print(json.dumps(relationshipList, sort_keys=True, indent=4)) #Debug, prints out entire json list in a pretty format
         return count
 
+    ##TODO: SAVE RELATIONSHIP FOLDER UNDER PROJECT DATA FOLDER
     # creates individual files for each relationship
     def createRelationshipFile(self, relationshipList):
         # relationshipList[0], Each index is a relationship
         # relationshipList[0][0], each index is an observation
         # relationship[0][0]["fieldName"], each index is a key:value pair from the json.
 
-        # if relationships folder doesn't exist, create it
-        if not os.path.isdir("relationships"):
-            os.mkdir("relationships")
+        # if relationships folder doesn't exist, create it [03/27/2020 NO LONGER NEEDED SINCE PROJECT DATA FOLDER HAS ALREADY BEEN CREATED]
+        if not os.path.isdir(self.project_Name + "CE/Relationships"):
+            os.mkdir(self.project_Name + "CE/relationships")
 
         # print each relationship into relationships/relationship_x.json
         for i in range(len(relationshipList)):

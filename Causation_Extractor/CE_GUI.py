@@ -86,15 +86,23 @@ class Ui_CEWindow(QMainWindow):
         self.menubar.addAction(self.menuNew_Project.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
+
         self.retranslateUi(CEWindow)
         QtCore.QMetaObject.connectSlotsByName(CEWindow)
 
         self.retranslateUi(CEWindow)
         QtCore.QMetaObject.connectSlotsByName(CEWindow)
+
+         ################# PROJECT NAME #############################
+        self.project_Name = "temp"
+        self.check_project()
+        
         ################# BUTTON ACTIONS ###########################
         self.Browse_Button.clicked.connect(self.browseFiles)
         self.Analyze_Button.clicked.connect(self.show_analyzingWindow)
         self.SaveProject_Button.clicked.connect(self.saveProject)
+
+       
 
     ######################  BROWSE BUTTON FUNCTION ###############
     def browseFiles(self):
@@ -107,6 +115,8 @@ class Ui_CEWindow(QMainWindow):
         backend = ceBackend()
         self.num_lines = backend.output_directory(directory,name)
 
+        print("Using: " +self.project_Name)
+
 
     def show_analyzingWindow(self):
         self.hide()
@@ -115,18 +125,34 @@ class Ui_CEWindow(QMainWindow):
         self.ui.setupUi(self.Analyzing_Window)
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()
-        self.ui.progressBar_update(self.num_lines)
+        print("Analyzing: " +self.project_Name)
+        self.ui.progressBar_update(self.num_lines,self.project_Name)
         #QtWidgets.qApp.processEvents()
 
     ###################### SAVE PROJECT BUTTON #######################################
-    ##TODO: IMPLEMENT SAVE PROJECT FUNCTIONALITY
     def saveProject(self):
         self.Form = QtWidgets.QWidget()
-        self.ui = NewProject()
-        self.ui.setupUi(self.Form)
+        self.sP = NewProject()
+        self.sP.setupUi(self.Form)
         self.Form.show()
+        self.project_Name = str(self.sP.ProjectName.text())
+
+        #print("Project Name = " + self.sP.get_projectName(self.Form))
+        self.check_project()
 
     ##############################################################################
+
+    ###################### CHECK THAT A PROJECT HAS BEEN CREATED #############################
+    def check_project(self):
+        if self.project_Name == "temp":
+            self.Browse_Button.setEnabled(False)
+            self.Analyze_Button.setEnabled(False)
+        else:
+            self.label.setText("ECELd Project Folder:")
+            self.Browse_Button.setEnabled(True)
+            self.Analyze_Button.setEnabled(True)
+            self.SaveProject_Button.setEnabled(False)    
+    
 
     def retranslateUi(self, CEWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -134,7 +160,7 @@ class Ui_CEWindow(QMainWindow):
         self.Browse_Button.setText(_translate("CEWindow", "Browse"))
         self.Analyze_Button.setText(_translate("CEWindow", "Analyze"))
         self.SaveProject_Button.setText(_translate("CEWindow", "Save Project"))
-        self.label.setText(_translate("CEWindow", "ECELd Project Folder:"))
+        self.label.setText(_translate("CEWindow", "Please Create a Project"))
         self.menuNew_Project.setTitle(_translate("CEWindow", "Project"))
         self.menuHelp.setTitle(_translate("CEWindow", "Help"))
         self.actionSave_Project.setText(_translate("CEWindow", "Save Project"))
