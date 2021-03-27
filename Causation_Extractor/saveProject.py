@@ -12,10 +12,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os
 from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
 
-
-class NewProject(QWidget):
+class NewProject(QtWidgets.QWidget):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(459, 204)
@@ -62,7 +60,7 @@ class NewProject(QWidget):
 
         #################BUTTON ACTIONS##################################
         self.CreateButton.clicked.connect(self.create_folders)
-        self.CancelButton.clicked.connect(self.destroy)
+        self.CancelButton.clicked.connect(Form.close)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -95,10 +93,13 @@ class NewProject(QWidget):
             os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/Runner/Runner_logs")
             os.makedirs("Project Data/" + self.ProjectName.text() + "/Packager/")
             os.makedirs("Project Data/" + self.ProjectName.text() + "/Packager/Packager_logs")
-            self.close()
+            self.CancelButton.setText("Continue")
+            self.CreateButton.hide()
+            print("Project was created")
         else:
             self.error_label.setHidden(False)
             print("Project Name Already Exists")
-
-
+    
+   
+        
 
