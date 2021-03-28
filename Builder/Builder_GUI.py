@@ -11,9 +11,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Edit import *
 from NewSalientArtifact import *
+from BuilderBackEnd import *
 import json
 
 class Ui_BuilderWindow(object):
+
+    def __init__(self):
+        self.back_end = BuilderBackEnd()
+        self.dependency = ""
+        self.dependency_list = []
+
     def setupUi(self, BuilderWindow):
         BuilderWindow.setObjectName("BuilderWindow")
         BuilderWindow.resize(778, 620)
@@ -24,10 +31,10 @@ class Ui_BuilderWindow(object):
         font = QtGui.QFont()
 
         #########################Detail List#########################
-        self.Detail_Rellist = QtWidgets.QListWidget(self.centralwidget)
-        self.Detail_Rellist.setGeometry(QtCore.QRect(20, 351, 721, 221))
-        self.Detail_Rellist.setObjectName("Detail_Rellist")
-        self.Detail_Rellist.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black")
+        self.Detail_Relaltion_list = QtWidgets.QListWidget(self.centralwidget)
+        self.Detail_Relaltion_list.setGeometry(QtCore.QRect(20, 351, 721, 221))
+        self.Detail_Relaltion_list.setObjectName("Detail_Relaltion_list")
+        self.Detail_Relaltion_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
         #########################Dependencies Label#########################
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(460, 12, 281, 23))
@@ -37,10 +44,10 @@ class Ui_BuilderWindow(object):
         self.label_3.setObjectName("label_3")
 
         #####################Relationships List List Widget######################
-        self.Relationshiplist = QtWidgets.QListWidget(self.centralwidget)
-        self.Relationshiplist.setGeometry(QtCore.QRect(460, 40, 281, 293))
-        self.Relationshiplist.setObjectName("Relationshiplist")
-        self.Relationshiplist.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black")
+        self.Dependency_list = QtWidgets.QListWidget(self.centralwidget)
+        self.Dependency_list.setGeometry(QtCore.QRect(460, 40, 281, 293))
+        self.Dependency_list.setObjectName("Dependency_list")
+        self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
 
         #####################Relationships Label##################################
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -51,30 +58,10 @@ class Ui_BuilderWindow(object):
         self.label.setObjectName("label")
 
         #####################Dependency List List Widget ##########################
-        self.Dependency_list = QtWidgets.QListWidget(self.centralwidget)
-        self.Dependency_list.setGeometry(QtCore.QRect(20, 40, 291, 293))
-        self.Dependency_list.setObjectName("Dependency_list")
-        self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black")
-
-        ################################ HARD CODED ####################################################################
-        rel = [
-             {"auditd_id": 4, "content": "sudo ifconfig", "className": "auditd", "start": "2021-02-15T05:19:36"},
-             {"auditd_id": 5, "content": "ifconfig", "className": "auditd", "start": "2021-02-15T05:19:36"},
-            {"timed_id": 9, "type": "point", "classname": "imgPoint",
-             "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1613366376.1490963_screenshot.png",
-             "start": "2021-02-15T05:19:36"}
-            ]
-        self.aver1 = json.dumps({"auditd_id": 4, "content": "sudo ifconfig", "className": "auditd", "start": "2021-02-15T05:19:36"})
-        self.aver2 = json.dumps({"auditd_id": 5, "content": "ifconfig", "className": "auditd", "start": "2021-02-15T05:19:36"})
-        self.aver3 = json.dumps({"timed_id": 9, "type": "point", "classname": "imgPoint",
-                                 "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1613366376.1490963_screenshot.png",
-                                 "start": "2021-02-15T05:19:36"})
-
-        self.Dependency_list.addItem("Relationship 1")
-        self.Dependency_list.addItem("Relationship 2")
-        self.Dependency_list.addItem("Relationship 3")
-        self.Dependency_list.itemClicked.connect(self.imprimit)
-        ################################ END OF HARDCODE ###############################################################
+        self.Relationship_list = QtWidgets.QListWidget(self.centralwidget)
+        self.Relationship_list.setGeometry(QtCore.QRect(20, 40, 291, 293))
+        self.Relationship_list.setObjectName("Relationship_list")
+        self.Relationship_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
 
         #####################Edit Artifact Button #################################
         self.EditButton = QtWidgets.QPushButton(self.centralwidget)
@@ -134,6 +121,9 @@ class Ui_BuilderWindow(object):
         self.retranslateUi(BuilderWindow)
         QtCore.QMetaObject.connectSlotsByName(BuilderWindow)
 
+        ############ Call the method to display relations #####################
+        self.displayRelations()
+
     ############ Open Edit Window ####################
     def open_edit(self):
         self.wind = EditForm()
@@ -155,15 +145,38 @@ class Ui_BuilderWindow(object):
         self.actionSave_Project.setText(_translate("BuilderWindow", "Save Project"))
         self.actionQuit.setText(_translate("BuilderWindow", "Quit"))
 
-    ##################################### HARDCODED ####################################################################
-    def imprimit(self, item):
-        self.Detail_Rellist.addItem(self.aver1)
-        self.Detail_Rellist.addItem(self.aver2)
-        self.Detail_Rellist.addItem(self.aver3)
+    def displayRelations(self):
+        self.relations_dictionary = self.back_end.read_relationships()
+
+        for relation_name in self.relations_dictionary.keys():
+            self.Relationship_list.addItem(relation_name)
+
+        self.Relationship_list.itemClicked.connect(self.displayContent)
+
+
+
+    ##################################### Display the content in the Detail Box ########################################
+    def displayContent(self, item):
+        """
+        first it clears the Detail List
+        it stores and formats the Relation chosen (clicked) and changes the name to Dependency #
+        Finally, for each relation, it will be added in the Detail list
+        """
+
+        self.Detail_Relaltion_list.clear()
+
+        self.dependency = "Dependency " + item.text().split(" ")[1]
+
+        for relations in self.relations_dictionary.get(item.text()):
+            self.Detail_Relaltion_list.addItem(str(relations))
 
     def passDependency(self):
-        self.Relationshiplist.addItem("Dependency 1")
-    ##################################### END HARDCODED ################################################################
+        """
+        If the dependency is not in the list, then added to out dependcy list, and display it.
+        """
+        if self.dependency not in self.dependency_list:
+            self.dependency_list.append(self.dependency)
+            self.Dependency_list.addItem(self.dependency)
 
 if __name__ == "__main__":
     import sys
