@@ -23,49 +23,64 @@ class Ui_BuilderWindow(object):
 
     def setupUi(self, BuilderWindow):
         BuilderWindow.setObjectName("BuilderWindow")
-        BuilderWindow.resize(778, 620)
+        BuilderWindow.resize(778, 720)
         BuilderWindow.setStyleSheet("background-color: #f4f5f7;")
         self.centralwidget = QtWidgets.QWidget(BuilderWindow)
         self.centralwidget.setMinimumSize(QtCore.QSize(778, 579))
         self.centralwidget.setObjectName("centralwidget")
         font = QtGui.QFont()
 
+        #########################Search Label#########################
+        self.search_label = QtWidgets.QLabel(self.centralwidget)
+        self.search_label.setGeometry(QtCore.QRect(20, 14, 281, 23))
+        font.setPointSize(14)
+        self.search_label.setFont(font)
+        self.search_label.setStyleSheet("color:black;")
+        self.search_label.setObjectName("search_label")
+
+        #########################Search Input#########################
+        self.search_input = QtWidgets.QLineEdit(self.centralwidget)
+        self.search_input.setGeometry(QtCore.QRect(20, 40, 721, 40))
+        self.search_input.setObjectName("search_input")
+        self.search_input.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.search_input.textChanged.connect(self.displaySearchResults)
+
         #########################Detail List#########################
         self.Detail_Relaltion_list = QtWidgets.QListWidget(self.centralwidget)
-        self.Detail_Relaltion_list.setGeometry(QtCore.QRect(20, 351, 721, 221))
+        self.Detail_Relaltion_list.setGeometry(QtCore.QRect(20, 431, 721, 221))
         self.Detail_Relaltion_list.setObjectName("Detail_Relaltion_list")
-        self.Detail_Relaltion_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
+        self.Detail_Relaltion_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         #########################Dependencies Label#########################
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(460, 12, 281, 23))
+        self.label_3.setGeometry(QtCore.QRect(460, 92, 281, 23))
         font.setPointSize(14)
         self.label_3.setFont(font)
         self.label_3.setStyleSheet("color:black;")
         self.label_3.setObjectName("label_3")
 
-        #####################Relationships List List Widget######################
+        #####################Dependencies List List Widget######################
         self.Dependency_list = QtWidgets.QListWidget(self.centralwidget)
-        self.Dependency_list.setGeometry(QtCore.QRect(460, 40, 281, 293))
+        self.Dependency_list.setGeometry(QtCore.QRect(460, 120, 281, 293))
         self.Dependency_list.setObjectName("Dependency_list")
-        self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
+        self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
 
         #####################Relationships Label##################################
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(20, 12, 291, 23))
+        self.label.setGeometry(QtCore.QRect(20, 92, 291, 23))
         font.setPointSize(14)
         self.label.setFont(font)
         self.label.setStyleSheet("color:black;")
         self.label.setObjectName("label")
 
-        #####################Dependency List List Widget ##########################
+        #####################Relationship List List Widget ##########################
         self.Relationship_list = QtWidgets.QListWidget(self.centralwidget)
-        self.Relationship_list.setGeometry(QtCore.QRect(20, 40, 291, 293))
+        self.Relationship_list.setGeometry(QtCore.QRect(20, 120, 291, 293))
         self.Relationship_list.setObjectName("Relationship_list")
-        self.Relationship_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0;")
+        self.Relationship_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
 
         #####################Edit Artifact Button #################################
         self.EditButton = QtWidgets.QPushButton(self.centralwidget)
-        self.EditButton.setGeometry(QtCore.QRect(340, 231, 100, 75))
+        self.EditButton.setGeometry(QtCore.QRect(340, 311, 100, 75))
         self.EditButton.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.EditButton.setFont(font)
@@ -76,7 +91,7 @@ class Ui_BuilderWindow(object):
 
         #####################Filter Salient Artifact Button #######################
         self.FilterButton = QtWidgets.QPushButton(self.centralwidget)
-        self.FilterButton.setGeometry(QtCore.QRect(340, 69, 100, 75))
+        self.FilterButton.setGeometry(QtCore.QRect(340, 149, 100, 75))
         self.FilterButton.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.FilterButton.setFont(font)
@@ -86,7 +101,7 @@ class Ui_BuilderWindow(object):
 
         #####################Relationship -> Dependency Button #####################
         self.MoveButton = QtWidgets.QPushButton(self.centralwidget)
-        self.MoveButton.setGeometry(QtCore.QRect(340, 150, 100, 75))
+        self.MoveButton.setGeometry(QtCore.QRect(340, 230, 100, 75))
         self.MoveButton.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.MoveButton.setFont(font)
@@ -138,6 +153,7 @@ class Ui_BuilderWindow(object):
         BuilderWindow.setWindowTitle(_translate("BuilderWindow", "ABS_Builder"))
         self.label_3.setText(_translate("BuilderWindow", "Dependencies"))
         self.label.setText(_translate("BuilderWindow", "Relationships"))
+        self.search_label.setText(_translate("BuilderWindow", "Search"))
         self.EditButton.setText(_translate("BuilderWindow", "Edit"))
         self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
         self.MoveButton.setText(_translate("BuilderWindow", ">>"))
@@ -147,11 +163,37 @@ class Ui_BuilderWindow(object):
 
     def displayRelations(self):
         self.relations_dictionary = self.back_end.read_relationships()
+        self.search_dictionary = self.relations_dictionary
 
         for relation_name in self.relations_dictionary.keys():
             self.Relationship_list.addItem(relation_name)
 
         self.Relationship_list.itemClicked.connect(self.displayContent)
+        # self.displaySearchResults()
+
+
+    def printExample(self):
+        print("Test")
+
+    def displaySearchResults(self, text):
+        self.search_dictionary = {}
+        for relationship in self.relations_dictionary:
+            relationship_added = False
+            for relation in self.relations_dictionary.get(relationship):
+                if text in str(relation):
+                    if relationship_added == False:
+                        self.search_dictionary[relationship] = [relation]
+                        relationship_added = True
+                    self.search_dictionary[relationship].append(relation)
+
+        self.Relationship_list.clear()
+        for relation_name in self.search_dictionary.keys():
+            self.Relationship_list.addItem(relation_name)
+
+    
+                    
+
+
 
 
 
@@ -167,7 +209,7 @@ class Ui_BuilderWindow(object):
 
         self.dependency = "Dependency " + item.text().split(" ")[1]
 
-        for relations in self.relations_dictionary.get(item.text()):
+        for relations in self.search_dictionary.get(item.text()):
             self.Detail_Relaltion_list.addItem(str(relations))
 
     def passDependency(self):

@@ -1,0 +1,23 @@
+[
+    {
+        "keypresses_id": 2,
+        "content": "[Return][Control_L]c",
+        "className": "Keypresses",
+        "start": "2021-03-09T21:45:31"
+    },
+    {
+        "timed_id": 14,
+        "type": "point",
+        "classname": "imgPoint",
+        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326331.437223_screenshot.png",
+        "start": "2021-03-09T21:45:31",
+        "artifact": 0
+    },
+    {
+        "keypresses_id": 3,
+        "content": "sudo ls[Return]",
+        "className": "Keypresses",
+        "start": "2021-03-09T21:45:36",
+        "artifact": 1
+    }
+]

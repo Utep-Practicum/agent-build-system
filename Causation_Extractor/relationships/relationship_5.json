@@ -1,0 +1,24 @@
+[
+    {
+        "auditd_id": 2,
+        "content": "sudo ls",
+        "className": "auditd",
+        "start": "2021-03-09T21:45:36",
+        "artifact": 1
+    },
+    {
+        "auditd_id": 3,
+        "content": "ls",
+        "className": "auditd",
+        "start": "2021-03-09T21:45:36",
+        "artifact": 1
+    },
+    {
+        "timed_id": 18,
+        "type": "point",
+        "classname": "imgPoint",
+        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326337.1642497_screenshot.png",
+        "start": "2021-03-09T21:45:37",
+        "artifact": 0
+    }
+]
