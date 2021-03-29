@@ -78,9 +78,20 @@ class Ui_BuilderWindow(object):
         self.Relationship_list.setObjectName("Relationship_list")
         self.Relationship_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
 
+        #####################Relationship -> Dependency Button #####################
+        self.MoveButton = QtWidgets.QPushButton(self.centralwidget)
+        self.MoveButton.setGeometry(QtCore.QRect(340, 180, 100, 75))
+        self.MoveButton.setMinimumSize(QtCore.QSize(100, 75))
+        font.setPointSize(16)
+        self.MoveButton.setFont(font)
+        self.MoveButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.MoveButton.setObjectName("MoveButton")
+        self.MoveButton.clicked.connect(self.passDependency)
+        BuilderWindow.setCentralWidget(self.centralwidget)
+
         #####################Edit Artifact Button #################################
         self.EditButton = QtWidgets.QPushButton(self.centralwidget)
-        self.EditButton.setGeometry(QtCore.QRect(340, 311, 100, 75))
+        self.EditButton.setGeometry(QtCore.QRect(340, 261, 100, 75))
         self.EditButton.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.EditButton.setFont(font)
@@ -90,25 +101,15 @@ class Ui_BuilderWindow(object):
 
 
         #####################Filter Salient Artifact Button #######################
-        self.FilterButton = QtWidgets.QPushButton(self.centralwidget)
-        self.FilterButton.setGeometry(QtCore.QRect(340, 149, 100, 75))
-        self.FilterButton.setMinimumSize(QtCore.QSize(100, 75))
-        font.setPointSize(16)
-        self.FilterButton.setFont(font)
-        self.FilterButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
-        self.FilterButton.setObjectName("FilterButton")
-        self.FilterButton.clicked.connect(self.openFilter)
+        # self.FilterButton = QtWidgets.QPushButton(self.centralwidget)
+        # self.FilterButton.setGeometry(QtCore.QRect(340, 149, 100, 75))
+        # self.FilterButton.setMinimumSize(QtCore.QSize(100, 75))
+        # font.setPointSize(16)
+        # self.FilterButton.setFont(font)
+        # self.FilterButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        # self.FilterButton.setObjectName("FilterButton")
+        # self.FilterButton.clicked.connect(self.openFilter)
 
-        #####################Relationship -> Dependency Button #####################
-        self.MoveButton = QtWidgets.QPushButton(self.centralwidget)
-        self.MoveButton.setGeometry(QtCore.QRect(340, 230, 100, 75))
-        self.MoveButton.setMinimumSize(QtCore.QSize(100, 75))
-        font.setPointSize(16)
-        self.MoveButton.setFont(font)
-        self.MoveButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
-        self.MoveButton.setObjectName("MoveButton")
-        self.MoveButton.clicked.connect(self.passDependency)
-        BuilderWindow.setCentralWidget(self.centralwidget)
 
         ###################### Menu Top Bar #########################################
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
@@ -138,11 +139,16 @@ class Ui_BuilderWindow(object):
 
         ############ Call the method to display relations #####################
         self.displayRelations()
+        self.disable_edit_button()
 
     ############ Open Edit Window ####################
     def open_edit(self):
         self.wind = EditForm()
         self.wind.initializeUI()
+        # print(self.relations_dictionary[self.Relationship_list.currentItem().text()][self.Relationship_list.currentRow()])
+        # print(self.Relationship_list.currentItem().text())
+        # print(self.Detail_Relaltion_list.currentRow())
+        self.wind.set_relation(self.Detail_Relaltion_list.currentItem())
 
     def openFilter(self):
         self.wind = NewSalientArtifact()
@@ -155,13 +161,14 @@ class Ui_BuilderWindow(object):
         self.label.setText(_translate("BuilderWindow", "Relationships"))
         self.search_label.setText(_translate("BuilderWindow", "Search"))
         self.EditButton.setText(_translate("BuilderWindow", "Edit"))
-        self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
+        # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
         self.MoveButton.setText(_translate("BuilderWindow", ">>"))
         self.menuProject.setTitle(_translate("BuilderWindow", "Project"))
         self.actionSave_Project.setText(_translate("BuilderWindow", "Save Project"))
         self.actionQuit.setText(_translate("BuilderWindow", "Quit"))
 
     def displayRelations(self):
+        self.Relationship_list.clear()
         self.relations_dictionary = self.back_end.read_relationships()
         self.search_dictionary = self.relations_dictionary
 
@@ -169,11 +176,6 @@ class Ui_BuilderWindow(object):
             self.Relationship_list.addItem(relation_name)
 
         self.Relationship_list.itemClicked.connect(self.displayContent)
-        # self.displaySearchResults()
-
-
-    def printExample(self):
-        print("Test")
 
     def displaySearchResults(self, text):
         self.search_dictionary = {}
@@ -190,13 +192,6 @@ class Ui_BuilderWindow(object):
         for relation_name in self.search_dictionary.keys():
             self.Relationship_list.addItem(relation_name)
 
-    
-                    
-
-
-
-
-
     ##################################### Display the content in the Detail Box ########################################
     def displayContent(self, item):
         """
@@ -212,6 +207,9 @@ class Ui_BuilderWindow(object):
         for relations in self.search_dictionary.get(item.text()):
             self.Detail_Relaltion_list.addItem(str(relations))
 
+        self.disable_edit_button()
+        self.Detail_Relaltion_list.itemClicked.connect(self.enable_edit_button)
+
     def passDependency(self):
         """
         If the dependency is not in the list, then added to out dependcy list, and display it.
@@ -219,6 +217,15 @@ class Ui_BuilderWindow(object):
         if self.dependency not in self.dependency_list:
             self.dependency_list.append(self.dependency)
             self.Dependency_list.addItem(self.dependency)
+
+    def disable_edit_button(self):
+        self.EditButton.setEnabled(False)
+        self.EditButton.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
+    def enable_edit_button(self):
+        self.EditButton.setEnabled(True)
+        self.EditButton.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
 
 if __name__ == "__main__":
     import sys
