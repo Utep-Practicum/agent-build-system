@@ -135,8 +135,8 @@ class Ui_Analyzing_Window(QWidget):
 
         relationshipList = causationObject.relationshipDefiner()
         artifactCount = causationObject.makeArtifacts(relationshipList)
-        print(project_Name)
-        causationObject.createRelationshipFile(relationshipList)
+        print("Inside Progress Bar Method... "+project_Name)
+        causationObject.createRelationshipFile(relationshipList,project_Name)
         final_time = time.time() - start_time
 
         self.progressBar.setValue(100)

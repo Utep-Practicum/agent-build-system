@@ -140,18 +140,14 @@ class ceBackend:
 
     ##TODO: SAVE RELATIONSHIP FOLDER UNDER PROJECT DATA FOLDER
     # creates individual files for each relationship
-    def createRelationshipFile(self, relationshipList):
+    def createRelationshipFile(self, relationshipList,project_Name):
         # relationshipList[0], Each index is a relationship
         # relationshipList[0][0], each index is an observation
         # relationship[0][0]["fieldName"], each index is a key:value pair from the json.
 
-        # if relationships folder doesn't exist, create it [03/27/2020 NO LONGER NEEDED SINCE PROJECT DATA FOLDER HAS ALREADY BEEN CREATED]
-        if not os.path.isdir(self.project_Name + "CE/Relationships"):
-            os.mkdir(self.project_Name + "CE/relationships")
-
         # print each relationship into relationships/relationship_x.json
         for i in range(len(relationshipList)):
-            filename = "relationships/relationship_" + str(i + 1) + ".json"
+            filename = "Project Data/"+project_Name +"/CE/Relationships/relationship_" + str(i + 1) + ".json"
             with open(filename, 'w') as json_file:
                 json.dump(relationshipList[i], json_file)
 

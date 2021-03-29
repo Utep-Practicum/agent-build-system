@@ -16,8 +16,6 @@ from saveProject import *
 import os #os and json are used for dir json aggregation for now
 
 class Ui_CEWindow(QMainWindow):
-    backend = ceBackend()
-
     def setupUi(self, CEWindow):
         CEWindow.setObjectName("CEWindow")
         CEWindow.resize(689, 230)
@@ -94,7 +92,7 @@ class Ui_CEWindow(QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(CEWindow)
 
          ################# PROJECT NAME #############################
-        self.project_Name = "temp"
+        self.project_Name = ""
         self.check_project()
         
         ################# BUTTON ACTIONS ###########################
@@ -103,7 +101,6 @@ class Ui_CEWindow(QMainWindow):
         self.SaveProject_Button.clicked.connect(self.saveProject)
 
        
-
     ######################  BROWSE BUTTON FUNCTION ###############
     def browseFiles(self):
         # Gets directory name and sets it to a variable
@@ -111,12 +108,10 @@ class Ui_CEWindow(QMainWindow):
         print("dirname:", name)
         directory = os.fsencode(name)
         self.fileName.setText(name)
-
         backend = ceBackend()
         self.num_lines = backend.output_directory(directory,name)
-
-        print("Using: " +self.project_Name)
-
+        self.get_ProjectName()
+        self.check_project()
 
     def show_analyzingWindow(self):
         self.hide()
@@ -125,34 +120,31 @@ class Ui_CEWindow(QMainWindow):
         self.ui.setupUi(self.Analyzing_Window)
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()
-        print("Analyzing: " +self.project_Name)
+        
         self.ui.progressBar_update(self.num_lines,self.project_Name)
-        #QtWidgets.qApp.processEvents()
+
 
     ###################### SAVE PROJECT BUTTON #######################################
     def saveProject(self):
-        self.Form = QtWidgets.QWidget()
-        self.sP = NewProject()
-        self.sP.setupUi(self.Form)
+        self.Form = QtWidgets.QDialog()
+        self.sP = NewProject(self.Form)
         self.Form.show()
-        self.project_Name = str(self.sP.ProjectName.text())
-
-        #print("Project Name = " + self.sP.get_projectName(self.Form))
-        self.check_project()
 
     ##############################################################################
-
+    def get_ProjectName(self):
+        self.project_Name = self.sP.project_sP
+        print(self.project_Name)
     ###################### CHECK THAT A PROJECT HAS BEEN CREATED #############################
     def check_project(self):
-        if self.project_Name == "temp":
-            self.Browse_Button.setEnabled(False)
+        if self.project_Name == "":
             self.Analyze_Button.setEnabled(False)
+            print("Project not created. Please create one")
         else:
+            print("Working with project...." +self.project_Name)
             self.label.setText("ECELd Project Folder:")
-            self.Browse_Button.setEnabled(True)
             self.Analyze_Button.setEnabled(True)
             self.SaveProject_Button.setEnabled(False)    
-    
+        
 
     def retranslateUi(self, CEWindow):
         _translate = QtCore.QCoreApplication.translate
