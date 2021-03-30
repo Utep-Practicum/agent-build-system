@@ -122,7 +122,7 @@ class Ui_Analyzing_Window(QWidget):
 
 
 
-    def progressBar_update(self,count,project_Name):
+    def progressBar_update(self,count,project_name,time_frame):
         causationObject = ceBackend()
         QtWidgets.qApp.processEvents()
         frac = round(100/count,1)
@@ -133,10 +133,10 @@ class Ui_Analyzing_Window(QWidget):
             time.sleep(.01)
             self.progressBar.setValue(prct)
 
-        relationshipList = causationObject.relationshipDefiner()
+        relationshipList = causationObject.relationshipDefiner(time_frame)
         artifactCount = causationObject.makeArtifacts(relationshipList)
-        print("Inside Progress Bar Method... "+project_Name)
-        causationObject.createRelationshipFile(relationshipList,project_Name)
+        print("Inside Progress Bar Method... "+project_name)
+        causationObject.createRelationshipFile(relationshipList,project_name)
         final_time = time.time() - start_time
 
         self.progressBar.setValue(100)

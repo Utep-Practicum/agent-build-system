@@ -59,7 +59,7 @@ class ceBackend:
         return num_lines
 
     # defines the relationships based on the master json file created by ce_gui
-    def relationshipDefiner(self):
+    def relationshipDefiner(self,time_in):
         with open("masterJson.json") as jsonFile:
             # jsons are loaded as a list of dicts. each dict is a json block
             data = json.load(jsonFile)
@@ -71,7 +71,7 @@ class ceBackend:
                     observation["start"] = observation["start"].strftime('%Y-%m-%dT%H:%M:%S')
 
             sortTest = sorted(data, key=lambda i: i["start"])
-        timeframe = datetime.timedelta(seconds=5)  # Check in 5 second blocks
+        timeframe = datetime.timedelta(seconds=time_in)  # Check in 5 second blocks
         startTime = datetime.datetime.strptime(sortTest[0]["start"], '%Y-%m-%dT%H:%M:%S')  # Init time to check against
         endTime = startTime + timeframe
         relationshipList = []
@@ -147,7 +147,7 @@ class ceBackend:
 
         # print each relationship into relationships/relationship_x.json
         for i in range(len(relationshipList)):
-            filename = "Project Data/"+project_Name +"/CE/Relationships/relationship_" + str(i + 1) + ".json"
+            filename = "../Project Data/"+project_Name +"/CE/Relationships/relationship_" + str(i + 1) + ".json"
             with open(filename, 'w') as json_file:
                 json.dump(relationshipList[i], json_file)
 
