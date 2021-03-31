@@ -38,6 +38,7 @@ class Ui_CEWindow(QMainWindow):
         self.fileName.setReadOnly(True)
         self.fileName.setStyleSheet("color: black")
         self.fileName.setObjectName("fileName")
+        self.fileName.setPlaceholderText("ECELd Project Folder Path")
 
         self.Analyze_Button = QtWidgets.QPushButton(self.centralwidget)
         self.Analyze_Button.setGeometry(QtCore.QRect(370, 150, 121, 31))
@@ -56,18 +57,19 @@ class Ui_CEWindow(QMainWindow):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.label.setStyleSheet("color: black")
+        self.label.setMinimumSize(QtCore.QSize(301,31))
+
         self.time_label = QtWidgets.QLabel(self.centralwidget)
-        self.time_label.setGeometry(QtCore.QRect(120, 100, 101, 31))
+        self.time_label.setGeometry(QtCore.QRect(110, 100, 111, 31))
         font.setFamily("MS Sans Serif")
         font.setPointSize(12)
-        
         self.time_label.setFont(font)
         self.time_label.setStyleSheet("color: black;")
         self.time_label.setObjectName("time_label")
         CEWindow.setCentralWidget(self.centralwidget)
 
         self.time_input = QtWidgets.QLineEdit(self.centralwidget)
-        self.time_input.setGeometry(QtCore.QRect(230, 100, 351, 31))
+        self.time_input.setGeometry(QtCore.QRect(240, 100, 341, 31))
         self.time_input.setStyleSheet("color: black;")
         self.time_input.setObjectName("time_input")
         CEWindow.setCentralWidget(self.centralwidget)
@@ -87,6 +89,7 @@ class Ui_CEWindow(QMainWindow):
         self.statusbar = QtWidgets.QStatusBar(CEWindow)
         self.statusbar.setObjectName("statusbar")
         CEWindow.setStatusBar(self.statusbar)
+
         self.actionSave_Project = QtWidgets.QAction(CEWindow)
         self.actionSave_Project.setObjectName("actionSave_Project")
         self.actionSave_Project.triggered.connect(self.save_Project)
@@ -94,7 +97,7 @@ class Ui_CEWindow(QMainWindow):
         self.actionExit = QtWidgets.QAction(CEWindow)
         self.actionExit.setObjectName("actionExit")
         self.actionExit.triggered.connect(CEWindow.close)
-        
+
         self.actionREADME = QtWidgets.QAction(CEWindow)
         self.actionREADME.setObjectName("actionREADME")
         self.menuNew_Project.addAction(self.actionSave_Project)
@@ -112,9 +115,13 @@ class Ui_CEWindow(QMainWindow):
         self.retranslateUi(CEWindow)
         QtCore.QMetaObject.connectSlotsByName(CEWindow)
 
-         ################# PROJECT NAME #############################
+        ################# PROJECT NAME #############################
         self.project_name = ""
         self.check_project()
+
+        ########Creating Objects to execute Save Project Window####
+        self.Form = QtWidgets.QDialog()
+        self.sP = NewProject(self.Form)
         
         ################# BUTTON ACTIONS ###########################
         self.Browse_Button.clicked.connect(self.browse_Files)
@@ -144,13 +151,9 @@ class Ui_CEWindow(QMainWindow):
         self.time_frame = float(self.time_input.text())  
         self.ui.progressBar_update(self.num_lines,self.project_name,self.time_frame)
 
-
     ###################### SAVE PROJECT BUTTON #######################################
     def save_Project(self):
-        self.Form = QtWidgets.QDialog()
-        self.sP = NewProject(self.Form)
         self.Form.show()
-
     ##############################################################################
     def get_ProjectName(self):
         self.project_name = self.sP.project_sP
@@ -161,19 +164,19 @@ class Ui_CEWindow(QMainWindow):
             self.Analyze_Button.setEnabled(False)
             print("Project not created. Please create one")
         else:
-            print("Working with project...." +self.project_name)
             self.label.setText("ECELd Project Folder:")
+            print("Working with project...." +self.project_name)
             self.Analyze_Button.setEnabled(True)
             self.SaveProject_Button.setEnabled(False)    
         
 
     def retranslateUi(self, CEWindow):
         _translate = QtCore.QCoreApplication.translate
-        CEWindow.setWindowTitle(_translate("CEWindow", "MainWindow"))
+        CEWindow.setWindowTitle(_translate("CEWindow", "Agent Build System"))
         self.Browse_Button.setText(_translate("CEWindow", "Browse"))
         self.Analyze_Button.setText(_translate("CEWindow", "Analyze"))
         self.SaveProject_Button.setText(_translate("CEWindow", "Save Project"))
-        self.label.setText(_translate("CEWindow", "ECELd Project Folder:"))
+        self.label.setText(_translate("CEWindow", "Agent Build System"))
         self.time_label.setText(_translate("CEWindow", "Time Frame:"))
         self.menuNew_Project.setTitle(_translate("CEWindow", "Project"))
         self.menuHelp.setTitle(_translate("CEWindow", "Help"))

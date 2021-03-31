@@ -21,8 +21,9 @@ class NewProject(QtWidgets.QDialog):
         Form.resize(459, 204)
         Form.setMinimumSize(QtCore.QSize(450, 200))
         Form.setStyleSheet("background-color: white")
+
         self.Projectlabel = QtWidgets.QLabel(Form)
-        self.Projectlabel.setGeometry(QtCore.QRect(40, 20, 161, 31))
+        self.Projectlabel.setGeometry(QtCore.QRect(40, 20, 191, 31))
         font = QtGui.QFont()
         font.setFamily("MS Sans Serif")
         font.setPointSize(18)
