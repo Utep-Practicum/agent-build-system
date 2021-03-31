@@ -89,8 +89,12 @@ class Ui_CEWindow(QMainWindow):
         CEWindow.setStatusBar(self.statusbar)
         self.actionSave_Project = QtWidgets.QAction(CEWindow)
         self.actionSave_Project.setObjectName("actionSave_Project")
+        self.actionSave_Project.triggered.connect(self.save_Project)
+
         self.actionExit = QtWidgets.QAction(CEWindow)
         self.actionExit.setObjectName("actionExit")
+        self.actionExit.triggered.connect(CEWindow.close)
+        
         self.actionREADME = QtWidgets.QAction(CEWindow)
         self.actionREADME.setObjectName("actionREADME")
         self.menuNew_Project.addAction(self.actionSave_Project)
