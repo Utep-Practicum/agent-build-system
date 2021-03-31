@@ -1,54 +1,70 @@
 [
     {
-        "clicks_id": 0,
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326350.864823_qterminal_root.png",
-        "type": "point",
-        "classname": "imgPoint",
-        "start": "2021-03-09T21:45:50"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:50",
+        "data": {
+            "clicks_id": 0,
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326350.864823_qterminal_root.png",
+            "type": "point"
+        }
     },
     {
-        "clicks_id": 1,
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326268.7193344_qterminal_root.png",
-        "type": "point",
-        "classname": "imgPoint",
-        "start": "2021-03-09T21:44:28"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:28",
+        "data": {
+            "clicks_id": 1,
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326268.7193344_qterminal_root.png",
+            "type": "point"
+        }
     },
     {
-        "clicks_id": 2,
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326352.3166468_main.py_root.png",
-        "type": "point",
-        "classname": "imgPoint",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "clicks_id": 2,
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326352.3166468_main.py_root.png",
+            "type": "point"
+        }
     },
     {
-        "keypresses_id": 0,
-        "content": "sudo ifconfig[Return]ping 10.0.2.1[Return][Control_L]c",
-        "className": "Keypresses",
-        "start": "2021-03-09T21:44:38"
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:44:38",
+        "data": {
+            "keypresses_id": 0,
+            "content": "sudo ifconfig[Return]ping 10.0.2.1[Return][Control_L]c"
+        }
     },
     {
-        "keypresses_id": 1,
-        "content": "ping 10.0.2.18",
-        "className": "Keypresses",
-        "start": "2021-03-09T21:44:43"
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:44:43",
+        "data": {
+            "keypresses_id": 1,
+            "content": "ping 10.0.2.18"
+        }
     },
     {
-        "keypresses_id": 2,
-        "content": "[Return][Control_L]c",
-        "className": "Keypresses",
-        "start": "2021-03-09T21:45:31"
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:45:31",
+        "data": {
+            "keypresses_id": 2,
+            "content": "[Return][Control_L]c"
+        }
     },
     {
-        "keypresses_id": 3,
-        "content": "sudo ls[Return]",
-        "className": "Keypresses",
-        "start": "2021-03-09T21:45:36"
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:45:36",
+        "data": {
+            "keypresses_id": 3,
+            "content": "sudo ls[Return]"
+        }
     },
     {
-        "keypresses_id": 4,
-        "content": "print [Shift_L]\"done here[Shift_L]:[Return][Shift_L]\"",
-        "className": "Keypresses",
-        "start": "2021-03-09T21:45:43"
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:45:43",
+        "data": {
+            "keypresses_id": 4,
+            "content": "print [Shift_L]\"done here[Shift_L]:[Return][Shift_L]\""
+        }
     },
     {
         "start": "Mar  9, 2021 16:44:36.650260000 EST",
@@ -124,7 +140,7 @@
             "data.data": "0c:ec:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
             "data.len": "48"
         },
-        "content": "network"
+        "data_type": "network"
     },
     {
         "start": "Mar  9, 2021 16:44:36.650474000 EST",
@@ -202,7 +218,7 @@
             "data.data": "0c:ec:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
             "data.len": "48"
         },
-        "content": "network"
+        "data_type": "network"
     },
     {
         "start": "Mar  9, 2021 16:44:37.654760000 EST",
@@ -278,7 +294,7 @@
             "data.data": "81:fd:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
             "data.len": "48"
         },
-        "content": "network"
+        "data_type": "network"
     },
     {
         "start": "Mar  9, 2021 16:44:37.655384000 EST",
@@ -356,7 +372,7 @@
             "data.data": "81:fd:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
             "data.len": "48"
         },
-        "content": "network"
+        "data_type": "network"
     },
     {
         "start": "Mar  9, 2021 16:44:41.651428000 EST",
@@ -408,7 +424,7 @@
             "arp.dst.hw_mac": "00:00:00:00:00:00",
             "arp.dst.proto_ipv4": "10.0.2.1"
         },
-        "content": "network"
+        "data_type": "network"
     },
     {
         "start": "Mar  9, 2021 16:44:41.651644000 EST",
@@ -461,283 +477,367 @@
             "arp.dst.hw_mac": "08:00:27:23:ff:90",
             "arp.dst.proto_ipv4": "10.0.2.18"
         },
-        "content": "network"
+        "data_type": "network"
     },
     {
-        "timed_id": 0,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326273.9248188_screenshot.png",
-        "start": "2021-03-09T21:44:33"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:33",
+        "data": {
+            "timed_id": 0,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326273.9248188_screenshot.png"
+        }
     },
     {
-        "timed_id": 1,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326352.2748482_screenshot.png",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "timed_id": 1,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326352.2748482_screenshot.png"
+        }
     },
     {
-        "timed_id": 2,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326279.1460357_screenshot.png",
-        "start": "2021-03-09T21:44:39"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:39",
+        "data": {
+            "timed_id": 2,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326279.1460357_screenshot.png"
+        }
     },
     {
-        "timed_id": 3,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326272.6641197_screenshot.png",
-        "start": "2021-03-09T21:44:32"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:32",
+        "data": {
+            "timed_id": 3,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326272.6641197_screenshot.png"
+        }
     },
     {
-        "timed_id": 4,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326276.49936_screenshot.png",
-        "start": "2021-03-09T21:44:36"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:36",
+        "data": {
+            "timed_id": 4,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326276.49936_screenshot.png"
+        }
     },
     {
-        "timed_id": 5,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326340.944269_screenshot.png",
-        "start": "2021-03-09T21:45:40"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:40",
+        "data": {
+            "timed_id": 5,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326340.944269_screenshot.png"
+        }
     },
     {
-        "timed_id": 6,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326350.7861655_screenshot.png",
-        "start": "2021-03-09T21:45:50"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:50",
+        "data": {
+            "timed_id": 6,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326350.7861655_screenshot.png"
+        }
     },
     {
-        "timed_id": 7,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326275.2094927_screenshot.png",
-        "start": "2021-03-09T21:44:35"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:35",
+        "data": {
+            "timed_id": 7,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326275.2094927_screenshot.png"
+        }
     },
     {
-        "timed_id": 8,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326334.648966_screenshot.png",
-        "start": "2021-03-09T21:45:34"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:34",
+        "data": {
+            "timed_id": 8,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326334.648966_screenshot.png"
+        }
     },
     {
-        "timed_id": 9,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326330.1787865_screenshot.png",
-        "start": "2021-03-09T21:45:30"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:30",
+        "data": {
+            "timed_id": 9,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326330.1787865_screenshot.png"
+        }
     },
     {
-        "timed_id": 10,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326282.8048596_screenshot.png",
-        "start": "2021-03-09T21:44:42"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:42",
+        "data": {
+            "timed_id": 10,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326282.8048596_screenshot.png"
+        }
     },
     {
-        "timed_id": 11,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326270.1533728_screenshot.png",
-        "start": "2021-03-09T21:44:30"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:30",
+        "data": {
+            "timed_id": 11,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326270.1533728_screenshot.png"
+        }
     },
     {
-        "timed_id": 12,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326271.3961422_screenshot.png",
-        "start": "2021-03-09T21:44:31"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:31",
+        "data": {
+            "timed_id": 12,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326271.3961422_screenshot.png"
+        }
     },
     {
-        "timed_id": 13,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326332.6946743_screenshot.png",
-        "start": "2021-03-09T21:45:32"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:32",
+        "data": {
+            "timed_id": 13,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326332.6946743_screenshot.png"
+        }
     },
     {
-        "timed_id": 14,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326331.437223_screenshot.png",
-        "start": "2021-03-09T21:45:31"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:31",
+        "data": {
+            "timed_id": 14,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326331.437223_screenshot.png"
+        }
     },
     {
-        "timed_id": 15,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326335.8811796_screenshot.png",
-        "start": "2021-03-09T21:45:35"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:35",
+        "data": {
+            "timed_id": 15,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326335.8811796_screenshot.png"
+        }
     },
     {
-        "timed_id": 16,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326281.538223_screenshot.png",
-        "start": "2021-03-09T21:44:41"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:41",
+        "data": {
+            "timed_id": 16,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326281.538223_screenshot.png"
+        }
     },
     {
-        "timed_id": 17,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326284.0479376_screenshot.png",
-        "start": "2021-03-09T21:44:44"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:44",
+        "data": {
+            "timed_id": 17,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326284.0479376_screenshot.png"
+        }
     },
     {
-        "timed_id": 18,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326337.1642497_screenshot.png",
-        "start": "2021-03-09T21:45:37"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:37",
+        "data": {
+            "timed_id": 18,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326337.1642497_screenshot.png"
+        }
     },
     {
-        "timed_id": 19,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326277.8075087_screenshot.png",
-        "start": "2021-03-09T21:44:37"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:37",
+        "data": {
+            "timed_id": 19,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326277.8075087_screenshot.png"
+        }
     },
     {
-        "timed_id": 20,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326338.417029_screenshot.png",
-        "start": "2021-03-09T21:45:38"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:38",
+        "data": {
+            "timed_id": 20,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326338.417029_screenshot.png"
+        }
     },
     {
-        "timed_id": 21,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326339.7262259_screenshot.png",
-        "start": "2021-03-09T21:45:39"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:39",
+        "data": {
+            "timed_id": 21,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326339.7262259_screenshot.png"
+        }
     },
     {
-        "timed_id": 22,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326342.2005148_screenshot.png",
-        "start": "2021-03-09T21:45:42"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:42",
+        "data": {
+            "timed_id": 22,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326342.2005148_screenshot.png"
+        }
     },
     {
-        "timed_id": 23,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326343.473374_screenshot.png",
-        "start": "2021-03-09T21:45:43"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:43",
+        "data": {
+            "timed_id": 23,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326343.473374_screenshot.png"
+        }
     },
     {
-        "timed_id": 24,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326268.515983_screenshot.png",
-        "start": "2021-03-09T21:44:28"
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:28",
+        "data": {
+            "timed_id": 24,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326268.515983_screenshot.png"
+        }
     },
     {
-        "auditd_id": 0,
-        "content": "sudo ifconfig",
-        "className": "auditd",
-        "start": "2021-03-09T21:44:31"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:44:31",
+        "data": {
+            "auditd_id": 0,
+            "content": "sudo ifconfig"
+        }
     },
     {
-        "auditd_id": 1,
-        "content": "ifconfig",
-        "className": "auditd",
-        "start": "2021-03-09T21:44:31"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:44:31",
+        "data": {
+            "auditd_id": 1,
+            "content": "ifconfig"
+        }
     },
     {
-        "auditd_id": 2,
-        "content": "sudo ls",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:36"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:36",
+        "data": {
+            "auditd_id": 2,
+            "content": "sudo ls"
+        }
     },
     {
-        "auditd_id": 3,
-        "content": "ls",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:36"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:36",
+        "data": {
+            "auditd_id": 3,
+            "content": "ls"
+        }
     },
     {
-        "auditd_id": 4,
-        "content": "print /usr/bin/print done here:\n",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:43"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:43",
+        "data": {
+            "auditd_id": 4,
+            "content": "print /usr/bin/print done here:\n"
+        }
     },
     {
-        "auditd_id": 5,
-        "content": "which /usr/bin/which file",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:44"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:44",
+        "data": {
+            "auditd_id": 5,
+            "content": "which /usr/bin/which file"
+        }
     },
     {
-        "auditd_id": 6,
-        "content": "file -b --mime-type -e tokens -L -z done here:\n",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:44"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:44",
+        "data": {
+            "auditd_id": 6,
+            "content": "file -b --mime-type -e tokens -L -z done here:\n"
+        }
     },
     {
-        "auditd_id": 7,
-        "content": "service /usr/sbin/service auditd stop",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 7,
+            "content": "service /usr/sbin/service auditd stop"
+        }
     },
     {
-        "auditd_id": 8,
-        "content": "basename /usr/sbin/service",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 8,
+            "content": "basename /usr/sbin/service"
+        }
     },
     {
-        "auditd_id": 9,
-        "content": "basename /usr/sbin/service",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 9,
+            "content": "basename /usr/sbin/service"
+        }
     },
     {
-        "auditd_id": 10,
-        "content": "systemctl --quiet is-active multi-user.target",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 10,
+            "content": "systemctl --quiet is-active multi-user.target"
+        }
     },
     {
-        "auditd_id": 11,
-        "content": "xhost -SI:localuser:root",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 11,
+            "content": "xhost -SI:localuser:root"
+        }
     },
     {
-        "auditd_id": 12,
-        "content": "sed -ne s/\\.socket\\s*[a-z]*\\s*$/.socket/p",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 12,
+            "content": "sed -ne s/\\.socket\\s*[a-z]*\\s*$/.socket/p"
+        }
     },
     {
-        "auditd_id": 13,
-        "content": "systemctl list-unit-files --full multi-user.target",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 13,
+            "content": "systemctl list-unit-files --full multi-user.target"
+        }
     },
     {
-        "auditd_id": 14,
-        "content": "auditd_parser.s bash /home/kali/eceld-netsys/eceld/plugins/parsers/auditd/auditd_parser.sh /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/parsed",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 14,
+            "content": "auditd_parser.s bash /home/kali/eceld-netsys/eceld/plugins/parsers/auditd/auditd_parser.sh /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/parsed"
+        }
     },
     {
-        "auditd_id": 15,
-        "content": "bash /home/kali/eceld-netsys/eceld/plugins/parsers/auditd/auditd_parser.sh /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/parsed",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 15,
+            "content": "bash /home/kali/eceld-netsys/eceld/plugins/parsers/auditd/auditd_parser.sh /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/parsed"
+        }
     },
     {
-        "auditd_id": 16,
-        "content": "cat /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw/1615326264_auditd.txt",
-        "className": "auditd",
-        "start": "2021-03-09T21:45:52"
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:52",
+        "data": {
+            "auditd_id": 16,
+            "content": "cat /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw/1615326264_auditd.txt"
+        }
     }
 ]

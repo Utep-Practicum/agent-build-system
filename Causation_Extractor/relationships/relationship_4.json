@@ -1,23 +1,60 @@
 [
     {
-        "keypresses_id": 2,
-        "content": "[Return][Control_L]c",
-        "className": "Keypresses",
-        "start": "2021-03-09T21:45:31"
-    },
-    {
-        "timed_id": 14,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326331.437223_screenshot.png",
+        "data_type": "Keypresses",
         "start": "2021-03-09T21:45:31",
-        "artifact": 0
+        "data": {
+            "keypresses_id": 2,
+            "content": "[Return][Control_L]c"
+        },
+        "artifact": 1
     },
     {
-        "keypresses_id": 3,
-        "content": "sudo ls[Return]",
-        "className": "Keypresses",
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:31",
+        "data": {
+            "timed_id": 14,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326331.437223_screenshot.png"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:32",
+        "data": {
+            "timed_id": 13,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326332.6946743_screenshot.png"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:34",
+        "data": {
+            "timed_id": 8,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326334.648966_screenshot.png"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:35",
+        "data": {
+            "timed_id": 15,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326335.8811796_screenshot.png"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "Keypresses",
         "start": "2021-03-09T21:45:36",
+        "data": {
+            "keypresses_id": 3,
+            "content": "sudo ls[Return]"
+        },
         "artifact": 1
     }
 ]

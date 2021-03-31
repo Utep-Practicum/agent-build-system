@@ -33,13 +33,16 @@ class ceBackend:
                             frame_time = str(node.frame_info["frame.time"])
                             packetList.append({"start":frame_time}) #The initial time of the frame capture
                             packetList[i]["data"] = node.frame_info.copy() #Frame information
-                            packetList[i]["content"] = "network" #Packet type
+                            packetList[i]["data_type"] = "network" #Packet type
                             node.frame_info.clear() #Clears node before next capture
                         head += packetList
                     else:
                         file_data = json.load(infile)
-                        head += file_data
-            json.dump(head, outfile)
+                        array = []
+                        for line in file_data:
+                            array.append(self.format_data(line))
+                        head += array
+            json.dump(head, outfile, indent=4)
         print("done enumerating files")
 
         #self.project_Name = project_name
@@ -51,6 +54,20 @@ class ceBackend:
             self.text = jsonFile.read()
 
         return num_lines
+
+    # Reformat contents of the parsed logs
+    def format_data(self,line):
+        data = {}
+        temp_dict = {}
+        for item in line:
+            if item == 'start':
+                temp_dict['start'] = line[item]
+            elif item.lower() == 'classname':
+                temp_dict['data_type'] = line[item]
+            else:
+                data[item] = line[item]
+        temp_dict['data'] = data
+        return temp_dict
 
     ##TODO: Find a better indicator for progress bar
     # Count lines in file for progress bar
@@ -65,7 +82,7 @@ class ceBackend:
             data = json.load(jsonFile)
 
             for observation in data:  # Converts PCAP observations to a readable format
-                if observation["content"] == "network":
+                if observation["data_type"] == "network":
                     observation["start"] = parse(observation["start"])
                     observation["start"] = observation["start"] + datetime.timedelta(hours=5)
                     observation["start"] = observation["start"].strftime('%Y-%m-%dT%H:%M:%S')
@@ -110,7 +127,10 @@ class ceBackend:
     # Finds artifacts
     def makeArtifacts(self, relationshipList):
         regexList = [line.rstrip() for line in open('regexLists/userKeywords.txt')]
-        networkList = [line.rstrip() for line in open('regexLists/networkKeywords.txt')]
+        '''
+        Remove this commented section
+        #networkList = [line.rstrip() for line in open('regexLists/networkKeywords.txt')]
+        '''
         count = 0
 
         for relationship in relationshipList:
@@ -146,14 +166,14 @@ class ceBackend:
         # relationship[0][0]["fieldName"], each index is a key:value pair from the json.
 
         # if relationships folder doesn't exist, create it [03/27/2020 NO LONGER NEEDED SINCE PROJECT DATA FOLDER HAS ALREADY BEEN CREATED]
-        if not os.path.isdir(self.project_Name + "CE/Relationships"):
-            os.mkdir(self.project_Name + "CE/relationships")
+        if not os.path.isdir(self.project_Name + "Relationships"):
+            os.mkdir(self.project_Name + "relationships")
 
         # print each relationship into relationships/relationship_x.json
         for i in range(len(relationshipList)):
             filename = "relationships/relationship_" + str(i + 1) + ".json"
             with open(filename, 'w') as json_file:
-                json.dump(relationshipList[i], json_file)
+                json.dump(relationshipList[i], json_file, indent=4)
 
     # Formats the relationship output, used pretty much only for debugging.
     def outputRelationships(self, relationshipList):
@@ -163,5 +183,5 @@ class ceBackend:
 
             for j in range(len(relationshipList[i])):
                 print(
-                    "Timestamp:%s, Content:%s " % (relationshipList[i][j]["start"], relationshipList[i][j]["content"]))
+                    "Timestamp:%s, Content:%s " % (relationshipList[i][j]["start"], relationshipList[i][j]['data']))
             print("\n\n\n")  # Make the output less harsh on the yees

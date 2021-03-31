@@ -73,7 +73,7 @@
             "data.data": "0c:ec:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
             "data.len": "48"
         },
-        "content": "network",
+        "data_type": "network",
         "artifact": 1
     },
     {
@@ -152,16 +152,18 @@
             "data.data": "0c:ec:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
             "data.len": "48"
         },
-        "content": "network",
+        "data_type": "network",
         "artifact": 1
     },
     {
-        "timed_id": 4,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326276.49936_screenshot.png",
+        "data_type": "imgPoint",
         "start": "2021-03-09T21:44:36",
-        "artifact": 0
+        "data": {
+            "timed_id": 4,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326276.49936_screenshot.png"
+        },
+        "artifact": 1
     },
     {
         "start": "2021-03-09T21:44:37",
@@ -237,7 +239,7 @@
             "data.data": "81:fd:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
             "data.len": "48"
         },
-        "content": "network",
+        "data_type": "network",
         "artifact": 1
     },
     {
@@ -316,31 +318,37 @@
             "data.data": "81:fd:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
             "data.len": "48"
         },
-        "content": "network",
+        "data_type": "network",
         "artifact": 1
     },
     {
-        "timed_id": 19,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326277.8075087_screenshot.png",
+        "data_type": "imgPoint",
         "start": "2021-03-09T21:44:37",
-        "artifact": 0
-    },
-    {
-        "keypresses_id": 0,
-        "content": "sudo ifconfig[Return]ping 10.0.2.1[Return][Control_L]c",
-        "className": "Keypresses",
-        "start": "2021-03-09T21:44:38",
+        "data": {
+            "timed_id": 19,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326277.8075087_screenshot.png"
+        },
         "artifact": 1
     },
     {
-        "timed_id": 2,
-        "type": "point",
-        "classname": "imgPoint",
-        "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326279.1460357_screenshot.png",
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:44:38",
+        "data": {
+            "keypresses_id": 0,
+            "content": "sudo ifconfig[Return]ping 10.0.2.1[Return][Control_L]c"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
         "start": "2021-03-09T21:44:39",
-        "artifact": 0
+        "data": {
+            "timed_id": 2,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326279.1460357_screenshot.png"
+        },
+        "artifact": 1
     },
     {
         "start": "2021-03-09T21:44:41",
@@ -392,7 +400,7 @@
             "arp.dst.hw_mac": "00:00:00:00:00:00",
             "arp.dst.proto_ipv4": "10.0.2.1"
         },
-        "content": "network",
+        "data_type": "network",
         "artifact": 1
     }
 ]
