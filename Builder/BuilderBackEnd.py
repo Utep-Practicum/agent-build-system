@@ -9,7 +9,7 @@ class BuilderBackEnd:
         """
         Read each Relationship file
         """
-        directory = "/Users/carlosvargasrodriguez/Developer/other/agent-build-system/Causation_Extractor/relationships"
+        directory = "Causation_Extractor/relationships"
         files_list = os.listdir(directory)
         relationships_list = []
         #formated_relations = []

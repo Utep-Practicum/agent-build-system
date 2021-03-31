@@ -23,6 +23,10 @@ class Observation:
         self.data = node['data']
         self.data_type = node['data_type']
         self.artifact = node['artifact']
+
+    def show(self):
+        string = str(self.start) + ',' + str(self.data_type) + ',' + str(self.artifact) + ',' + str(self.data)
+        return string
         
 
 if __name__ == '__main__':
@@ -36,4 +40,4 @@ if __name__ == '__main__':
         with open(directory + f, 'r') as relation:
             temp = Relation(json.load(relation))
             for item in temp.observation_list:
-                print(item.data_type)
+                print(str(item.data))

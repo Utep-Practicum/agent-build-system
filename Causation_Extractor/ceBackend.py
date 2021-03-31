@@ -127,10 +127,6 @@ class ceBackend:
     # Finds artifacts
     def makeArtifacts(self, relationshipList):
         regexList = [line.rstrip() for line in open('regexLists/userKeywords.txt')]
-        '''
-        Remove this commented section
-        #networkList = [line.rstrip() for line in open('regexLists/networkKeywords.txt')]
-        '''
         count = 0
 
         for relationship in relationshipList:
