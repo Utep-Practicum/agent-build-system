@@ -148,7 +148,8 @@ class Ui_CEWindow(QMainWindow):
         self.ui.setupUi(self.Analyzing_Window)
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()   
-        self.time_frame = float(self.time_input.text())  
+        if self.time_input.text():
+            self.time_frame = float(self.time_input.text())
         self.ui.progressBar_update(self.num_lines,self.project_name,self.time_frame)
 
     ###################### SAVE PROJECT BUTTON #######################################
