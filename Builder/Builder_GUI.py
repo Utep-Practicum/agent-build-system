@@ -217,7 +217,7 @@ class Ui_BuilderWindow(object):
                 found_relation = relation
 
         for observation in found_relation.observation_list:
-            self.Detail_Relaltion_list.addItem(observation.show())
+            self.details_list.addItem(observation.show())
 
         self.disable_edit_button()
         self.details_list.itemClicked.connect(self.enable_edit_button)
