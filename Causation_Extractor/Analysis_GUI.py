@@ -13,6 +13,9 @@ from PyQt5.QtCore import QTimer
 from ceBackend import ceBackend
 from PyQt5.QtWidgets import QWidget
 import time
+import os
+import subprocess
+
 
 class Ui_Analyzing_Window(QWidget):
 
@@ -107,6 +110,9 @@ class Ui_Analyzing_Window(QWidget):
         self.retranslateUi(Analyzing_Window)
         QtCore.QMetaObject.connectSlotsByName(Analyzing_Window)
 
+        ######################## BUTTON ACTIONS ######################################
+        self.Export.clicked.connect(self.open_builder)
+        ##############################################################################
 
     def retranslateUi(self, Analyzing_Window):
         _translate = QtCore.QCoreApplication.translate
@@ -143,3 +149,7 @@ class Ui_Analyzing_Window(QWidget):
         self.Time_Elapsed_A.setText(str(final_time)[:5])
         self.SArtifacts_A.setText(str(artifactCount))
         self.Relationships_A.setText(str(len(relationshipList)))
+
+    def open_builder(self):
+        subprocess.call(['python', '../Builder/Builder_GUI.py'])
+        
