@@ -6,3 +6,6 @@ Builder/__pycache__/NewSalientArtifact.cpython-39.pyc
 .DS_Store
 Builder/__pycache__/Edit.cpython-39.pyc
 Causation_Extractor/__pycache__/saveProject.cpython-39.pyc
+/__pycache__/
+__pycache__/
+Project Data/*
