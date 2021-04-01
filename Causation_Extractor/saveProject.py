@@ -13,14 +13,17 @@ import sys
 import os
 from PyQt5.QtWidgets import *
 
-class NewProject(QtWidgets.QWidget):
-    def setupUi(self, Form):
+class NewProject(QtWidgets.QDialog):
+
+    def __init__(self,Form):
+        super(NewProject, self).__init__()
         Form.setObjectName("Form")
         Form.resize(459, 204)
         Form.setMinimumSize(QtCore.QSize(450, 200))
         Form.setStyleSheet("background-color: white")
+
         self.Projectlabel = QtWidgets.QLabel(Form)
-        self.Projectlabel.setGeometry(QtCore.QRect(40, 20, 161, 31))
+        self.Projectlabel.setGeometry(QtCore.QRect(40, 20, 191, 31))
         font = QtGui.QFont()
         font.setFamily("MS Sans Serif")
         font.setPointSize(18)
@@ -61,6 +64,8 @@ class NewProject(QtWidgets.QWidget):
         #################BUTTON ACTIONS##################################
         self.CreateButton.clicked.connect(self.create_folders)
         self.CancelButton.clicked.connect(Form.close)
+        
+        self.project_sP = ""
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -68,40 +73,42 @@ class NewProject(QtWidgets.QWidget):
         self.Projectlabel.setText(_translate("Form", "Project Name:"))
         self.CreateButton.setText(_translate("Form", "Create Project"))
         self.CancelButton.setText(_translate("Form", "Cancel"))
-
+        
 
 
     def create_folders(self):
         self.error_label.setHidden(True)
-
+        self.project_sP = self.ProjectName.text()
+        
         # Create Projects root path if does not exist
-        if not os.path.exists("Project Data"):
-            os.makedirs("Project Data")
+        if not os.path.exists("../Project Data"):
+            os.makedirs("../Project Data")
 
         #  Create Project Paths
-        if not os.path.exists("Project Data/" + self.ProjectName.text()):
+        if not os.path.exists("../Project Data/" + self.ProjectName.text()):
             print("creating folders....")
-            os.makedirs("Project Data/" + self.ProjectName.text())
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/")
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/CE_logs/")
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/Relationships/")
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/")
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/Builder_logs/")
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/Dependencies/")
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/Runner/")
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/Runner/Runner_logs")
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/Packager/")
-            os.makedirs("Project Data/" + self.ProjectName.text() + "/Packager/Packager_logs")
+            os.makedirs("../Project Data/" + self.ProjectName.text())
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/CE/")
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/CE/CE_logs/")
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/CE/Relationships/")
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Builder/")
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Builder/Builder_logs/")
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Builder/Dependencies/")
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Runner/")
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Builder/Runner/Runner_logs")
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Packager/")
+            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Packager/Packager_logs")
             self.CancelButton.setText("Continue")
             self.CreateButton.hide()
-            
             print("Project was created")
         else:
             self.error_label.setHidden(False)
             print("Project Name Already Exists")
-            
-    def get_projectName(self,Form):
-        return str(self.ProjectName.text())
-   
-        
 
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Form = QtWidgets.QWidget()
+    ui = NewProject(Form)
+    Form.show()
+    sys.exit(app.exec_())
