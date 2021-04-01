@@ -137,7 +137,7 @@ class Ui_Analyzing_Window(QWidget):
         artifactCount = causationObject.makeArtifacts(relationshipList)
         causationObject.createRelationshipFile(relationshipList,project_name)
         final_time = time.time() - start_time
-
+        
         self.progressBar.setValue(100)
         self.label.setText("Finished")
         self.Time_Elapsed_A.setText(str(final_time)[:5])
