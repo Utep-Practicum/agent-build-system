@@ -20,7 +20,7 @@ import sys
 class Ui_BuilderWindow(object):
 
     def __init__(self, relations_controller):
-        # self.back_end = BuilderBackEnd()
+        #self.back_end = BuilderBackEnd()
         self.controller = Controller()
         self.dependency = ""
         self.relations_list = relations_controller
@@ -127,11 +127,17 @@ class Ui_BuilderWindow(object):
         self.action_save_project = QtWidgets.QAction(BuilderWindow)
         self.action_save_project.setObjectName("action_save_project")
         self.menu_project.addAction(self.action_save_project)
+        self.menu_project.setStyleSheet("color: black")  #modified submenu font to be black -seb
+        self.action_save_project.triggered.connect(self.importProject) #function gets ran at click -seb
+
+
 
         ###################### Quit Builder Menu Option #############################
         self.action_quit = QtWidgets.QAction(BuilderWindow)
         self.action_quit.setObjectName("action_quit")
         self.menu_project.addAction(self.action_quit)
+        self.action_quit.triggered.connect(QtWidgets.qApp.quit)    #exits on click -seb
+
 
         self.menubar.addAction(self.menu_project.menuAction())
         self.retranslateUi(BuilderWindow)
@@ -170,9 +176,9 @@ class Ui_BuilderWindow(object):
     def displayRelations(self):
         self.Relationship_list.clear()
 
-        #self.relations_dictionary = self.back_end.read_relationships()
+        #self.relations_dictionary = self.back_end.read_relationships() 
 
-        #self.search_dictionary = self.relations_dictionary
+        #self.search_dictionary = self.relations_dictionary      
 
         # For each relation add them to the relations display list
         for relation in self.relations_list:
@@ -238,6 +244,24 @@ class Ui_BuilderWindow(object):
         self.edit_button.setEnabled(True)
         self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
+    ###################### Import Project Function -Seb #############################
+    def importProject(self):
+        name = QFileDialog.getExistingDirectory(self.menu_project, 'Choose Src Dir', 'c:\\')
+        print("directory selected:", name)
+        try:
+            subdir_folders = os.listdir(name)
+            #print(subdir_folders[0]) #DEBUG: list elements are str
+            if "Builder" not in subdir_folders:
+                print("This directory is not properly formatted, please select a project data directory")
+                #Maybe call some function that sends a popup window here?
+                #break
+            else:
+                print("folder with relationships:", name)
+                #self.back_end.read_relationships(name) #ideally call this function to load them once selected
+                return name #For now: Returns path to folder
+                
+        except:
+            print("an error occured while trying to read the directory")
 
     def execute(self):
         app = QtWidgets.QApplication(sys.argv)
