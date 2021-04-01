@@ -1,4 +1,7 @@
 from Relation import *
+from Builder_GUI import *
+import json
+import os
 
 class Controller:
     def __init__(self):
@@ -6,11 +9,20 @@ class Controller:
         self.dependencies_main = []
 
 
-    def add_relationship(self, relationship):
+    def add_relationship(self):
         """
         # Import relationships into the controller
         """
-        self.relationships_main.append(Relation(relationship))
+        directory = '../Causation_Extractor/relationships/'
+        file_list = []
+        for file in os.listdir(directory):
+            file_list.append(file)
+        file_list.sort()
+        for file_name in file_list:
+            with open(directory + file_name, 'r') as relation:
+                self.relationships_main.append(Relation(json.load(relation)))
+        ######################################################
+        # self.relationships_main.append(Relation(relationship))
 
     
     def move_to_dependency(self, relationship_name):
@@ -49,3 +61,14 @@ class Controller:
                             search.append(relation)
                             break
                 return search
+
+if __name__ == "__main__":
+    controller = Controller()
+    controller.add_relationship()
+    # I already got the relations
+    # pass them to the Builder_GUI
+    builder_window = Ui_BuilderWindow(controller.relationships_main)
+
+    # This is just a print...
+    for relation in controller.relationships_main:
+        print(relation.name)

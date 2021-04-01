@@ -11,15 +11,22 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Edit import *
 from NewSalientArtifact import *
+from Controller import *
+
 from BuilderBackEnd import *
 import json
+import sys
 
 class Ui_BuilderWindow(object):
 
-    def __init__(self):
-        self.back_end = BuilderBackEnd()
+    def __init__(self, relations_controller):
+        # self.back_end = BuilderBackEnd()
+        self.controller = Controller()
         self.dependency = ""
+        self.relations_list = relations_controller
         self.dependency_list = []
+        if __name__ != "__main__":
+            self.execute()
 
     def setupUi(self, BuilderWindow):
         BuilderWindow.setObjectName("BuilderWindow")
@@ -169,11 +176,14 @@ class Ui_BuilderWindow(object):
 
     def displayRelations(self):
         self.Relationship_list.clear()
-        self.relations_dictionary = self.back_end.read_relationships()
-        self.search_dictionary = self.relations_dictionary
 
-        for relation_name in self.relations_dictionary.keys():
-            self.Relationship_list.addItem(relation_name)
+        #self.relations_dictionary = self.back_end.read_relationships()
+
+        #self.search_dictionary = self.relations_dictionary
+
+        # For each relation add them to the relations display list
+        for relation in self.relations_list:
+            self.Relationship_list.addItem(relation.name)
 
         self.Relationship_list.itemClicked.connect(self.displayContent)
 
@@ -197,15 +207,24 @@ class Ui_BuilderWindow(object):
         """
         first it clears the Detail List
         it stores and formats the Relation chosen (clicked) and changes the name to Dependency #
-        Finally, for each relation, it will be added in the Detail list
+        Finally, for each observation, it will be added in the Detail list
         """
 
         self.Detail_Relaltion_list.clear()
 
         self.dependency = "Dependency " + item.text().split(" ")[1]
+        print(item)
+        print(item.text())
+        # Change this
+        # self.relations_list.observation_list
+        # Look for the selected relation in our list of relationships
+        found_relation = None
+        for relation in self.relations_list:
+            if item.text() == relation.name:
+                found_relation = relation
 
-        for relations in self.search_dictionary.get(item.text()):
-            self.Detail_Relaltion_list.addItem(str(relations))
+        for observation in found_relation.observation_list:
+            self.Detail_Relaltion_list.addItem(observation.show())
 
         self.disable_edit_button()
         self.Detail_Relaltion_list.itemClicked.connect(self.enable_edit_button)
@@ -227,11 +246,20 @@ class Ui_BuilderWindow(object):
         self.EditButton.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    BuilderWindow = QtWidgets.QMainWindow()
-    ui = Ui_BuilderWindow()
-    ui.setupUi(BuilderWindow)
-    BuilderWindow.show()
-    sys.exit(app.exec_())
+    def execute(self):
+        app = QtWidgets.QApplication(sys.argv)
+        BuilderWindow = QtWidgets.QMainWindow()
+        # ui = Ui_BuilderWindow()
+        self.setupUi(BuilderWindow)
+        BuilderWindow.show()
+        sys.exit(app.exec_())
+
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     BuilderWindow = QtWidgets.QMainWindow()
+#     ui = Ui_BuilderWindow()
+#     ui.setupUi(BuilderWindow)
+#     BuilderWindow.show()
+#     sys.exit(app.exec_())
+

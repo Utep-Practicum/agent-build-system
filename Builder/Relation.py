@@ -25,7 +25,7 @@ class Observation:
         self.artifact = node['artifact']
 
     def show(self):
-        string = str(self.start) + ',' + str(self.data_type) + ',' + str(self.artifact) + ',' + str(self.data)
+        string = str(self.start) + ',' + str(self.data_type) + ',' + " artifact: " + str(self.artifact) + ',' + str(self.data)
         return string
         
 
@@ -38,6 +38,7 @@ if __name__ == '__main__':
     file_list.sort()
     for f in file_list:
         with open(directory + f, 'r') as relation:
-            temp = Relation(json.load(relation))
-            for item in temp.observation_list:
+            temp_relation = Relation(json.load(relation))
+            for item in temp_relation.observation_list:
                 print(str(item.data))
+                print("-------------")
