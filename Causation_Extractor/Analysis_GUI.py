@@ -150,6 +150,7 @@ class Ui_Analyzing_Window(QWidget):
         self.SArtifacts_A.setText(str(artifactCount))
         self.Relationships_A.setText(str(len(relationshipList)))
 
+    ######################## OPEN BUILDER ##################################
     def open_builder(self):
         subprocess.call(['python', '../Builder/Builder_GUI.py'])
-        
+    ########################################################################    

@@ -43,7 +43,8 @@ class Ui_CEWindow(QMainWindow):
         self.Analyze_Button = QtWidgets.QPushButton(self.centralwidget)
         self.Analyze_Button.setGeometry(QtCore.QRect(370, 150, 121, 31))
         self.Analyze_Button.setFont(font)
-        self.Analyze_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.Analyze_Button.setEnabled(False)
+        self.Analyze_Button.setStyleSheet("background-color: rgba(18, 51, 62, 80%);; color: #FFFFFF; border-radius: 5px;")
         self.Analyze_Button.setObjectName("Analyze_Button")
 
         self.SaveProject_Button = QtWidgets.QPushButton(self.centralwidget)
@@ -161,14 +162,16 @@ class Ui_CEWindow(QMainWindow):
         print(self.project_name)
     ###################### CHECK THAT A PROJECT HAS BEEN CREATED #############################
     def check_project(self):
-        if self.project_name == "":
-            self.Analyze_Button.setEnabled(False)
+        if not self.project_name:
             print("Project not created. Please create one")
         else:
             self.label.setText("ECELd Project Folder:")
             print("Working with project...." +self.project_name)
             self.Analyze_Button.setEnabled(True)
-            self.SaveProject_Button.setEnabled(False)    
+            self.Analyze_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+            self.SaveProject_Button.setEnabled(False)
+            self.SaveProject_Button.setStyleSheet("background-color: rgba(18, 51, 62, 80%);; color: #FFFFFF; border-radius: 5px;")
+
         
 
     def retranslateUi(self, CEWindow):
