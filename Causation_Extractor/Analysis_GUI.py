@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import QWidget
 import time
 import os
 import subprocess
-
+import platform
 
 class Ui_Analyzing_Window(QWidget):
 
@@ -116,7 +116,7 @@ class Ui_Analyzing_Window(QWidget):
 
     def retranslateUi(self, Analyzing_Window):
         _translate = QtCore.QCoreApplication.translate
-        Analyzing_Window.setWindowTitle(_translate("Analyzing_Window", "Dialog"))
+        Analyzing_Window.setWindowTitle(_translate("Analyzing_Window", "Analyzing.."))
         self.label.setText(_translate("Analyzing_Window", "Analyzing..."))
         self.Time_Elapsed.setText(_translate("Analyzing_Window", "Time Elapsed"))
         self.Time_Elapsed_A.setText(_translate("Analyzing_Window", "0:0:0"))
@@ -152,5 +152,8 @@ class Ui_Analyzing_Window(QWidget):
 
     ######################## OPEN BUILDER ##################################
     def open_builder(self):
-        subprocess.call(['python', '../Builder/Builder_GUI.py'])
+        if platform.system() == "Windows":
+            subprocess.call(['python', '../Builder/Controller.py'])
+        else:
+            subprocess.call(['python3', '../Builder/Controller.py'])    
     ########################################################################    
