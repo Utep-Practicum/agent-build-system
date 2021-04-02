@@ -1,0 +1,58 @@
+[
+    {
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:45:43",
+        "data": {
+            "keypresses_id": 4,
+            "content": "print [Shift_L]\"done here[Shift_L]:[Return][Shift_L]\""
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:43",
+        "data": {
+            "timed_id": 23,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326343.473374_screenshot.png"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:43",
+        "data": {
+            "auditd_id": 4,
+            "content": "print /usr/bin/print done here:\n"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:44",
+        "data": {
+            "auditd_id": 5,
+            "content": "which /usr/bin/which file"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:44",
+        "data": {
+            "auditd_id": 6,
+            "content": "file -b --mime-type -e tokens -L -z done here:\n"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:50",
+        "data": {
+            "clicks_id": 0,
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326350.864823_qterminal_root.png",
+            "type": "point"
+        },
+        "artifact": 1
+    }
+]

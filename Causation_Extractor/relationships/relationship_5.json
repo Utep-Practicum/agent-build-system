@@ -1,0 +1,70 @@
+[
+    {
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:36",
+        "data": {
+            "auditd_id": 2,
+            "content": "sudo ls"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "auditd",
+        "start": "2021-03-09T21:45:36",
+        "data": {
+            "auditd_id": 3,
+            "content": "ls"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:37",
+        "data": {
+            "timed_id": 18,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326337.1642497_screenshot.png"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:38",
+        "data": {
+            "timed_id": 20,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326338.417029_screenshot.png"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:39",
+        "data": {
+            "timed_id": 21,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326339.7262259_screenshot.png"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:40",
+        "data": {
+            "timed_id": 5,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326340.944269_screenshot.png"
+        },
+        "artifact": 1
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:42",
+        "data": {
+            "timed_id": 22,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326342.2005148_screenshot.png"
+        },
+        "artifact": 1
+    }
+]
