@@ -11,15 +11,24 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Edit import *
 from NewSalientArtifact import *
+from Controller import *
+from NewEdit import *
+
 from BuilderBackEnd import *
 import json
+import sys
 
 class Ui_BuilderWindow(object):
 
-    def __init__(self):
-        self.back_end = BuilderBackEnd()
+    def __init__(self, controller):
+        # self.back_end = BuilderBackEnd()
+        self.controller_object = controller
         self.dependency = ""
+        self.relations_list = controller.relationships_main
         self.dependency_list = []
+        self.relation_selected = None
+        if __name__ != "__main__":
+            self.execute()
 
     def setupUi(self, BuilderWindow):
         BuilderWindow.setObjectName("BuilderWindow")
@@ -30,7 +39,7 @@ class Ui_BuilderWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         font = QtGui.QFont()
 
-        #########################Search Label#########################
+        ######################### Search Label #########################
         self.search_label = QtWidgets.QLabel(self.centralwidget)
         self.search_label.setGeometry(QtCore.QRect(20, 14, 281, 23))
         font.setPointSize(14)
@@ -38,111 +47,110 @@ class Ui_BuilderWindow(object):
         self.search_label.setStyleSheet("color:black;")
         self.search_label.setObjectName("search_label")
 
-        #########################Search Input#########################
+        ######################### Search Input #########################
         self.search_input = QtWidgets.QLineEdit(self.centralwidget)
         self.search_input.setGeometry(QtCore.QRect(20, 40, 721, 40))
         self.search_input.setObjectName("search_input")
         self.search_input.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.search_input.textChanged.connect(self.displaySearchResults)
 
-        #########################Detail List#########################
-        self.Detail_Relaltion_list = QtWidgets.QListWidget(self.centralwidget)
-        self.Detail_Relaltion_list.setGeometry(QtCore.QRect(20, 431, 721, 221))
-        self.Detail_Relaltion_list.setObjectName("Detail_Relaltion_list")
-        self.Detail_Relaltion_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        #########################Dependencies Label#########################
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(460, 92, 281, 23))
+        ######################### Detail List #########################
+        self.details_list = QtWidgets.QListWidget(self.centralwidget)
+        self.details_list.setGeometry(QtCore.QRect(20, 431, 721, 221))
+        self.details_list.setObjectName("details_list")
+        self.details_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.details_list.setDragEnabled(True)
+
+        ##################### Relationships Label ##################################
+        self.relationships_label = QtWidgets.QLabel(self.centralwidget)
+        self.relationships_label.setGeometry(QtCore.QRect(20, 92, 291, 23))
         font.setPointSize(14)
-        self.label_3.setFont(font)
-        self.label_3.setStyleSheet("color:black;")
-        self.label_3.setObjectName("label_3")
+        self.relationships_label.setFont(font)
+        self.relationships_label.setStyleSheet("color:black;")
+        self.relationships_label.setObjectName("label")
 
-        #####################Dependencies List List Widget######################
-        self.Dependency_list = QtWidgets.QListWidget(self.centralwidget)
-        self.Dependency_list.setGeometry(QtCore.QRect(460, 120, 281, 293))
-        self.Dependency_list.setObjectName("Dependency_list")
-        self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-
-        #####################Relationships Label##################################
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(20, 92, 291, 23))
-        font.setPointSize(14)
-        self.label.setFont(font)
-        self.label.setStyleSheet("color:black;")
-        self.label.setObjectName("label")
-
-        #####################Relationship List List Widget ##########################
+        ##################### Relationship List Widget ##########################
         self.Relationship_list = QtWidgets.QListWidget(self.centralwidget)
         self.Relationship_list.setGeometry(QtCore.QRect(20, 120, 291, 293))
         self.Relationship_list.setObjectName("Relationship_list")
         self.Relationship_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
 
-        #####################Edit Artifact Button #################################
-        self.EditButton = QtWidgets.QPushButton(self.centralwidget)
-        self.EditButton.setGeometry(QtCore.QRect(340, 311, 100, 75))
-        self.EditButton.setMinimumSize(QtCore.QSize(100, 75))
-        font.setPointSize(16)
-        self.EditButton.setFont(font)
-        self.EditButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
-        self.EditButton.setObjectName("EditButton")
-        self.EditButton.clicked.connect(self.open_edit)
+        ######################### Dependencies Label#########################
+        self.dependencies_label = QtWidgets.QLabel(self.centralwidget)
+        self.dependencies_label.setGeometry(QtCore.QRect(460, 92, 281, 23))
+        font.setPointSize(14)
+        self.dependencies_label.setFont(font)
+        self.dependencies_label.setStyleSheet("color:black;")
+        self.dependencies_label.setObjectName("dependencies_label")
 
+        ##################### Dependencies List Widget######################
+        self.Dependency_list = QtWidgets.QListWidget(self.centralwidget)
+        self.Dependency_list.setGeometry(QtCore.QRect(460, 120, 281, 293))
+        self.Dependency_list.setObjectName("Dependency_list")
+        self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.Dependency_list.setDragEnabled(True)
 
-        #####################Filter Salient Artifact Button #######################
-        self.FilterButton = QtWidgets.QPushButton(self.centralwidget)
-        self.FilterButton.setGeometry(QtCore.QRect(340, 149, 100, 75))
-        self.FilterButton.setMinimumSize(QtCore.QSize(100, 75))
+        ##################### Relationship -> Dependency Button #####################
+        self.move_button = QtWidgets.QPushButton(self.centralwidget)
+        self.move_button.setGeometry(QtCore.QRect(340, 180, 100, 75))
+        self.move_button.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
-        self.FilterButton.setFont(font)
-        self.FilterButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
-        self.FilterButton.setObjectName("FilterButton")
-        self.FilterButton.clicked.connect(self.openFilter)
-
-        #####################Relationship -> Dependency Button #####################
-        self.MoveButton = QtWidgets.QPushButton(self.centralwidget)
-        self.MoveButton.setGeometry(QtCore.QRect(340, 230, 100, 75))
-        self.MoveButton.setMinimumSize(QtCore.QSize(100, 75))
-        font.setPointSize(16)
-        self.MoveButton.setFont(font)
-        self.MoveButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
-        self.MoveButton.setObjectName("MoveButton")
-        self.MoveButton.clicked.connect(self.passDependency)
+        self.move_button.setFont(font)
+        self.move_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.move_button.setObjectName("move_button")
+        self.move_button.clicked.connect(self.passDependency)
         BuilderWindow.setCentralWidget(self.centralwidget)
+
+        ##################### Edit Artifact Button #################################
+        self.edit_button = QtWidgets.QPushButton(self.centralwidget)
+        self.edit_button.setGeometry(QtCore.QRect(340, 261, 100, 75))
+        self.edit_button.setMinimumSize(QtCore.QSize(100, 75))
+        font.setPointSize(16)
+        self.edit_button.setFont(font)
+        self.edit_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.edit_button.setObjectName("edit_button")
+        self.edit_button.clicked.connect(self.edit_observation)
 
         ###################### Menu Top Bar #########################################
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 778, 21))
         self.menubar.setObjectName("menubar")
         ######################Project Top Bar Dropdown ##############################
-        self.menuProject = QtWidgets.QMenu(self.menubar)
-        self.menuProject.setObjectName("menuProject")
+        self.menu_project = QtWidgets.QMenu(self.menubar)
+        self.menu_project.setObjectName("menu_project")
         BuilderWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(BuilderWindow)
         self.statusbar.setObjectName("statusbar")
         BuilderWindow.setStatusBar(self.statusbar)
 
         ###################### Save Project Menu Option #############################
-        self.actionSave_Project = QtWidgets.QAction(BuilderWindow)
-        self.actionSave_Project.setObjectName("actionSave_Project")
-        self.menuProject.addAction(self.actionSave_Project)
+        self.action_save_project = QtWidgets.QAction(BuilderWindow)
+        self.action_save_project.setObjectName("action_save_project")
+        self.menu_project.addAction(self.action_save_project)
 
         ###################### Quit Builder Menu Option #############################
-        self.actionQuit = QtWidgets.QAction(BuilderWindow)
-        self.actionQuit.setObjectName("actionQuit")
-        self.menuProject.addAction(self.actionQuit)
+        self.action_quit = QtWidgets.QAction(BuilderWindow)
+        self.action_quit.setObjectName("action_quit")
+        self.menu_project.addAction(self.action_quit)
 
-        self.menubar.addAction(self.menuProject.menuAction())
+        self.menubar.addAction(self.menu_project.menuAction())
         self.retranslateUi(BuilderWindow)
         QtCore.QMetaObject.connectSlotsByName(BuilderWindow)
 
         ############ Call the method to display relations #####################
         self.displayRelations()
+        self.disable_edit_button()
 
     ############ Open Edit Window ####################
     def open_edit(self):
-        self.wind = EditForm()
+        self.wind = EditFormOld()
         self.wind.initializeUI()
+        self.wind.set_relation(self.details_list.currentItem())
+
+    def edit_observation(self):
+        #self.edit_observation_window = EditForm(self.relation_selected, self.details_list.currentItem())
+        #self.edit_observation_window.initializeUI()
+        self.edit_form = EditForm(self.details_list.currentItem())
 
     def openFilter(self):
         self.wind = NewSalientArtifact()
@@ -151,29 +159,28 @@ class Ui_BuilderWindow(object):
     def retranslateUi(self, BuilderWindow):
         _translate = QtCore.QCoreApplication.translate
         BuilderWindow.setWindowTitle(_translate("BuilderWindow", "ABS_Builder"))
-        self.label_3.setText(_translate("BuilderWindow", "Dependencies"))
-        self.label.setText(_translate("BuilderWindow", "Relationships"))
+        self.dependencies_label.setText(_translate("BuilderWindow", "Dependencies"))
+        self.relationships_label.setText(_translate("BuilderWindow", "Relationships"))
         self.search_label.setText(_translate("BuilderWindow", "Search"))
-        self.EditButton.setText(_translate("BuilderWindow", "Edit"))
-        self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
-        self.MoveButton.setText(_translate("BuilderWindow", ">>"))
-        self.menuProject.setTitle(_translate("BuilderWindow", "Project"))
-        self.actionSave_Project.setText(_translate("BuilderWindow", "Save Project"))
-        self.actionQuit.setText(_translate("BuilderWindow", "Quit"))
+        self.edit_button.setText(_translate("BuilderWindow", "Edit"))
+        # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
+        self.move_button.setText(_translate("BuilderWindow", ">>"))
+        self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
+        self.action_save_project.setText(_translate("BuilderWindow", "Save Project"))
+        self.action_quit.setText(_translate("BuilderWindow", "Quit"))
 
     def displayRelations(self):
-        self.relations_dictionary = self.back_end.read_relationships()
-        self.search_dictionary = self.relations_dictionary
+        self.Relationship_list.clear()
 
-        for relation_name in self.relations_dictionary.keys():
-            self.Relationship_list.addItem(relation_name)
+        #self.relations_dictionary = self.back_end.read_relationships()
+
+        #self.search_dictionary = self.relations_dictionary
+
+        # For each relation add them to the relations display list
+        for relation in self.controller_object.relationships_main:
+            self.Relationship_list.addItem(relation.name)
 
         self.Relationship_list.itemClicked.connect(self.displayContent)
-        # self.displaySearchResults()
-
-
-    def printExample(self):
-        print("Test")
 
     def displaySearchResults(self, text):
         self.search_dictionary = {}
@@ -190,27 +197,32 @@ class Ui_BuilderWindow(object):
         for relation_name in self.search_dictionary.keys():
             self.Relationship_list.addItem(relation_name)
 
-    
-                    
-
-
-
-
-
     ##################################### Display the content in the Detail Box ########################################
     def displayContent(self, item):
         """
         first it clears the Detail List
         it stores and formats the Relation chosen (clicked) and changes the name to Dependency #
-        Finally, for each relation, it will be added in the Detail list
+        Finally, for each observation, it will be added in the Detail list
         """
 
-        self.Detail_Relaltion_list.clear()
+        self.details_list.clear()
 
         self.dependency = "Dependency " + item.text().split(" ")[1]
+        print(item)
+        print(item.text())
+        # Look for the selected relation in our list of relationships
+        found_relation = None
+        for relation_loop in self.controller_object.relationships_main:
+            if item.text() == relation_loop.name:
+                found_relation = relation_loop
 
-        for relations in self.search_dictionary.get(item.text()):
-            self.Detail_Relaltion_list.addItem(str(relations))
+        self.relation_selected = found_relation
+
+        for observation in found_relation.observation_list:
+            self.details_list.addItem(observation.show())
+
+        self.disable_edit_button()
+        self.details_list.itemClicked.connect(self.enable_edit_button)
 
     def passDependency(self):
         """
@@ -220,11 +232,28 @@ class Ui_BuilderWindow(object):
             self.dependency_list.append(self.dependency)
             self.Dependency_list.addItem(self.dependency)
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    BuilderWindow = QtWidgets.QMainWindow()
-    ui = Ui_BuilderWindow()
-    ui.setupUi(BuilderWindow)
-    BuilderWindow.show()
-    sys.exit(app.exec_())
+    def disable_edit_button(self):
+        self.edit_button.setEnabled(False)
+        self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
+    def enable_edit_button(self):
+        self.edit_button.setEnabled(True)
+        self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
+
+    def execute(self):
+        app = QtWidgets.QApplication(sys.argv)
+        BuilderWindow = QtWidgets.QMainWindow()
+        # ui = Ui_BuilderWindow()
+        self.setupUi(BuilderWindow)
+        BuilderWindow.show()
+        sys.exit(app.exec_())
+
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     BuilderWindow = QtWidgets.QMainWindow()
+#     ui = Ui_BuilderWindow()
+#     ui.setupUi(BuilderWindow)
+#     BuilderWindow.show()
+#     sys.exit(app.exec_())

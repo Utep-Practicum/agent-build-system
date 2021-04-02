@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -- coding: utf-8 --
 import os
 import json
 
@@ -7,7 +9,7 @@ class BuilderBackEnd:
         """
         Read each Relationship file
         """
-        directory = "../Causation_Extractor/relationships"
+        directory = "Causation_Extractor/relationships"
         files_list = os.listdir(directory)
         relationships_list = []
         #formated_relations = []
