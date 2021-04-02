@@ -13,7 +13,8 @@ from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from Analysis_GUI import Ui_Analyzing_Window
 from ceBackend import *
 from saveProject import *
-import os #os and json are used for dir json aggregation for now
+import os  # os and json are used for dir json aggregation for now
+
 
 class Ui_CEWindow(QMainWindow):
     def setupUi(self, CEWindow):
@@ -43,7 +44,9 @@ class Ui_CEWindow(QMainWindow):
         self.Analyze_Button = QtWidgets.QPushButton(self.centralwidget)
         self.Analyze_Button.setGeometry(QtCore.QRect(370, 150, 121, 31))
         self.Analyze_Button.setFont(font)
-        self.Analyze_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.Analyze_Button.setEnabled(False)
+        self.Analyze_Button.setStyleSheet(
+            "background-color: rgba(18, 51, 62, 80%);; color: #FFFFFF; border-radius: 5px;")
         self.Analyze_Button.setObjectName("Analyze_Button")
 
         self.SaveProject_Button = QtWidgets.QPushButton(self.centralwidget)
@@ -57,7 +60,7 @@ class Ui_CEWindow(QMainWindow):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.label.setStyleSheet("color: black")
-        self.label.setMinimumSize(QtCore.QSize(301,31))
+        self.label.setMinimumSize(QtCore.QSize(301, 31))
 
         self.time_label = QtWidgets.QLabel(self.centralwidget)
         self.time_label.setGeometry(QtCore.QRect(110, 100, 111, 31))
@@ -80,7 +83,7 @@ class Ui_CEWindow(QMainWindow):
         self.menuNew_Project = QtWidgets.QMenu(self.menubar)
         self.menuNew_Project.setObjectName("menuNew_Project")
         self.menuNew_Project.setStyleSheet("color: black")
-        
+
         self.menuHelp = QtWidgets.QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
         self.menuNew_Project.setStyleSheet("color: black")
@@ -122,13 +125,12 @@ class Ui_CEWindow(QMainWindow):
         ########Creating Objects to execute Save Project Window####
         self.Form = QtWidgets.QDialog()
         self.sP = NewProject(self.Form)
-        
+
         ################# BUTTON ACTIONS ###########################
         self.Browse_Button.clicked.connect(self.browse_Files)
         self.Analyze_Button.clicked.connect(self.show_analyzingWindow)
         self.SaveProject_Button.clicked.connect(self.save_Project)
 
-       
     ######################  BROWSE BUTTON FUNCTION ###############
     def browse_Files(self):
         # Gets directory name and sets it to a variable
@@ -137,7 +139,7 @@ class Ui_CEWindow(QMainWindow):
         directory = os.fsencode(name)
         self.fileName.setText(name)
         backend = ceBackend()
-        self.num_lines = backend.output_directory(directory,name)
+        self.num_lines = backend.output_directory(directory, name)
         self.get_ProjectName()
         self.check_project()
 
@@ -147,28 +149,32 @@ class Ui_CEWindow(QMainWindow):
         self.ui = Ui_Analyzing_Window()
         self.ui.setupUi(self.Analyzing_Window)
         self.Analyzing_Window.show()
-        QtWidgets.qApp.processEvents()   
-        self.time_frame = float(self.time_input.text())  
-        self.ui.progressBar_update(self.num_lines,self.project_name,self.time_frame)
+        QtWidgets.qApp.processEvents()
+        if self.time_input.text():
+            self.time_frame = float(self.time_input.text())
+        self.ui.progressBar_update(self.num_lines, self.project_name, self.time_frame)
 
     ###################### SAVE PROJECT BUTTON #######################################
     def save_Project(self):
         self.Form.show()
+
     ##############################################################################
     def get_ProjectName(self):
         self.project_name = self.sP.project_sP
         print(self.project_name)
+
     ###################### CHECK THAT A PROJECT HAS BEEN CREATED #############################
     def check_project(self):
-        if self.project_name == "":
-            self.Analyze_Button.setEnabled(False)
+        if not self.project_name:
             print("Project not created. Please create one")
         else:
             self.label.setText("ECELd Project Folder:")
-            print("Working with project...." +self.project_name)
+            print("Working with project...." + self.project_name)
             self.Analyze_Button.setEnabled(True)
-            self.SaveProject_Button.setEnabled(False)    
-        
+            self.Analyze_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+            self.SaveProject_Button.setEnabled(False)
+            self.SaveProject_Button.setStyleSheet(
+                "background-color: rgba(18, 51, 62, 80%);; color: #FFFFFF; border-radius: 5px;")
 
     def retranslateUi(self, CEWindow):
         _translate = QtCore.QCoreApplication.translate
