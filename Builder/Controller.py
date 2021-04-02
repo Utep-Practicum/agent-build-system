@@ -4,16 +4,17 @@ import json
 import os
 
 class Controller:
-    def __init__(self):
+    def __init__(self, project_directory):
         self.relationships_main = []
         self.dependencies_main = []
+        self.project_dir = project_directory
 
 
     def add_relationship(self):
         """
         # Import relationships into the controller
         """
-        directory = '../Causation_Extractor/relationships/'
+        directory = self.project_dir + '/relationships/'
         file_list = []
         for file in os.listdir(directory):
             file_list.append(file)
@@ -62,12 +63,14 @@ class Controller:
                             break
                 return search
 
+
 if __name__ == "__main__":
-    controller = Controller()
+    project = '/Users/Rick/Desktop/My Documents/VSCode/Practicum/agent-build-system/Causation_Extractor'
+    controller = Controller(project)
     controller.add_relationship()
     # I already got the relations
     # pass them to the Builder_GUI
-    builder_window = Ui_BuilderWindow(controller.relationships_main)
+    builder_window = Ui_BuilderWindow(controller)
 
     # This is just a print...
     for relation in controller.relationships_main:

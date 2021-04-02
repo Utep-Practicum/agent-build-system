@@ -19,9 +19,7 @@ class ceBackend:
         pcap_in = directory.decode() + '/PCAP/'
         pcap_out = directory.decode() + '/ParsedLogs/'
         pcap_cmd = 'tshark -r {0}AnnotatedPCAP.pcapng -T json > {1}pcap_output.json'.format(pcap_in,pcap_out)
-        print(pcap_cmd)
         os.system(pcap_cmd)
-        print("Print completed")
 
         for file in os.listdir(directory):
             file_list.append(file.decode())
@@ -30,7 +28,7 @@ class ceBackend:
         # output file name
         with open("masterJson.json", "w") as outfile:
             for f in file_list:
-                with open(name + "/" + f, 'rb') as infile:
+                with open(name + '/ParsedLogs/' + f, 'rb') as infile:
                     if f == "pcapOutput.json":  # start adding 3/8/21
                        #print("converting pcap file")
                         data = json.load(infile)
