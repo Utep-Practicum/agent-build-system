@@ -15,6 +15,12 @@ class ceBackend:
         file_list = []
         head = []
 
+        # Convert AnnotatedPCAP.pcapng to a readable .json file for relationship extraction
+        pcap_in = directory + 'PCAP/'
+        pcap_out = directory + 'Parsed/Logs/'
+        pcap_cmd = 'tshark -r {0}AnnotatedPCAP.pcapng -T json > {1}pcap_output.json'.format(pcap_in,pcap_out)
+        os.system(pcap_cmd)
+
         for file in os.listdir(directory):
             file_list.append(file.decode())
 
