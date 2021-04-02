@@ -43,8 +43,7 @@ class Ui_CEWindow(QMainWindow):
         self.Analyze_Button = QtWidgets.QPushButton(self.centralwidget)
         self.Analyze_Button.setGeometry(QtCore.QRect(370, 150, 121, 31))
         self.Analyze_Button.setFont(font)
-        self.Analyze_Button.setEnabled(False)
-        self.Analyze_Button.setStyleSheet("background-color: rgba(18, 51, 62, 80%);; color: #FFFFFF; border-radius: 5px;")
+        self.Analyze_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.Analyze_Button.setObjectName("Analyze_Button")
 
         self.SaveProject_Button = QtWidgets.QPushButton(self.centralwidget)
@@ -149,8 +148,7 @@ class Ui_CEWindow(QMainWindow):
         self.ui.setupUi(self.Analyzing_Window)
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()   
-        if self.time_input.text():
-            self.time_frame = float(self.time_input.text())
+        self.time_frame = float(self.time_input.text())  
         self.ui.progressBar_update(self.num_lines,self.project_name,self.time_frame)
 
     ###################### SAVE PROJECT BUTTON #######################################
@@ -162,16 +160,14 @@ class Ui_CEWindow(QMainWindow):
         print(self.project_name)
     ###################### CHECK THAT A PROJECT HAS BEEN CREATED #############################
     def check_project(self):
-        if not self.project_name:
+        if self.project_name == "":
+            self.Analyze_Button.setEnabled(False)
             print("Project not created. Please create one")
         else:
             self.label.setText("ECELd Project Folder:")
             print("Working with project...." +self.project_name)
             self.Analyze_Button.setEnabled(True)
-            self.Analyze_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
-            self.SaveProject_Button.setEnabled(False)
-            self.SaveProject_Button.setStyleSheet("background-color: rgba(18, 51, 62, 80%);; color: #FFFFFF; border-radius: 5px;")
-
+            self.SaveProject_Button.setEnabled(False)    
         
 
     def retranslateUi(self, CEWindow):
