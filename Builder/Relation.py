@@ -25,7 +25,7 @@ class Observation:
         self.artifact = node['artifact']
 
     def show(self):
-        string = str(self.start) + ',' + str(self.data_type) + ',' + " artifact: " + str(self.artifact) + ',' + str(self.data)
+        string = "start: " + str(self.start) + ', ' + "data_type: " + str(self.data_type) + ', ' + "artifact: " + str(self.artifact) + ', ' + "data: " + str(self.data)
         return string
         
 
