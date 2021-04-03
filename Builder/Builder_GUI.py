@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Edit import *
 from NewSalientArtifact import *
 from Controller import *
+from NewEdit import *
 
 from BuilderBackEnd import *
 import json
@@ -25,6 +26,7 @@ class Ui_BuilderWindow(object):
         self.dependency = ""
         self.relations_list = controller.relationships_main
         self.dependency_list = []
+        self.relation_selected = None
         if __name__ != "__main__":
             self.execute()
 
@@ -37,7 +39,7 @@ class Ui_BuilderWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         font = QtGui.QFont()
 
-        #########################Search Label#########################
+        ######################### Search Label #########################
         self.search_label = QtWidgets.QLabel(self.centralwidget)
         self.search_label.setGeometry(QtCore.QRect(20, 14, 281, 23))
         font.setPointSize(14)
@@ -45,21 +47,21 @@ class Ui_BuilderWindow(object):
         self.search_label.setStyleSheet("color:black;")
         self.search_label.setObjectName("search_label")
 
-        #########################Search Input#########################
+        ######################### Search Input #########################
         self.search_input = QtWidgets.QLineEdit(self.centralwidget)
         self.search_input.setGeometry(QtCore.QRect(20, 40, 721, 40))
         self.search_input.setObjectName("search_input")
         self.search_input.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.search_input.textChanged.connect(self.displaySearchResults)
 
-        #########################Detail List#########################
+        ######################### Detail List #########################
         self.details_list = QtWidgets.QListWidget(self.centralwidget)
         self.details_list.setGeometry(QtCore.QRect(20, 431, 721, 221))
         self.details_list.setObjectName("details_list")
         self.details_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.details_list.setDragEnabled(True)
 
-        #####################Relationships Label##################################
+        ##################### Relationships Label ##################################
         self.relationships_label = QtWidgets.QLabel(self.centralwidget)
         self.relationships_label.setGeometry(QtCore.QRect(20, 92, 291, 23))
         font.setPointSize(14)
@@ -67,13 +69,13 @@ class Ui_BuilderWindow(object):
         self.relationships_label.setStyleSheet("color:black;")
         self.relationships_label.setObjectName("label")
 
-        #####################Relationship List Widget ##########################
+        ##################### Relationship List Widget ##########################
         self.Relationship_list = QtWidgets.QListWidget(self.centralwidget)
         self.Relationship_list.setGeometry(QtCore.QRect(20, 120, 291, 293))
         self.Relationship_list.setObjectName("Relationship_list")
         self.Relationship_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
 
-        #########################Dependencies Label#########################
+        ######################### Dependencies Label#########################
         self.dependencies_label = QtWidgets.QLabel(self.centralwidget)
         self.dependencies_label.setGeometry(QtCore.QRect(460, 92, 281, 23))
         font.setPointSize(14)
@@ -81,14 +83,14 @@ class Ui_BuilderWindow(object):
         self.dependencies_label.setStyleSheet("color:black;")
         self.dependencies_label.setObjectName("dependencies_label")
 
-        #####################Dependencies List Widget######################
+        ##################### Dependencies List Widget######################
         self.Dependency_list = QtWidgets.QListWidget(self.centralwidget)
         self.Dependency_list.setGeometry(QtCore.QRect(460, 120, 281, 293))
         self.Dependency_list.setObjectName("Dependency_list")
         self.Dependency_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.Dependency_list.setDragEnabled(True)
 
-        #####################Relationship -> Dependency Button #####################
+        ##################### Relationship -> Dependency Button #####################
         self.move_button = QtWidgets.QPushButton(self.centralwidget)
         self.move_button.setGeometry(QtCore.QRect(340, 180, 100, 75))
         self.move_button.setMinimumSize(QtCore.QSize(100, 75))
@@ -99,7 +101,7 @@ class Ui_BuilderWindow(object):
         self.move_button.clicked.connect(self.passDependency)
         BuilderWindow.setCentralWidget(self.centralwidget)
 
-        #####################Edit Artifact Button #################################
+        ##################### Edit Artifact Button #################################
         self.edit_button = QtWidgets.QPushButton(self.centralwidget)
         self.edit_button.setGeometry(QtCore.QRect(340, 261, 100, 75))
         self.edit_button.setMinimumSize(QtCore.QSize(100, 75))
@@ -107,9 +109,7 @@ class Ui_BuilderWindow(object):
         self.edit_button.setFont(font)
         self.edit_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.edit_button.setObjectName("edit_button")
-        self.edit_button.clicked.connect(self.open_edit)
-
-
+        self.edit_button.clicked.connect(self.edit_observation)
 
         ###################### Menu Top Bar #########################################
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
@@ -127,17 +127,14 @@ class Ui_BuilderWindow(object):
         self.action_save_project = QtWidgets.QAction(BuilderWindow)
         self.action_save_project.setObjectName("action_save_project")
         self.menu_project.addAction(self.action_save_project)
-        self.menu_project.setStyleSheet("color: black")  #modified submenu font to be black -seb
-        self.action_save_project.triggered.connect(self.importProject) #function gets ran at click -seb
-
-
+        self.menu_project.setStyleSheet("color: black")  # modified submenu font to be black -seb
+        self.action_save_project.triggered.connect(self.importProject)  # function gets ran at click -seb
 
         ###################### Quit Builder Menu Option #############################
         self.action_quit = QtWidgets.QAction(BuilderWindow)
         self.action_quit.setObjectName("action_quit")
         self.menu_project.addAction(self.action_quit)
-        self.action_quit.triggered.connect(QtWidgets.qApp.quit)    #exits on click -seb
-
+        self.action_quit.triggered.connect(QtWidgets.qApp.quit)  # exits on click -seb
 
         self.menubar.addAction(self.menu_project.menuAction())
         self.retranslateUi(BuilderWindow)
@@ -148,13 +145,8 @@ class Ui_BuilderWindow(object):
         self.disable_edit_button()
 
     ############ Open Edit Window ####################
-    def open_edit(self):
-        self.wind = EditForm()
-        self.wind.initializeUI()
-        # print(self.relations_dictionary[self.Relationship_list.currentItem().text()][self.Relationship_list.currentRow()])
-        # print(self.Relationship_list.currentItem().text())
-        # print(self.details_list.currentRow())
-        self.wind.set_relation(self.details_list.currentItem())
+    def edit_observation(self):
+        self.edit_form = EditForm(self.details_list.currentItem())
 
     def openFilter(self):
         self.wind = NewSalientArtifact()
@@ -175,13 +167,8 @@ class Ui_BuilderWindow(object):
 
     def displayRelations(self):
         self.Relationship_list.clear()
-
-        #self.relations_dictionary = self.back_end.read_relationships() 
-
-        #self.search_dictionary = self.relations_dictionary      
-
         # For each relation add them to the relations display list
-        for relation in self.relations_list:
+        for relation in self.controller_object.relationships_main:
             self.Relationship_list.addItem(relation.name)
 
         self.Relationship_list.itemClicked.connect(self.displayContent)
@@ -214,13 +201,13 @@ class Ui_BuilderWindow(object):
         self.dependency = "Dependency " + item.text().split(" ")[1]
         print(item)
         print(item.text())
-        # Change this
-        # self.relations_list.observation_list
         # Look for the selected relation in our list of relationships
         found_relation = None
-        for relation in self.relations_list:
-            if item.text() == relation.name:
-                found_relation = relation
+        for relation_loop in self.controller_object.relationships_main:
+            if item.text() == relation_loop.name:
+                found_relation = relation_loop
+
+        self.relation_selected = found_relation
 
         for observation in found_relation.observation_list:
             self.details_list.addItem(observation.show())
@@ -250,18 +237,19 @@ class Ui_BuilderWindow(object):
         print("directory selected:", name)
         try:
             subdir_folders = os.listdir(name)
-            #print(subdir_folders[0]) #DEBUG: list elements are str
+            # print(subdir_folders[0]) #DEBUG: list elements are str
             if "Builder" not in subdir_folders:
                 print("This directory is not properly formatted, please select a project data directory")
-                #Maybe call some function that sends a popup window here?
-                #break
+                # Maybe call some function that sends a popup window here?
+                # break
             else:
                 print("folder with relationships:", name)
-                #self.back_end.read_relationships(name) #ideally call this function to load them once selected
-                return name #For now: Returns path to folder
-                
+                # self.back_end.read_relationships(name) #ideally call this function to load them once selected
+                return name  # For now: Returns path to folder
+
         except:
             print("an error occured while trying to read the directory")
+
 
     def execute(self):
         app = QtWidgets.QApplication(sys.argv)
