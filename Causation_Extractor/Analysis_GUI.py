@@ -151,8 +151,9 @@ class Ui_Analyzing_Window(QWidget):
 
     ######################## OPEN BUILDER ##################################
     def open_builder(self):
+        builder_addr = 'Builder/Controller.py'
         if platform.system() == "Windows":
-            subprocess.call(['python', '../Builder/Controller.py'])
+            subprocess.call(['python', builder_addr])
         else:
-            subprocess.call(['python3', '../Builder/Controller.py'])
+            subprocess.call(['python3', builder_addr])
             ########################################################################

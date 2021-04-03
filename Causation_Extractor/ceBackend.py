@@ -15,14 +15,20 @@ class ceBackend:
         file_list = []
         head = []
 
-        for file in os.listdir(directory):
-            file_list.append(file.decode())
+        # Convert AnnotatedPCAP.pcapng to a readable .json file for relationship extraction
+        pcap_in = directory.decode() + name + '/CE/PCAP/'
+        parsed_logs = directory.decode() + '/ParsedLogs/'
+        pcap_cmd = 'tshark -r {0}AnnotatedPCAP.pcapng -T json > {1}pcap_output.json'.format(pcap_in, parsed_logs)
+        os.system(pcap_cmd)
+
+        for file in os.listdir(parsed_logs):
+            file_list.append(file)
 
         # Stores all json file contents within the "causationSource" json file
         # output file name
         with open("masterJson.json", "w") as outfile:
             for f in file_list:
-                with open(name + "/" + f, 'rb') as infile:
+                with open(parsed_logs + f, 'rb') as infile:
                     if f == "pcapOutput.json":  # start adding 3/8/21
                        #print("converting pcap file")
                         data = json.load(infile)
@@ -49,7 +55,7 @@ class ceBackend:
         #print(self.project_Name)
 
         ##Set num_lines count to the MouseClicks.json file number of lines for now
-        num_lines = self.count_lines(name + "/" + str(file_list[1]))
+        num_lines = self.count_lines(parsed_logs + str(file_list[1]))
         with open("masterJson.json") as jsonFile:
             self.text = jsonFile.read()
 
@@ -126,7 +132,8 @@ class ceBackend:
 
     # Finds artifacts
     def makeArtifacts(self, relationshipList):
-        regexList = [line.rstrip() for line in open('regexLists/userKeywords.txt')]
+        addr = 'Causation_Extractor/regexLists/userKeywords.txt'
+        regexList = [line.rstrip() for line in open(addr)]
         count = 0
 
         for relationship in relationshipList:
