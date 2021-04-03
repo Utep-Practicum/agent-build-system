@@ -65,9 +65,10 @@ class Controller:
 if __name__ == "__main__":
     controller = Controller()
     controller.add_relationship()
+
     # I already got the relations
     # pass them to the Builder_GUI
-    builder_window = Ui_BuilderWindow(controller.relationships_main)
+    builder_window = Ui_BuilderWindow(controller)
 
     # This is just a print...
     for relation in controller.relationships_main:
