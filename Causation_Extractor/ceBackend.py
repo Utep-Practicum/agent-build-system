@@ -16,7 +16,7 @@ class ceBackend:
         head = []
 
         # Convert AnnotatedPCAP.pcapng to a readable .json file for relationship extraction
-        pcap_in = directory.decode() + name + '/CE/PCAP/'
+        pcap_in = directory.decode() + '/PCAP/'
         parsed_logs = directory.decode() + '/ParsedLogs/'
         pcap_cmd = 'tshark -r {0}AnnotatedPCAP.pcapng -T json > {1}pcap_output.json'.format(pcap_in, parsed_logs)
         os.system(pcap_cmd)
@@ -29,7 +29,7 @@ class ceBackend:
         with open("masterJson.json", "w") as outfile:
             for f in file_list:
                 with open(parsed_logs + f, 'rb') as infile:
-                    if f == "pcapOutput.json":  # start adding 3/8/21
+                    if f == "pcap_output.json":  # start adding 3/8/21
                        #print("converting pcap file")
                         data = json.load(infile)
                         packetList = []
@@ -41,6 +41,7 @@ class ceBackend:
                             packetList[i]["data"] = node.frame_info.copy() #Frame information
                             packetList[i]["data_type"] = "network" #Packet type
                             node.frame_info.clear() #Clears node before next capture
+                        print(packetList)
                         head += packetList
                     else:
                         file_data = json.load(infile)

@@ -14,7 +14,7 @@ class Controller:
         """
         # Import relationships into the controller
         """
-        directory = self.project_dir + '/relationships/'
+        directory = self.project_dir + 'CE/Relationships/'
         file_list = []
         for file in os.listdir(directory):
             file_list.append(file)
@@ -65,7 +65,7 @@ class Controller:
 
 
 if __name__ == "__main__":
-    project = '/Users/Rick/Desktop/My Documents/VSCode/Practicum/agent-build-system/Causation_Extractor'
+    project = '/Users/Rick/Desktop/My Documents/VSCode/Practicum/agent-build-system/Project Data/test13'
     controller = Controller(project)
     controller.add_relationship()
 
