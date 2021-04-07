@@ -65,7 +65,7 @@ class Controller:
 
 
 if __name__ == "__main__":
-    project = '/Users/Rick/Desktop/My Documents/VSCode/Practicum/agent-build-system/Causation_Extractor'
+    project = '../Causation_Extractor'
     controller = Controller(project)
     controller.add_relationship()
 
