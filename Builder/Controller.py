@@ -1,22 +1,25 @@
 from Relation import *
-from Builder_GUI import *
 import json
 import os
 
 class Controller:
-    def __init__(self, project_directory):
+    def __init__(self):
         self.relationships_main = []
         self.dependencies_main = []
-        self.project_dir = project_directory
+        self.project_name = None
 
 
-    def add_relationship(self):
+    def update(self, project):
+        # Clear previous data, if any
+        self.relationships_main.clear()
+        self.dependencies_main.clear()
+        self.project_name = project
         """
         # Import relationships into the controller
         """
-        directory = self.project_dir + 'CE/Relationships/'
+        relationship_dir = self.project_name + '/CE/Relationships/'
         file_list = []
-        for file in os.listdir(directory):
+        for file in os.listdir(relationship_dir):
             file_list.append(file)
         file_list.sort()
         for file_name in file_list:
@@ -25,7 +28,7 @@ class Controller:
         ######################################################
         # self.relationships_main.append(Relation(relationship))
 
-    
+
     def move_to_dependency(self, relationship_name):
         """
         # Removes relationship from relationship list and translates to dependency list
@@ -62,17 +65,3 @@ class Controller:
                             search.append(relation)
                             break
                 return search
-
-
-if __name__ == "__main__":
-    project = '/Users/Rick/Desktop/My Documents/VSCode/Practicum/agent-build-system/Project Data/test13'
-    controller = Controller(project)
-    controller.add_relationship()
-
-    # I already got the relations
-    # pass them to the Builder_GUI
-    builder_window = Ui_BuilderWindow(controller)
-
-    # This is just a print...
-    for relation in controller.relationships_main:
-        print(relation.name)

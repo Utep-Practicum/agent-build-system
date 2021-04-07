@@ -8,6 +8,10 @@ from pcap_import import pcapImport
 
 class ceBackend:
 
+    def __init__(self):
+        self.master_json = "Causation_Extractor/masterJson.json"
+
+
     ##TODO: implement new project directory structure
     project_Name = " "
     def output_directory(self,directory,name):
@@ -18,15 +22,16 @@ class ceBackend:
         # Convert AnnotatedPCAP.pcapng to a readable .json file for relationship extraction
         pcap_in = directory.decode() + '/PCAP/'
         parsed_logs = directory.decode() + '/ParsedLogs/'
-        pcap_cmd = 'tshark -r {0}AnnotatedPCAP.pcapng -T json > {1}pcap_output.json'.format(pcap_in, parsed_logs)
-        os.system(pcap_cmd)
+        if 'pcap_output.json' not in os.listdir(parsed_logs):
+            pcap_cmd = 'tshark -r {0}AnnotatedPCAP.pcapng -T json > {1}pcap_output.json'.format(pcap_in, parsed_logs)
+            os.system(pcap_cmd)
 
         for file in os.listdir(parsed_logs):
             file_list.append(file)
 
         # Stores all json file contents within the "causationSource" json file
         # output file name
-        with open("masterJson.json", "w") as outfile:
+        with open(self.master_json, "w") as outfile:
             for f in file_list:
                 with open(parsed_logs + f, 'rb') as infile:
                     if f == "pcap_output.json":  # start adding 3/8/21
@@ -57,7 +62,7 @@ class ceBackend:
 
         ##Set num_lines count to the MouseClicks.json file number of lines for now
         num_lines = self.count_lines(parsed_logs + str(file_list[1]))
-        with open("masterJson.json") as jsonFile:
+        with open(self.master_json) as jsonFile:
             self.text = jsonFile.read()
 
         return num_lines
@@ -84,7 +89,7 @@ class ceBackend:
 
     # defines the relationships based on the master json file created by ce_gui
     def relationshipDefiner(self,time_in):
-        with open("masterJson.json") as jsonFile:
+        with open(self.master_json) as jsonFile:
             # jsons are loaded as a list of dicts. each dict is a json block
             data = json.load(jsonFile)
 
@@ -171,7 +176,7 @@ class ceBackend:
 
         # print each relationship into relationships/relationship_x.json
         for i in range(len(relationshipList)):
-            filename = "../Project Data/"+project_Name +"/CE/Relationships/relationship_" + str(i + 1) + ".json"
+            filename = "Project Data/"+project_Name +"/CE/Relationships/relationship_" + str(i + 1) + ".json"
             with open(filename, 'w') as json_file:
                 json.dump(relationshipList[i], json_file, indent=4)
 

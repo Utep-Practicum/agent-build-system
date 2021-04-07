@@ -14,7 +14,6 @@ from NewSalientArtifact import *
 from Controller import *
 from NewEdit import *
 
-from BuilderBackEnd import *
 import json
 import sys
 
@@ -22,7 +21,6 @@ class Ui_BuilderWindow(object):
 
     def __init__(self, controller):
         self.controller_object = controller
-        # self.back_end = BuilderBackEnd()
         self.dependency = ""
         self.relations_list = controller.relationships_main
         self.dependency_list = []

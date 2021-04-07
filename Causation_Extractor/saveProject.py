@@ -81,23 +81,23 @@ class NewProject(QtWidgets.QDialog):
         self.project_sP = self.ProjectName.text()
         
         # Create Projects root path if does not exist
-        if not os.path.exists("../Project Data"):
-            os.makedirs("../Project Data")
+        if not os.path.exists("Project Data"):
+            os.makedirs("Project Data")
 
         #  Create Project Paths
         if not os.path.exists("../Project Data/" + self.ProjectName.text()):
             print("creating folders....")
-            os.makedirs("../Project Data/" + self.ProjectName.text())
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/CE/")
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/CE/CE_logs/")
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/CE/Relationships/")
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Builder/")
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Builder/Builder_logs/")
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Builder/Dependencies/")
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Runner/")
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Builder/Runner/Runner_logs")
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Packager/")
-            os.makedirs("../Project Data/" + self.ProjectName.text() + "/Packager/Packager_logs")
+            os.makedirs("Project Data/" + self.ProjectName.text())
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/")
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/CE_logs/")
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/Relationships/")
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/")
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/Builder_logs/")
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/Dependencies/")
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/Runner/")
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/Runner/Runner_logs")
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/Packager/")
+            os.makedirs("Project Data/" + self.ProjectName.text() + "/Packager/Packager_logs")
             self.CancelButton.setText("Continue")
             self.CreateButton.hide()
             print("Project was created")
