@@ -20,7 +20,7 @@ import platform
 
 class Ui_Analyzing_Window(QWidget):
 
-    def setupUi(self, Analyzing_Window):
+    def setupUi(self, Analyzing_Window,CEWindow):
         Analyzing_Window.setObjectName("Analyzing_Window")
         Analyzing_Window.resize(690, 365)
         Analyzing_Window.setStyleSheet("background-color: white;")
@@ -113,6 +113,8 @@ class Ui_Analyzing_Window(QWidget):
 
         ######################## BUTTON ACTIONS ######################################
         self.Export.clicked.connect(self.open_builder)
+        self.Export.clicked.connect(Analyzing_Window.close)
+        self.Export.clicked.connect(CEWindow.close)
         ##############################################################################
 
     def retranslateUi(self, Analyzing_Window):
