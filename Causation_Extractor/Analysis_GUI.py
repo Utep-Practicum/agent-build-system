@@ -14,7 +14,7 @@ from ceBackend import ceBackend
 from PyQt5.QtWidgets import QWidget
 import time
 import os
-import subprocess
+from subprocess import Popen,PIPE
 import platform
 
 
@@ -112,9 +112,10 @@ class Ui_Analyzing_Window(QWidget):
         QtCore.QMetaObject.connectSlotsByName(Analyzing_Window)
 
         ######################## BUTTON ACTIONS ######################################
-        self.Export.clicked.connect(self.open_builder)
         self.Export.clicked.connect(Analyzing_Window.close)
         self.Export.clicked.connect(CEWindow.close)
+        self.Export.clicked.connect(self.open_builder)
+        
         ##############################################################################
 
     def retranslateUi(self, Analyzing_Window):
@@ -155,7 +156,8 @@ class Ui_Analyzing_Window(QWidget):
     def open_builder(self):
         builder_addr = 'Builder/Controller.py'
         if platform.system() == "Windows":
-            subprocess.call(['python', builder_addr])
+            Popen(['python', builder_addr],stdout=PIPE, stderr=PIPE)
         else:
-            subprocess.call(['python3', builder_addr])
-            ########################################################################
+            Popen(['python3', builder_addr],stdout=PIPE, stderr=PIPE)
+            
+    ########################################################################
