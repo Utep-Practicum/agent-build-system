@@ -17,7 +17,7 @@ class Controller:
         """
         # Import relationships into the controller
         """
-        relationship_dir = self.project_name + '/CE/Relationships/'
+        relationship_dir = 'Project Data/' + self.project_name + '/CE/Relationships/'
         file_list = []
         for file in os.listdir(relationship_dir):
             file_list.append(file)

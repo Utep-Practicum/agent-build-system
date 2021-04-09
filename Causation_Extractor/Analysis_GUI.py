@@ -157,10 +157,14 @@ class Ui_Analyzing_Window(QWidget):
         self.Relationships_A.setText(str(len(relationshipList)))
 
     ######################## OPEN BUILDER ##################################
-    def open_builder(self):       
+    def open_builder(self):
+        builder_addr = 'Builder/Controller.py'
+        GUIManager().builder(self.project_name)
+        """       
         if platform.system() == "Windows":
             Popen(['python', builder_addr, self.project_name],stdout=PIPE, stderr=PIPE)
         else:
             Popen(['python3', builder_addr, self.project_name],stdout=PIPE, stderr=PIPE)
+        """
             
     ########################################################################

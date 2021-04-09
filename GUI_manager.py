@@ -17,8 +17,6 @@ class GUIManager(QMainWindow):
 
 
     def causation_extractor(self):
-        #CEGUI().execute()
-        
         self.ui = CEGUI()
         self.w = Window
         self.ui.setupUi(self.w)
@@ -26,8 +24,8 @@ class GUIManager(QMainWindow):
         
         
 
-    def builder(self, project):
-        self.project = project
+    def builder(self):
+        self.project = 'test99'
         controller = Controller()
         controller.update(self.project)
 
@@ -49,7 +47,13 @@ if __name__ == "__main__":
     Window = QtWidgets.QMainWindow()
     Window.show()
     manager = GUIManager()
-    manager.builder()
+    function = {'ce':manager.causation_extractor,
+                'builder':manager.builder,
+                'runner':manager.runner}
+    if len(sys.argv) > 1:
+        function[sys.argv[1]]()
+    else:
+        manager.builder()
     sys.exit(app.exec())
     
     # main should start builder
