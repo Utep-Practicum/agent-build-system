@@ -105,6 +105,7 @@ class NewProject(QtWidgets.QDialog):
             self.error_label.setHidden(False)
             print("Project Name Already Exists")
 
+'''
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -112,3 +113,4 @@ if __name__ == "__main__":
     ui = NewProject(Form)
     Form.show()
     sys.exit(app.exec_())
+'''

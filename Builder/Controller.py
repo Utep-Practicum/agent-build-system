@@ -1,4 +1,4 @@
-from Relation import *
+from Builder.Relation import *
 import json
 import os
 
@@ -23,7 +23,7 @@ class Controller:
             file_list.append(file)
         file_list.sort()
         for file_name in file_list:
-            with open(directory + file_name, 'r') as relation:
+            with open(relationship_dir + file_name, 'r') as relation:
                 self.relationships_main.append(Relation(json.load(relation)))
         ######################################################
         # self.relationships_main.append(Relation(relationship))

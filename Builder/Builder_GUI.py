@@ -9,10 +9,10 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Edit import *
-from NewSalientArtifact import *
-from Controller import *
-from NewEdit import *
+from Builder.Edit import *
+from Builder.NewSalientArtifact import *
+from Builder.Controller import *
+from Builder.NewEdit import *
 
 import json
 import sys
@@ -252,7 +252,6 @@ class Ui_BuilderWindow(object):
     def execute(self):
         app = QtWidgets.QApplication(sys.argv)
         BuilderWindow = QtWidgets.QMainWindow()
-        # ui = Ui_BuilderWindow()
         self.setupUi(BuilderWindow)
         BuilderWindow.show()
         sys.exit(app.exec_())

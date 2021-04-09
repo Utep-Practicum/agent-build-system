@@ -10,13 +10,20 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
-from Analysis_GUI import Ui_Analyzing_Window
-from ceBackend import *
-from saveProject import *
+
+from Causation_Extractor.Analysis_GUI import *
+from Causation_Extractor.ceBackend import *
+from Causation_Extractor.NewProject import *
+
 import os  # os and json are used for dir json aggregation for now
+import sys
 
 
-class Ui_CEWindow(QMainWindow):
+class CEGUI(QWidget):
+
+    def __init__(self):
+        super().__init__()
+
     def setupUi(self, CEWindow):
         CEWindow.setObjectName("CEWindow")
         CEWindow.resize(689, 250)
@@ -27,7 +34,7 @@ class Ui_CEWindow(QMainWindow):
         self.Browse_Button = QtWidgets.QPushButton(self.centralwidget)
         self.Browse_Button.setGeometry(QtCore.QRect(110, 60, 121, 31))
         font = QtGui.QFont()
-        font.setFamily("MS Sans Serif")
+        font.setFamily("arial")
         font.setPointSize(15)
         self.Browse_Button.setFont(font)
         self.Browse_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
@@ -64,7 +71,7 @@ class Ui_CEWindow(QMainWindow):
 
         self.time_label = QtWidgets.QLabel(self.centralwidget)
         self.time_label.setGeometry(QtCore.QRect(110, 100, 111, 31))
-        font.setFamily("MS Sans Serif")
+        font.setFamily("arial")
         font.setPointSize(12)
         self.time_label.setFont(font)
         self.time_label.setStyleSheet("color: black;")
@@ -191,12 +198,9 @@ class Ui_CEWindow(QMainWindow):
         self.actionREADME.setText(_translate("CEWindow", "README"))
 
 
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    CEWindow = QtWidgets.QMainWindow()
-    ui = Ui_CEWindow()
-    ui.setupUi(CEWindow)
-    CEWindow.show()
-    sys.exit(app.exec())
+    def execute(self):
+        app = QtWidgets.QApplication(sys.argv)
+        CEWindow = QtWidgets.QMainWindow()
+        self.setupUi(CEWindow)
+        CEWindow.show()
+        sys.exit(app.exec())

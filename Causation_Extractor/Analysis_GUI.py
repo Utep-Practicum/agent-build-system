@@ -10,13 +10,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
-from ceBackend import ceBackend
 from PyQt5.QtWidgets import QWidget
+
 import time
 import os
 import subprocess
 import platform
+import sys
 
+from Causation_Extractor.ceBackend import ceBackend
+from GUI_manager import GUIManager
 
 class Ui_Analyzing_Window(QWidget):
 
@@ -151,9 +154,13 @@ class Ui_Analyzing_Window(QWidget):
 
     ######################## OPEN BUILDER ##################################
     def open_builder(self):
-        builder_addr = 'Builder/Controller.py'
+        sys.exit()
+        GUIManager().builder()
+
+        '''
         if platform.system() == "Windows":
             subprocess.call(['python', builder_addr])
         else:
             subprocess.call(['python3', builder_addr])
             ########################################################################
+        '''
