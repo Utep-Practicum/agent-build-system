@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import QWidget
 
 import time
 import os
-import subprocess
+from subprocess import Popen,PIPE
 import platform
 import sys
 
@@ -23,7 +23,7 @@ from GUI_manager import GUIManager
 
 class Ui_Analyzing_Window(QWidget):
 
-    def setupUi(self, Analyzing_Window):
+    def setupUi(self, Analyzing_Window,CEWindow):
         Analyzing_Window.setObjectName("Analyzing_Window")
         Analyzing_Window.resize(690, 365)
         Analyzing_Window.setStyleSheet("background-color: white;")
@@ -115,7 +115,10 @@ class Ui_Analyzing_Window(QWidget):
         QtCore.QMetaObject.connectSlotsByName(Analyzing_Window)
 
         ######################## BUTTON ACTIONS ######################################
+        self.Export.clicked.connect(Analyzing_Window.close)
+        self.Export.clicked.connect(CEWindow.close)
         self.Export.clicked.connect(self.open_builder)
+        
         ##############################################################################
 
     def retranslateUi(self, Analyzing_Window):
@@ -131,6 +134,7 @@ class Ui_Analyzing_Window(QWidget):
         self.Export.setText(_translate("Analyzing_Window", "Export to builder"))
 
     def progressBar_update(self, count, project_name, time_frame):
+        self.project_name = project_name
         causationObject = ceBackend()
         QtWidgets.qApp.processEvents()
         frac = round(100 / count, 1)
@@ -153,14 +157,10 @@ class Ui_Analyzing_Window(QWidget):
         self.Relationships_A.setText(str(len(relationshipList)))
 
     ######################## OPEN BUILDER ##################################
-    def open_builder(self):
-        sys.exit()
-        GUIManager().builder()
-
-        '''
+    def open_builder(self):       
         if platform.system() == "Windows":
-            subprocess.call(['python', builder_addr])
+            Popen(['python', builder_addr, self.project_name],stdout=PIPE, stderr=PIPE)
         else:
-            subprocess.call(['python3', builder_addr])
-            ########################################################################
-        '''
+            Popen(['python3', builder_addr, self.project_name],stdout=PIPE, stderr=PIPE)
+            
+    ########################################################################

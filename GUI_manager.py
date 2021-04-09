@@ -19,17 +19,17 @@ class GUIManager(QMainWindow):
     def causation_extractor(self):
         #CEGUI().execute()
         
-        ui = CEGUI()
+        self.ui = CEGUI()
         self.w = Window
-        ui.setupUi(self.w)
+        self.ui.setupUi(self.w)
         self.w.show()
         
         
 
-    def builder(self):
-        project = '/Users/Rick/Desktop/My Documents/VSCode/Practicum/agent-build-system/Project Data/test12'
+    def builder(self, project):
+        self.project = project
         controller = Controller()
-        controller.update(project)
+        controller.update(self.project)
 
         # I already got the relations
         # pass them to the Builder_GUI
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     Window = QtWidgets.QMainWindow()
     Window.show()
     manager = GUIManager()
-    manager.causation_extractor()
+    manager.builder()
     sys.exit(app.exec())
     
     # main should start builder

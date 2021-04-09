@@ -154,7 +154,7 @@ class CEGUI(QWidget):
         self.hide()
         self.Analyzing_Window = QtWidgets.QDialog()
         self.ui = Ui_Analyzing_Window()
-        self.ui.setupUi(self.Analyzing_Window)
+        self.ui.setupUi(self.Analyzing_Window,CEWindow)
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()
         if self.time_input.text():
