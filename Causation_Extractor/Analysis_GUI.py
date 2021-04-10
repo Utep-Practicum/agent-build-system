@@ -158,13 +158,11 @@ class Ui_Analyzing_Window(QWidget):
 
     ######################## OPEN BUILDER ##################################
     def open_builder(self):
-        builder_addr = 'Builder/Controller.py'
-        GUIManager().builder(self.project_name)
-        """       
+
         if platform.system() == "Windows":
-            Popen(['python', builder_addr, self.project_name],stdout=PIPE, stderr=PIPE)
+            Popen(['python', 'GUI_manager.py', 'builder', self.project_name],stdout=PIPE, stderr=PIPE)
         else:
-            Popen(['python3', builder_addr, self.project_name],stdout=PIPE, stderr=PIPE)
-        """
+            Popen(['python3', 'GUI_manager.py', 'builder', self.project_name],stdout=PIPE, stderr=PIPE)
+        
             
     ########################################################################

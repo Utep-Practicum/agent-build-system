@@ -24,14 +24,18 @@ class GUIManager(QMainWindow):
         
         
 
-    def builder(self):
-        self.project = 'test99'
+    def builder(self,name = None):
         controller = Controller()
-        controller.update(self.project)
+        if name == None:
+            Ui_BuilderWindow(controller)
+        else:
+            self.project = name
+            controller = Controller()
+            controller.update(self.project)
 
-        # I already got the relations
-        # pass them to the Builder_GUI
-        builder_window = Ui_BuilderWindow(controller)
+            # I already got the relations
+            # pass them to the Builder_GUI
+            Ui_BuilderWindow(controller)
 
         # This is just a print...
         for relation in controller.relationships_main:
@@ -50,8 +54,10 @@ if __name__ == "__main__":
     function = {'ce':manager.causation_extractor,
                 'builder':manager.builder,
                 'runner':manager.runner}
-    if len(sys.argv) > 1:
+    if len(sys.argv) == 2:
         function[sys.argv[1]]()
+    elif len(sys.argv) == 3:
+        function[sys.argv[1]](sys.argv[2])
     else:
         manager.builder()
     sys.exit(app.exec())
