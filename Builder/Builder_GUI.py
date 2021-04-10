@@ -193,19 +193,12 @@ class Ui_BuilderWindow(object):
         self.Relationship_list.itemClicked.connect(self.displayContent)
 
     def displaySearchResults(self, text):
-        self.search_dictionary = {}
-        for relationship in self.relations_dictionary:
-            relationship_added = False
-            for relation in self.relations_dictionary.get(relationship):
-                if text in str(relation):
-                    if relationship_added == False:
-                        self.search_dictionary[relationship] = [relation]
-                        relationship_added = True
-                    self.search_dictionary[relationship].append(relation)
-
         self.Relationship_list.clear()
-        for relation_name in self.search_dictionary.keys():
-            self.Relationship_list.addItem(relation_name)
+        # For each relation add them to the relations display list
+        for relation in self.controller_object.search(text):
+            self.Relationship_list.addItem(relation.name)
+
+        self.Relationship_list.itemClicked.connect(self.displayContent)
 
     ##################################### Display the content in the Detail Box ########################################
     def displayContent(self, item):

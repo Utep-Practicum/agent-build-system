@@ -19,10 +19,18 @@ class Relation:
 class Observation:
 
     def __init__(self, node):
+        # Data details and contents
         self.start = node['start']
         self.data = node['data']
         self.data_type = node['data_type']
         self.artifact = node['artifact']
+
+        # Depicts the time to wait before looking for observation or executing script
+        self.delay = 0
+
+        # Information to create script
+        self.user_action = False
+        self.script = None
 
     def show(self):
         string = "start: " + str(self.start) + ', ' + "data_type: " + str(self.data_type) + ', ' + "artifact: " + str(self.artifact) + ', ' + "data: " + str(self.data)

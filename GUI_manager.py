@@ -2,7 +2,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 
 from Causation_Extractor.CE_GUI import *
-#from Causation_Extractor.Analysis_GUI import *
 
 from Builder.Controller import *
 from Builder.Builder_GUI import *

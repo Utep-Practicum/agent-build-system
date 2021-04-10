@@ -43,14 +43,14 @@ class Controller:
         self.relationships_main.append(self.dependencies_main.pop(self.dependencies_main.index(relationship_name)))
 
 
-    def get(self, keyword = '', table = 'relationships'):
+    def search(self, keyword = '', table = 'relationships'):
         search = []
         if table.lower() == 'relationships':
             if keyword == '' or keyword == None:
                 return self.relationships_main
             else:
                 for relation in self.relationships_main:
-                    for item in relation:
+                    for item in relation.observation_list:
                         if keyword in item.show():
                             search.append(relation)
                             break
@@ -60,7 +60,7 @@ class Controller:
                 return self.dependencies_main
             else:
                 for relation in self.dependencies_main:
-                    for item in relation:
+                    for item in relation.observation_list:
                         if keyword in item.show():
                             search.append(relation)
                             break
