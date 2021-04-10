@@ -116,7 +116,8 @@ class Ui_BuilderWindow(object):
         self.delete_button.setFont(font)
         self.delete_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.delete_button.setObjectName("delete_button")
-        
+        self.edit_button.clicked.connect(self.delete_observation)
+
         ##################### Generate Script Button ################################
         self.script_button = QtWidgets.QPushButton(self.centralwidget)
         self.script_button.setGeometry(QtCore.QRect(500, 660, 241, 41))
@@ -158,6 +159,7 @@ class Ui_BuilderWindow(object):
         self.displayRelations()
         self.disable_edit_button()
         self.disable_delete_button()
+        self.disable_script_button()
 
     ############ Open Edit Window ####################
     def edit_observation(self):
@@ -231,6 +233,7 @@ class Ui_BuilderWindow(object):
 
         self.disable_edit_button()
         self.disable_delete_button()
+        
         self.details_list.itemClicked.connect(self.enable_edit_button)
         self.details_list.itemClicked.connect(self.enable_delete_button)
     def passDependency(self):
@@ -250,7 +253,6 @@ class Ui_BuilderWindow(object):
         self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
     ###################### Delete Button Functions ##################################
-    
     def delete_observation(self):
         pass
     
@@ -261,6 +263,15 @@ class Ui_BuilderWindow(object):
     def enable_delete_button(self):
         self.delete_button.setEnabled(True)
         self.delete_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
+    ###################### Script Button Functions #########################
+    def disable_script_button(self):
+        self.script_button.setEnabled(False)
+        self.script_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
+    def enable_script_button(self):
+        self.script_button.setEnabled(True)
+        self.script_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
 
     ###################### Import Project Function -Seb #############################
