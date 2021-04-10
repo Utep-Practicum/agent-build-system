@@ -90,7 +90,7 @@ class Ui_BuilderWindow(object):
 
         ##################### Relationship -> Dependency Button #####################
         self.move_button = QtWidgets.QPushButton(self.centralwidget)
-        self.move_button.setGeometry(QtCore.QRect(340, 180, 100, 75))
+        self.move_button.setGeometry(QtCore.QRect(340, 221, 100, 75))
         self.move_button.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.move_button.setFont(font)
@@ -101,13 +101,21 @@ class Ui_BuilderWindow(object):
 
         ##################### Edit Artifact Button #################################
         self.edit_button = QtWidgets.QPushButton(self.centralwidget)
-        self.edit_button.setGeometry(QtCore.QRect(340, 261, 100, 75))
+        self.edit_button.setGeometry(QtCore.QRect(340, 302, 100, 75))
         self.edit_button.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.edit_button.setFont(font)
         self.edit_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.edit_button.setObjectName("edit_button")
         self.edit_button.clicked.connect(self.edit_observation)
+
+        ##################### Delete Artifact Button ################################
+        self.delete_button = QtWidgets.QPushButton(self.centralwidget)
+        self.delete_button.setGeometry(QtCore.QRect(340, 140, 100, 75))
+        self.delete_button.setMinimumSize(QtCore.QSize(100, 75))
+        self.delete_button.setFont(font)
+        self.delete_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.delete_button.setObjectName("delete_button")
 
         ###################### Menu Top Bar #########################################
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
@@ -158,6 +166,7 @@ class Ui_BuilderWindow(object):
         self.search_label.setText(_translate("BuilderWindow", "Search"))
         self.edit_button.setText(_translate("BuilderWindow", "Edit"))
         # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
+        self.delete_button.setText(_translate("BuilderWindow", "Delete"))
         self.move_button.setText(_translate("BuilderWindow", ">>"))
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
         self.action_save_project.setText(_translate("BuilderWindow", "Save Project"))
