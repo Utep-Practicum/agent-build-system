@@ -33,7 +33,7 @@ class Ui_BuilderWindow(object):
         BuilderWindow.resize(778, 720)
         BuilderWindow.setStyleSheet("background-color: #f4f5f7;")
         self.centralwidget = QtWidgets.QWidget(BuilderWindow)
-        self.centralwidget.setMinimumSize(QtCore.QSize(778, 579))
+        self.centralwidget.setMinimumSize(QtCore.QSize(778, 710))
         self.centralwidget.setObjectName("centralwidget")
         font = QtGui.QFont()
 
@@ -116,6 +116,14 @@ class Ui_BuilderWindow(object):
         self.delete_button.setFont(font)
         self.delete_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.delete_button.setObjectName("delete_button")
+        
+        ##################### Generate Script Button ################################
+        self.script_button = QtWidgets.QPushButton(self.centralwidget)
+        self.script_button.setGeometry(QtCore.QRect(500, 660, 241, 41))
+        font.setPointSize(14)
+        self.script_button.setFont(font)
+        self.script_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.script_button.setObjectName("script_button")
 
         ###################### Menu Top Bar #########################################
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
@@ -149,6 +157,7 @@ class Ui_BuilderWindow(object):
         ############ Call the method to display relations #####################
         self.displayRelations()
         self.disable_edit_button()
+        self.disable_delete_button()
 
     ############ Open Edit Window ####################
     def edit_observation(self):
@@ -167,6 +176,7 @@ class Ui_BuilderWindow(object):
         self.edit_button.setText(_translate("BuilderWindow", "Edit"))
         # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
         self.delete_button.setText(_translate("BuilderWindow", "Delete"))
+        self.script_button.setText(_translate("BuilderWindow", "Generate Script"))
         self.move_button.setText(_translate("BuilderWindow", ">>"))
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
         self.action_save_project.setText(_translate("BuilderWindow", "Save Project"))
@@ -220,8 +230,9 @@ class Ui_BuilderWindow(object):
             self.details_list.addItem(observation.show())
 
         self.disable_edit_button()
+        self.disable_delete_button()
         self.details_list.itemClicked.connect(self.enable_edit_button)
-
+        self.details_list.itemClicked.connect(self.enable_delete_button)
     def passDependency(self):
         """
         If the dependency is not in the list, then added to out dependcy list, and display it.
@@ -237,6 +248,20 @@ class Ui_BuilderWindow(object):
     def enable_edit_button(self):
         self.edit_button.setEnabled(True)
         self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
+    ###################### Delete Button Functions ##################################
+    
+    def delete_observation(self):
+        pass
+    
+    def disable_delete_button(self):
+        self.delete_button.setEnabled(False)
+        self.delete_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
+    def enable_delete_button(self):
+        self.delete_button.setEnabled(True)
+        self.delete_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
 
     ###################### Import Project Function -Seb #############################
     def importProject(self):
