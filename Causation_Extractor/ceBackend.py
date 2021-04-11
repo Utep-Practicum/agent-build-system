@@ -4,7 +4,7 @@ import datetime  # For observation grouping
 import re  # for regex in artifact discovery
 import os
 from dateutil.parser import parse  # normalize packet time method
-from pcap_import import pcapImport
+from Causation_Extractor.pcap_import import pcapImport
 
 class ceBackend:
 

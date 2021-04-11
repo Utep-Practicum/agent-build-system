@@ -10,24 +10,32 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
-from Analysis_GUI import Ui_Analyzing_Window
-from ceBackend import *
-from saveProject import *
+
+from Causation_Extractor.Analysis_GUI import *
+from Causation_Extractor.ceBackend import *
+from Causation_Extractor.NewProject import *
+
 import os  # os and json are used for dir json aggregation for now
+import sys
 
 
-class Ui_CEWindow(QMainWindow):
+class CEGUI(QWidget):
+
+    def __init__(self):
+        super().__init__()
+
     def setupUi(self, CEWindow):
-        CEWindow.setObjectName("CEWindow")
-        CEWindow.resize(689, 250)
-        CEWindow.setMinimumSize(QtCore.QSize(650, 250))
-        CEWindow.setStyleSheet("background-color: white;")
-        self.centralwidget = QtWidgets.QWidget(CEWindow)
+        self.CEWindow = CEWindow
+        self.CEWindow.setObjectName("CEWindow")
+        self.CEWindow.resize(689, 250)
+        self.CEWindow.setMinimumSize(QtCore.QSize(650, 250))
+        self.CEWindow.setStyleSheet("background-color: white;")
+        self.centralwidget = QtWidgets.QWidget(self.CEWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.Browse_Button = QtWidgets.QPushButton(self.centralwidget)
         self.Browse_Button.setGeometry(QtCore.QRect(110, 60, 121, 31))
         font = QtGui.QFont()
-        font.setFamily("MS Sans Serif")
+        font.setFamily("arial")
         font.setPointSize(15)
         self.Browse_Button.setFont(font)
         self.Browse_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
@@ -64,19 +72,19 @@ class Ui_CEWindow(QMainWindow):
 
         self.time_label = QtWidgets.QLabel(self.centralwidget)
         self.time_label.setGeometry(QtCore.QRect(110, 100, 111, 31))
-        font.setFamily("MS Sans Serif")
+        font.setFamily("arial")
         font.setPointSize(12)
         self.time_label.setFont(font)
         self.time_label.setStyleSheet("color: black;")
         self.time_label.setObjectName("time_label")
-        CEWindow.setCentralWidget(self.centralwidget)
+        self.CEWindow.setCentralWidget(self.centralwidget)
 
         self.time_input = QtWidgets.QLineEdit(self.centralwidget)
         self.time_input.setGeometry(QtCore.QRect(240, 100, 341, 31))
         self.time_input.setStyleSheet("color: black;")
         self.time_input.setObjectName("time_input")
-        CEWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(CEWindow)
+        self.CEWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.CEWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 689, 21))
         self.menubar.setObjectName("menubar")
         self.menubar.setStyleSheet("color: black")
@@ -88,20 +96,20 @@ class Ui_CEWindow(QMainWindow):
         self.menuHelp.setObjectName("menuHelp")
         self.menuNew_Project.setStyleSheet("color: black")
 
-        CEWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(CEWindow)
+        self.CEWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.CEWindow)
         self.statusbar.setObjectName("statusbar")
-        CEWindow.setStatusBar(self.statusbar)
+        self.CEWindow.setStatusBar(self.statusbar)
 
-        self.actionSave_Project = QtWidgets.QAction(CEWindow)
+        self.actionSave_Project = QtWidgets.QAction(self.CEWindow)
         self.actionSave_Project.setObjectName("actionSave_Project")
         self.actionSave_Project.triggered.connect(self.save_Project)
 
-        self.actionExit = QtWidgets.QAction(CEWindow)
+        self.actionExit = QtWidgets.QAction(self.CEWindow)
         self.actionExit.setObjectName("actionExit")
-        self.actionExit.triggered.connect(CEWindow.close)
+        self.actionExit.triggered.connect(self.CEWindow.close)
 
-        self.actionREADME = QtWidgets.QAction(CEWindow)
+        self.actionREADME = QtWidgets.QAction(self.CEWindow)
         self.actionREADME.setObjectName("actionREADME")
         self.menuNew_Project.addAction(self.actionSave_Project)
         self.menuNew_Project.addAction(self.actionExit)
@@ -112,11 +120,11 @@ class Ui_CEWindow(QMainWindow):
         ################## TIME FRAME ##############################
         self.time_frame = 5
 
-        self.retranslateUi(CEWindow)
-        QtCore.QMetaObject.connectSlotsByName(CEWindow)
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self.CEWindow)
 
-        self.retranslateUi(CEWindow)
-        QtCore.QMetaObject.connectSlotsByName(CEWindow)
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self.CEWindow)
 
         ################# PROJECT NAME #############################
         self.project_name = ""
@@ -147,7 +155,7 @@ class Ui_CEWindow(QMainWindow):
         self.hide()
         self.Analyzing_Window = QtWidgets.QDialog()
         self.ui = Ui_Analyzing_Window()
-        self.ui.setupUi(self.Analyzing_Window)
+        self.ui.setupUi(self.Analyzing_Window,self.CEWindow)
         self.Analyzing_Window.show()
         QtWidgets.qApp.processEvents()
         if self.time_input.text():
@@ -176,27 +184,18 @@ class Ui_CEWindow(QMainWindow):
             self.SaveProject_Button.setStyleSheet(
                 "background-color: rgba(18, 51, 62, 80%);; color: #FFFFFF; border-radius: 5px;")
 
-    def retranslateUi(self, CEWindow):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        CEWindow.setWindowTitle(_translate("CEWindow", "Agent Build System"))
-        self.Browse_Button.setText(_translate("CEWindow", "Browse"))
-        self.Analyze_Button.setText(_translate("CEWindow", "Analyze"))
-        self.SaveProject_Button.setText(_translate("CEWindow", "Save Project"))
-        self.label.setText(_translate("CEWindow", "Agent Build System"))
-        self.time_label.setText(_translate("CEWindow", "Time Frame:"))
-        self.menuNew_Project.setTitle(_translate("CEWindow", "Project"))
-        self.menuHelp.setTitle(_translate("CEWindow", "Help"))
-        self.actionSave_Project.setText(_translate("CEWindow", "Save Project"))
-        self.actionExit.setText(_translate("CEWindow", "Exit"))
-        self.actionREADME.setText(_translate("CEWindow", "README"))
+        self.CEWindow.setWindowTitle(_translate("self.CEWindow", "Agent Build System"))
+        self.Browse_Button.setText(_translate("self.CEWindow", "Browse"))
+        self.Analyze_Button.setText(_translate("self.CEWindow", "Analyze"))
+        self.SaveProject_Button.setText(_translate("self.CEWindow", "Save Project"))
+        self.label.setText(_translate("self.CEWindow", "Agent Build System"))
+        self.time_label.setText(_translate("self.CEWindow", "Time Frame:"))
+        self.menuNew_Project.setTitle(_translate("self.CEWindow", "Project"))
+        self.menuHelp.setTitle(_translate("self.CEWindow", "Help"))
+        self.actionSave_Project.setText(_translate("self.CEWindow", "Save Project"))
+        self.actionExit.setText(_translate("self.CEWindow", "Exit"))
+        self.actionREADME.setText(_translate("self.CEWindow", "README"))
 
 
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    CEWindow = QtWidgets.QMainWindow()
-    ui = Ui_CEWindow()
-    ui.setupUi(CEWindow)
-    CEWindow.show()
-    sys.exit(app.exec())

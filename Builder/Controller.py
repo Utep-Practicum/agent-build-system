@@ -1,4 +1,4 @@
-from Relation import *
+from Builder.Relation import *
 import json
 import os
 
@@ -17,17 +17,16 @@ class Controller:
         """
         # Import relationships into the controller
         """
-        relationship_dir = self.project_name + '/CE/Relationships/'
+        relationship_dir = 'Project Data/' + self.project_name + '/CE/Relationships/'
         file_list = []
         for file in os.listdir(relationship_dir):
             file_list.append(file)
         file_list.sort()
         for file_name in file_list:
-            with open(directory + file_name, 'r') as relation:
+            with open(relationship_dir + file_name, 'r') as relation:
                 self.relationships_main.append(Relation(json.load(relation)))
         ######################################################
         # self.relationships_main.append(Relation(relationship))
-
 
     def move_to_dependency(self, relationship_name):
         """
@@ -43,14 +42,14 @@ class Controller:
         self.relationships_main.append(self.dependencies_main.pop(self.dependencies_main.index(relationship_name)))
 
 
-    def get(self, keyword = '', table = 'relationships'):
+    def search(self, keyword = '', table = 'relationships'):
         search = []
         if table.lower() == 'relationships':
             if keyword == '' or keyword == None:
                 return self.relationships_main
             else:
                 for relation in self.relationships_main:
-                    for item in relation:
+                    for item in relation.observation_list:
                         if keyword in item.show():
                             search.append(relation)
                             break
@@ -60,7 +59,7 @@ class Controller:
                 return self.dependencies_main
             else:
                 for relation in self.dependencies_main:
-                    for item in relation:
+                    for item in relation.observation_list:
                         if keyword in item.show():
                             search.append(relation)
                             break

@@ -9,15 +9,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Edit import *
-from NewSalientArtifact import *
-from Controller import *
-from NewEdit import *
+from Builder.EditForm import *
+from Builder.Controller import *
+from Builder.EditForm import *
 
 import json
 import sys
 
-class Ui_BuilderWindow(object):
+class Builder_GUI(object):
 
     def __init__(self, controller):
         self.controller_object = controller
@@ -33,7 +32,7 @@ class Ui_BuilderWindow(object):
         BuilderWindow.resize(778, 720)
         BuilderWindow.setStyleSheet("background-color: #f4f5f7;")
         self.centralwidget = QtWidgets.QWidget(BuilderWindow)
-        self.centralwidget.setMinimumSize(QtCore.QSize(778, 579))
+        self.centralwidget.setMinimumSize(QtCore.QSize(778, 710))
         self.centralwidget.setObjectName("centralwidget")
         font = QtGui.QFont()
 
@@ -53,11 +52,11 @@ class Ui_BuilderWindow(object):
         self.search_input.textChanged.connect(self.displaySearchResults)
 
         ######################### Detail List #########################
-        self.details_list = QtWidgets.QListWidget(self.centralwidget)
-        self.details_list.setGeometry(QtCore.QRect(20, 431, 721, 221))
-        self.details_list.setObjectName("details_list")
-        self.details_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.details_list.setDragEnabled(True)
+        self.Details_list = QtWidgets.QListWidget(self.centralwidget)
+        self.Details_list.setGeometry(QtCore.QRect(20, 431, 721, 221))
+        self.Details_list.setObjectName("Details_list")
+        self.Details_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.Details_list.setDragEnabled(True)
 
         ##################### Relationships Label ##################################
         self.relationships_label = QtWidgets.QLabel(self.centralwidget)
@@ -101,13 +100,30 @@ class Ui_BuilderWindow(object):
 
         ##################### Edit Artifact Button #################################
         self.edit_button = QtWidgets.QPushButton(self.centralwidget)
-        self.edit_button.setGeometry(QtCore.QRect(340, 261, 100, 75))
+        self.edit_button.setGeometry(QtCore.QRect(340, 302, 100, 75))
         self.edit_button.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.edit_button.setFont(font)
         self.edit_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.edit_button.setObjectName("edit_button")
         self.edit_button.clicked.connect(self.edit_observation)
+
+        ##################### Delete Artifact Button ################################
+        self.delete_button = QtWidgets.QPushButton(self.centralwidget)
+        self.delete_button.setGeometry(QtCore.QRect(340, 140, 100, 75))
+        self.delete_button.setMinimumSize(QtCore.QSize(100, 75))
+        self.delete_button.setFont(font)
+        self.delete_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.delete_button.setObjectName("delete_button")
+        self.delete_button.clicked.connect(self.delete_observation)
+
+        ##################### Generate Script Button ################################
+        self.script_button = QtWidgets.QPushButton(self.centralwidget)
+        self.script_button.setGeometry(QtCore.QRect(500, 660, 241, 41))
+        font.setPointSize(14)
+        self.script_button.setFont(font)
+        self.script_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.script_button.setObjectName("script_button")
 
         ###################### Menu Top Bar #########################################
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
@@ -144,7 +160,7 @@ class Ui_BuilderWindow(object):
 
     ############ Open Edit Window ####################
     def edit_observation(self):
-        self.edit_form = EditForm(self.details_list.currentItem())
+        self.edit_form = EditForm(self.Details_list.currentItem(), self.relation_selected, self)
 
     def openFilter(self):
         self.wind = NewSalientArtifact()
@@ -158,6 +174,8 @@ class Ui_BuilderWindow(object):
         self.search_label.setText(_translate("BuilderWindow", "Search"))
         self.edit_button.setText(_translate("BuilderWindow", "Edit"))
         # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
+        self.delete_button.setText(_translate("BuilderWindow", "Delete"))
+        self.script_button.setText(_translate("BuilderWindow", "Generate Script"))
         self.move_button.setText(_translate("BuilderWindow", ">>"))
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
         self.action_save_project.setText(_translate("BuilderWindow", "Save Project"))
@@ -172,19 +190,12 @@ class Ui_BuilderWindow(object):
         self.Relationship_list.itemClicked.connect(self.displayContent)
 
     def displaySearchResults(self, text):
-        self.search_dictionary = {}
-        for relationship in self.relations_dictionary:
-            relationship_added = False
-            for relation in self.relations_dictionary.get(relationship):
-                if text in str(relation):
-                    if relationship_added == False:
-                        self.search_dictionary[relationship] = [relation]
-                        relationship_added = True
-                    self.search_dictionary[relationship].append(relation)
-
         self.Relationship_list.clear()
-        for relation_name in self.search_dictionary.keys():
-            self.Relationship_list.addItem(relation_name)
+        # For each relation add them to the relations display list
+        for relation in self.controller_object.search(text):
+            self.Relationship_list.addItem(relation.name)
+
+        self.Relationship_list.itemClicked.connect(self.displayContent)
 
     ##################################### Display the content in the Detail Box ########################################
     def displayContent(self, item):
@@ -194,7 +205,7 @@ class Ui_BuilderWindow(object):
         Finally, for each observation, it will be added in the Detail list
         """
 
-        self.details_list.clear()
+        self.Details_list.clear()
 
         self.dependency = "Dependency " + item.text().split(" ")[1]
         print(item)
@@ -208,10 +219,19 @@ class Ui_BuilderWindow(object):
         self.relation_selected = found_relation
 
         for observation in found_relation.observation_list:
-            self.details_list.addItem(observation.show())
+            self.Details_list.addItem(observation.show())
 
         self.disable_edit_button()
-        self.details_list.itemClicked.connect(self.enable_edit_button)
+        self.Details_list.itemClicked.connect(self.enable_edit_button)
+
+    def displayObservationAfterEdit(self):
+        self.Details_list.clear()
+
+        for observation in self.relation_selected.observation_list:
+            self.Details_list.addItem(observation.show())
+        self.disable_edit_button()
+        self.Details_list.itemClicked.connect(self.enable_edit_button)
+
 
     def passDependency(self):
         """
@@ -228,6 +248,54 @@ class Ui_BuilderWindow(object):
     def enable_edit_button(self):
         self.edit_button.setEnabled(True)
         self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
+    ###################### Delete Button Functions ##################################
+    def delete_observation(self):
+        selectedRelationship = self.Relationship_list.selectedItems() #Stores relationship that was selected
+        selectItems = self.details_list.selectedItems() #Stores item that was selected        
+        
+        #======================Copied displayContent code here===================================================
+        selectedObservationText = selectItems[0].text() #Called before clear to avoid segmentation fault
+        self.details_list.clear()
+
+        
+        #Look for relation that matches clicked relationship
+        found_relation = None
+        for relation_loop in self.controller_object.relationships_main:
+            if selectedRelationship[0].text() == relation_loop.name:
+                found_relation = relation_loop
+                #print("found relation",found_relation.name) #DEBUG
+
+        #self.relation_selected = found_relation #Maybe don't need this, left in here just in case
+
+        #Go through observations from selected relationship, if observation matches selected observation, remove entirely
+        for observation in found_relation.observation_list:    
+            if observation.show() != selectedObservationText:
+                self.details_list.addItem(observation.show()) 
+            else:
+                found_relation.observation_list.remove(observation) #Kick that guy out of the club until project is reimported.
+                print("removing observation:",observation.show()) #DEBUG
+        #END COPYPASTE==================================================================
+
+        
+    
+    def disable_delete_button(self):
+        self.delete_button.setEnabled(False)
+        self.delete_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
+    def enable_delete_button(self):
+        self.delete_button.setEnabled(True)
+        self.delete_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
+    ###################### Script Button Functions #########################
+    def disable_script_button(self):
+        self.script_button.setEnabled(False)
+        self.script_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
+    def enable_script_button(self):
+        self.script_button.setEnabled(True)
+        self.script_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
 
     ###################### Import Project Function -Seb #############################
     def importProject(self):
@@ -252,7 +320,6 @@ class Ui_BuilderWindow(object):
     def execute(self):
         app = QtWidgets.QApplication(sys.argv)
         BuilderWindow = QtWidgets.QMainWindow()
-        # ui = Ui_BuilderWindow()
         self.setupUi(BuilderWindow)
         BuilderWindow.show()
         sys.exit(app.exec_())
