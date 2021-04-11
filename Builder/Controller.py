@@ -28,7 +28,6 @@ class Controller:
         ######################################################
         # self.relationships_main.append(Relation(relationship))
 
-
     def move_to_dependency(self, relationship_name):
         """
         # Removes relationship from relationship list and translates to dependency list

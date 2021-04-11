@@ -11,15 +11,15 @@ class Relation:
         self.name = "Relationship " + str(self.number)
         self.observation_list = []
         counter += 1
-
-        for item in fields:
-            self.observation_list.append(Observation(item))
+        for index, item in enumerate(fields):
+            self.observation_list.append(Observation(item, index))
 
 
 class Observation:
-
-    def __init__(self, node):
+        
+    def __init__(self, node, index):
         # Data details and contents
+        self.index_observation = index
         self.start = node['start']
         self.data = node['data']
         self.data_type = node['data_type']
@@ -33,7 +33,7 @@ class Observation:
         self.script = None
 
     def show(self):
-        string = "start: " + str(self.start) + ', ' + "data_type: " + str(self.data_type) + ', ' + "artifact: " + str(self.artifact) + ', ' + "data: " + str(self.data)
+        string = str(self.index_observation) + ") " + "start: " + str(self.start) + ', ' + "data_type: " + str(self.data_type) + ', ' + "artifact: " + str(self.artifact) + ', ' + "data: " + str(self.data)
         return string
         
 

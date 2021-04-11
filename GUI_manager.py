@@ -34,7 +34,7 @@ class GUIManager(QMainWindow):
 
             # I already got the relations
             # pass them to the Builder_GUI
-            Ui_BuilderWindow(controller)
+            Builder_GUI(controller)
 
         # This is just a print...
         for relation in controller.relationships_main:

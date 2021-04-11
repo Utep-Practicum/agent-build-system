@@ -10,14 +10,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Builder.Edit import *
-from Builder.NewSalientArtifact import *
 from Builder.Controller import *
-from Builder.NewEdit import *
+from Builder.EditForm import *
 
 import json
 import sys
 
-class Ui_BuilderWindow(object):
+class Builder_GUI(object):
 
     def __init__(self, controller):
         self.controller_object = controller
@@ -53,11 +52,11 @@ class Ui_BuilderWindow(object):
         self.search_input.textChanged.connect(self.displaySearchResults)
 
         ######################### Detail List #########################
-        self.details_list = QtWidgets.QListWidget(self.centralwidget)
-        self.details_list.setGeometry(QtCore.QRect(20, 431, 721, 221))
-        self.details_list.setObjectName("details_list")
-        self.details_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.details_list.setDragEnabled(True)
+        self.Details_list = QtWidgets.QListWidget(self.centralwidget)
+        self.Details_list.setGeometry(QtCore.QRect(20, 431, 721, 221))
+        self.Details_list.setObjectName("Details_list")
+        self.Details_list.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.Details_list.setDragEnabled(True)
 
         ##################### Relationships Label ##################################
         self.relationships_label = QtWidgets.QLabel(self.centralwidget)
@@ -90,7 +89,7 @@ class Ui_BuilderWindow(object):
 
         ##################### Relationship -> Dependency Button #####################
         self.move_button = QtWidgets.QPushButton(self.centralwidget)
-        self.move_button.setGeometry(QtCore.QRect(340, 221, 100, 75))
+        self.move_button.setGeometry(QtCore.QRect(340, 180, 100, 75))
         self.move_button.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.move_button.setFont(font)
@@ -158,12 +157,10 @@ class Ui_BuilderWindow(object):
         ############ Call the method to display relations #####################
         self.displayRelations()
         self.disable_edit_button()
-        self.disable_delete_button()
-        self.disable_script_button()
 
     ############ Open Edit Window ####################
     def edit_observation(self):
-        self.edit_form = EditForm(self.details_list.currentItem())
+        self.edit_form = EditForm(self.Details_list.currentItem(), self.relation_selected, self)
 
     def openFilter(self):
         self.wind = NewSalientArtifact()
@@ -208,7 +205,7 @@ class Ui_BuilderWindow(object):
         Finally, for each observation, it will be added in the Detail list
         """
 
-        self.details_list.clear()
+        self.Details_list.clear()
 
         self.dependency = "Dependency " + item.text().split(" ")[1]
         print(item)
@@ -222,13 +219,20 @@ class Ui_BuilderWindow(object):
         self.relation_selected = found_relation
 
         for observation in found_relation.observation_list:
-            self.details_list.addItem(observation.show())
+            self.Details_list.addItem(observation.show())
 
         self.disable_edit_button()
-        self.disable_delete_button()
-        
-        self.details_list.itemClicked.connect(self.enable_edit_button)
-        self.details_list.itemClicked.connect(self.enable_delete_button)
+        self.Details_list.itemClicked.connect(self.enable_edit_button)
+
+    def displayObservationAfterEdit(self):
+        self.Details_list.clear()
+
+        for observation in self.relation_selected.observation_list:
+            self.Details_list.addItem(observation.show())
+        self.disable_edit_button()
+        self.Details_list.itemClicked.connect(self.enable_edit_button)
+
+
     def passDependency(self):
         """
         If the dependency is not in the list, then added to out dependcy list, and display it.
