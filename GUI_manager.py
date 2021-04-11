@@ -26,7 +26,7 @@ class GUIManager(QMainWindow):
     def builder(self,name = None):
         controller = Controller()
         if name == None:
-            Ui_BuilderWindow(controller)
+            Builder_GUI(controller)
         else:
             self.project = name
             controller = Controller()

@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Builder.Edit import *
+from Builder.EditForm import *
 from Builder.Controller import *
 from Builder.EditForm import *
 
