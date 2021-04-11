@@ -116,7 +116,7 @@ class Ui_BuilderWindow(object):
         self.delete_button.setFont(font)
         self.delete_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.delete_button.setObjectName("delete_button")
-        self.edit_button.clicked.connect(self.delete_observation)
+        self.delete_button.clicked.connect(self.delete_observation)
 
         ##################### Generate Script Button ################################
         self.script_button = QtWidgets.QPushButton(self.centralwidget)
@@ -247,7 +247,33 @@ class Ui_BuilderWindow(object):
 
     ###################### Delete Button Functions ##################################
     def delete_observation(self):
-        pass
+        selectedRelationship = self.Relationship_list.selectedItems() #Stores relationship that was selected
+        selectItems = self.details_list.selectedItems() #Stores item that was selected        
+        
+        #======================Copied displayContent code here===================================================
+        selectedObservationText = selectItems[0].text() #Called before clear to avoid segmentation fault
+        self.details_list.clear()
+
+        
+        #Look for relation that matches clicked relationship
+        found_relation = None
+        for relation_loop in self.controller_object.relationships_main:
+            if selectedRelationship[0].text() == relation_loop.name:
+                found_relation = relation_loop
+                #print("found relation",found_relation.name) #DEBUG
+
+        #self.relation_selected = found_relation #Maybe don't need this, left in here just in case
+
+        #Go through observations from selected relationship, if observation matches selected observation, remove entirely
+        for observation in found_relation.observation_list:    
+            if observation.show() != selectedObservationText:
+                self.details_list.addItem(observation.show()) 
+            else:
+                found_relation.observation_list.remove(observation) #Kick that guy out of the club until project is reimported.
+                print("removing observation:",observation.show()) #DEBUG
+        #END COPYPASTE==================================================================
+
+        
     
     def disable_delete_button(self):
         self.delete_button.setEnabled(False)
