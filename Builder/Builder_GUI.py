@@ -18,6 +18,18 @@ import sys
 import copy
 
 
+def enable_button(button):
+    print("enable")
+    button.setEnabled(True)
+    button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
+
+def disable_button(button):
+    print("disable")
+    button.setEnabled(False)
+    button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
+
 class Builder_GUI(object):
 
     def __init__(self, controller):
@@ -95,13 +107,35 @@ class Builder_GUI(object):
 
         ##################### Relationship -> Dependency Button #####################
         self.move_button = QtWidgets.QPushButton(self.centralwidget)
-        self.move_button.setGeometry(QtCore.QRect(340, 230, 100, 75))
+        self.move_button.setGeometry(QtCore.QRect(340, 130, 100, 75))
         self.move_button.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.move_button.setFont(font)
         self.move_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.move_button.setObjectName("move_button")
         self.move_button.clicked.connect(self.pass_dependency)
+        BuilderWindow.setCentralWidget(self.centralwidget)
+
+        ##################### Dependency -> Relationship Button #####################
+        self.move_button_back = QtWidgets.QPushButton(self.centralwidget)
+        self.move_button_back.setGeometry(QtCore.QRect(340, 220, 100, 75))
+        self.move_button_back.setMinimumSize(QtCore.QSize(100, 75))
+        font.setPointSize(16)
+        self.move_button_back.setFont(font)
+        self.move_button_back.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.move_button_back.setObjectName("move_button")
+        self.move_button_back.clicked.connect(self.pass_relationship)
+        BuilderWindow.setCentralWidget(self.centralwidget)
+
+        #####################  #####################
+        self.undo_button = QtWidgets.QPushButton(self.centralwidget)
+        self.undo_button.setGeometry(QtCore.QRect(340, 310, 100, 75))
+        self.undo_button.setMinimumSize(QtCore.QSize(100, 75))
+        font.setPointSize(16)
+        self.undo_button.setFont(font)
+        self.undo_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.undo_button.setObjectName("move_button")
+        self.undo_button.clicked.connect(self.undo_controller_state)
         BuilderWindow.setCentralWidget(self.centralwidget)
 
         ##################### Edit Artifact Button #################################
@@ -162,7 +196,8 @@ class Builder_GUI(object):
 
         ############ Call the method to display relations #####################
         self.display_relations()
-        self.disable_edit_button()
+        disable_button(self.edit_button)
+        disable_button(self.undo_button)
 
     ############ Open Edit Window ####################
     def edit_observation(self):
@@ -179,6 +214,8 @@ class Builder_GUI(object):
         self.delete_button.setText(_translate("BuilderWindow", "Delete"))
         self.script_button.setText(_translate("BuilderWindow", "Generate Script"))
         self.move_button.setText(_translate("BuilderWindow", ">>"))
+        self.move_button_back.setText(_translate("BuilderWindow", "<<"))
+        self.undo_button.setText(_translate("BuilderWindow", "⏎"))
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
         self.action_save_project.setText(_translate("BuilderWindow", "Save Project"))
         self.action_quit.setText(_translate("BuilderWindow", "Quit"))
@@ -233,7 +270,7 @@ class Builder_GUI(object):
         for observation in found_relation.observation_list:
             self.details_list.addItem(observation.show())
 
-        self.disable_edit_button()
+        disable_button(self.edit_button)
         self.details_list.itemClicked.connect(self.enable_edit_button)
 
     def displayObservationAfterEdit(self):
@@ -241,7 +278,7 @@ class Builder_GUI(object):
 
         for observation in self.relation_selected.observation_list:
             self.details_list.addItem(observation.show())
-        self.disable_edit_button()
+        disable_button(self.edit_button)
         self.details_list.itemClicked.connect(self.enable_edit_button)
 
     def pass_dependency(self):
@@ -251,6 +288,7 @@ class Builder_GUI(object):
         if self.relation_selected is None:
             return
 
+        self.save_controller_state()
         # Add the Dependency on the dependencies_main, which is basically the relation chosen
         if not self.controller_object.move_to_dependency(self.relation_selected):
             return
@@ -261,9 +299,28 @@ class Builder_GUI(object):
         # Display the details of the Dependency selected
         self.dependency_list.itemClicked.connect(self.display_dependency_detail)
 
+    def pass_relationship(self):
+        """
+        If the relatioonship is not in the list, then added to out relationship list, and display it.
+        """
+        if self.relation_selected is None:
+            return
+
+        self.save_controller_state()
+        # Add the Dependency on the dependencies_main, which is basically the relation chosen
+        if not self.controller_object.move_to_relationship(self.relation_selected):
+            return
+        # redisplay both lists
+        self.update_lists()
+
+        # --------------------------------------------------------------
+        # Display the details of the Dependency selected
+
     def display_dependency_detail(self, item):
         self.details_list.clear()
 
+
+        print(item.text())
         found_dependency = None
         for dependency_loop in self.controller_object.dependencies_main:
             if item.text() == dependency_loop.name:
@@ -272,15 +329,8 @@ class Builder_GUI(object):
         self.relation_selected = found_dependency
 
         for observation in found_dependency.observation_list:
+            print(observation.show())
             self.details_list.addItem(observation.show())
-
-    def disable_edit_button(self):
-        self.edit_button.setEnabled(False)
-        self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
-
-    def enable_edit_button(self):
-        self.edit_button.setEnabled(True)
-        self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
     ###################### Delete Button Functions ##################################
     def delete_observation(self):
@@ -309,6 +359,14 @@ class Builder_GUI(object):
                     observation)  # Kick that guy out of the club until project is reimported.
                 print("removing observation:", observation.show())  # DEBUG
         # END COPYPASTE==================================================================
+
+    def disable_edit_button(self):
+        self.edit_button.setEnabled(False)
+        self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
+    def enable_edit_button(self):
+        self.edit_button.setEnabled(True)
+        self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
     def disable_delete_button(self):
         self.delete_button.setEnabled(False)
@@ -352,10 +410,13 @@ class Builder_GUI(object):
     def save_controller_state(self):
         if len(self.undo_stack) > 5:
             self.undo_stack.pop(0)
+        enable_button(self.undo_button)
         self.undo_stack.append(copy.deepcopy(self.controller_object))
 
     def undo_controller_state(self):
         self.controller_object = self.undo_stack.pop()
+        if len(self.undo_stack) < 1:
+            disable_button(self.undo_button)
         self.update_lists()
 
     def execute(self):

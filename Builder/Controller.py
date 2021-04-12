@@ -32,19 +32,21 @@ class Controller:
         """
         # Removes relationship from relationship list and translates to dependency list
         """
-
         if relationship in self.relationships_main:
             relationship.name = "Dependency " + str(relationship.number)
             self.dependencies_main.append(self.relationships_main.pop(self.relationships_main.index(relationship)))
             return True
         return False
     
-    def move_to_relationship(self, relationship_name):
+    def move_to_relationship(self, dependency):
         """
         # Removes dependency from dependency list and translates to relationship list
         """
-        self.relationships_main.append(self.dependencies_main.pop(self.dependencies_main.index(relationship_name)))
-        self.relationships_main.index(relationship_name).name = "Relationship " + str(self.number)
+        if dependency in self.dependencies_main:
+            dependency.name = "Relationship " + str(dependency.number)
+            self.relationships_main.append(self.dependencies_main.pop(self.dependencies_main.index(dependency)))
+            return True
+        return False
 
     def search(self, keyword = '', table = 'relationships'):
         search = []
