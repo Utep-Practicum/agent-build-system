@@ -31,10 +31,10 @@ class Builder_GUI(object):
 
     def setupUi(self, BuilderWindow):
         BuilderWindow.setObjectName("BuilderWindow")
-        BuilderWindow.resize(778, 720)
+        BuilderWindow.resize(778, 750)
         BuilderWindow.setStyleSheet("background-color: #f4f5f7;")
         self.centralwidget = QtWidgets.QWidget(BuilderWindow)
-        self.centralwidget.setMinimumSize(QtCore.QSize(778, 710))
+        self.centralwidget.setMinimumSize(QtCore.QSize(778, 720))
         self.centralwidget.setObjectName("centralwidget")
         font = QtGui.QFont()
 
@@ -107,7 +107,7 @@ class Builder_GUI(object):
         ##################### Edit Artifact Button #################################
         self.edit_button = QtWidgets.QPushButton(self.centralwidget)
         self.edit_button.setGeometry(QtCore.QRect(25, 660, 50, 41))
-        self.edit_button.setMinimumSize(QtCore.QSize(100, 75))
+        self.edit_button.setMinimumSize(QtCore.QSize(100, 41))
         font.setPointSize(16)
         self.edit_button.setFont(font)
         self.edit_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
@@ -117,7 +117,7 @@ class Builder_GUI(object):
         ##################### Delete Artifact Button ################################
         self.delete_button = QtWidgets.QPushButton(self.centralwidget)
         self.delete_button.setGeometry(QtCore.QRect(150, 660, 50, 41))
-        self.delete_button.setMinimumSize(QtCore.QSize(100, 75))
+        self.delete_button.setMinimumSize(QtCore.QSize(100, 41))
         self.delete_button.setFont(font)
         self.delete_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.delete_button.setObjectName("delete_button")
