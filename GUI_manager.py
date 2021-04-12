@@ -60,6 +60,3 @@ if __name__ == "__main__":
     else:
         manager.builder()
     sys.exit(app.exec())
-    
-    # main should start builder
-    # others should call the different methods

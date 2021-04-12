@@ -89,7 +89,7 @@ class Builder_GUI(object):
 
         ##################### Relationship -> Dependency Button #####################
         self.move_button = QtWidgets.QPushButton(self.centralwidget)
-        self.move_button.setGeometry(QtCore.QRect(340, 180, 100, 75))
+        self.move_button.setGeometry(QtCore.QRect(340, 230, 100, 75))
         self.move_button.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.move_button.setFont(font)
@@ -100,7 +100,7 @@ class Builder_GUI(object):
 
         ##################### Edit Artifact Button #################################
         self.edit_button = QtWidgets.QPushButton(self.centralwidget)
-        self.edit_button.setGeometry(QtCore.QRect(340, 302, 100, 75))
+        self.edit_button.setGeometry(QtCore.QRect(25, 660, 50, 41))
         self.edit_button.setMinimumSize(QtCore.QSize(100, 75))
         font.setPointSize(16)
         self.edit_button.setFont(font)
@@ -110,7 +110,7 @@ class Builder_GUI(object):
 
         ##################### Delete Artifact Button ################################
         self.delete_button = QtWidgets.QPushButton(self.centralwidget)
-        self.delete_button.setGeometry(QtCore.QRect(340, 140, 100, 75))
+        self.delete_button.setGeometry(QtCore.QRect(150, 660, 50, 41))
         self.delete_button.setMinimumSize(QtCore.QSize(100, 75))
         self.delete_button.setFont(font)
         self.delete_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
@@ -162,9 +162,6 @@ class Builder_GUI(object):
     def edit_observation(self):
         self.edit_form = EditForm(self.Details_list.currentItem(), self.relation_selected, self)
 
-    def openFilter(self):
-        self.wind = NewSalientArtifact()
-        self.wind.initializeUI()
 
     def retranslateUi(self, BuilderWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -252,11 +249,11 @@ class Builder_GUI(object):
     ###################### Delete Button Functions ##################################
     def delete_observation(self):
         selectedRelationship = self.Relationship_list.selectedItems() #Stores relationship that was selected
-        selectItems = self.details_list.selectedItems() #Stores item that was selected        
+        selectItems = self.Details_list.selectedItems() #Stores item that was selected        
         
         #======================Copied displayContent code here===================================================
         selectedObservationText = selectItems[0].text() #Called before clear to avoid segmentation fault
-        self.details_list.clear()
+        self.Details_list.clear()
 
         
         #Look for relation that matches clicked relationship
@@ -271,7 +268,7 @@ class Builder_GUI(object):
         #Go through observations from selected relationship, if observation matches selected observation, remove entirely
         for observation in found_relation.observation_list:    
             if observation.show() != selectedObservationText:
-                self.details_list.addItem(observation.show()) 
+                self.Details_list.addItem(observation.show()) 
             else:
                 found_relation.observation_list.remove(observation) #Kick that guy out of the club until project is reimported.
                 print("removing observation:",observation.show()) #DEBUG
