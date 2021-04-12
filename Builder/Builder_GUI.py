@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Builder.EditForm import *
 from Builder.Controller import *
 from Builder.EditForm import *
-
+from Builder.Analysis_GUI import *
 import json
 import sys
 
@@ -124,6 +124,7 @@ class Builder_GUI(object):
         self.script_button.setFont(font)
         self.script_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.script_button.setObjectName("script_button")
+        self.script_button.clicked.connect(self.show_analyzingWindow)
 
         ###################### Menu Top Bar #########################################
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
@@ -316,6 +317,13 @@ class Builder_GUI(object):
         self.script_button.setEnabled(True)
         self.script_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
+    def show_analyzingWindow(self):
+        self.Analyzing_Window = QtWidgets.QDialog()
+        self.ui = Ui_Analyzing_Window()
+        self.ui.setupUi(self.Analyzing_Window)
+        self.Analyzing_Window.show()
+        QtWidgets.qApp.processEvents()
+        self.ui.progressBar_update()
 
     ###################### Import Project Function -Seb #############################
     def importProject(self):
