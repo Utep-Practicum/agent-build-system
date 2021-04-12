@@ -23,7 +23,6 @@ def enable_button(button):
     button.setEnabled(True)
     button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
-
 def disable_button(button):
     print("disable")
     button.setEnabled(False)
@@ -34,6 +33,7 @@ class Builder_GUI(object):
 
     def __init__(self, controller):
         self.controller_object = controller
+        self.undo_stack = []
         self.dependency = ""
         self.undo_stack = []
         self.relations_list = controller.relationships_main
@@ -200,6 +200,8 @@ class Builder_GUI(object):
         disable_button(self.edit_button)
         disable_button(self.undo_button)
 
+
+
     ############ Open Edit Window ####################
     def edit_observation(self):
         self.edit_form = EditForm(self.details_list.currentItem(), self.relation_selected, self)
@@ -242,11 +244,13 @@ class Builder_GUI(object):
 
     def display_search_results(self, text):
         self.relationship_list.clear()
+
         # For each relation add them to the relations display list
         for relation in self.controller_object.search(text):
             self.relationship_list.addItem(relation.name)
 
         self.relationship_list.itemClicked.connect(self.display_content)
+
 
     ##################################### Display the content in the Detail Box ########################################
     def display_content(self, item):

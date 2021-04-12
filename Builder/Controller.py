@@ -37,6 +37,7 @@ class Controller:
             self.dependencies_main.append(self.relationships_main.pop(self.relationships_main.index(relationship)))
             return True
         return False
+
     
     def move_to_relationship(self, dependency):
         """
