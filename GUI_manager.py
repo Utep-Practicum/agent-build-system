@@ -6,6 +6,7 @@ from Causation_Extractor.CE_GUI import *
 from Builder.Controller import *
 from Builder.Builder_GUI import *
 from Builder.Relation import *
+from Runner.Runner_GUI import *
 
 class GUIManager(QMainWindow):
 
@@ -41,9 +42,11 @@ class GUIManager(QMainWindow):
             print(relation.name)
 
 
-    def runner(self):
-        pass
-
+    def runner(self,name = None):
+        self.runner = Runner_GUI()
+        self.r = Window
+        self.runner.setupUi(self.r)
+        self.r.show()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
