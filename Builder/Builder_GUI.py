@@ -50,7 +50,7 @@ class Builder_GUI(object):
         self.search_input.setGeometry(QtCore.QRect(20, 40, 721, 40))
         self.search_input.setObjectName("search_input")
         self.search_input.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.search_input.textChanged.connect(self.displaySearchResults)
+        #self.search_input.textChanged.connect(self.displaySearchResults)
 
         ######################### Detail List #########################
         self.Details_list = QtWidgets.QListWidget(self.centralwidget)
@@ -81,7 +81,7 @@ class Builder_GUI(object):
         self.dependencies_label.setStyleSheet("color:black;")
         self.dependencies_label.setObjectName("dependencies_label")
 
-        ##################### Dependencies List Widget######################
+        ##################### Dependencies List Widget ######################
         self.Dependency_list = QtWidgets.QListWidget(self.centralwidget)
         self.Dependency_list.setGeometry(QtCore.QRect(460, 120, 281, 293))
         self.Dependency_list.setObjectName("Dependency_list")
@@ -146,9 +146,6 @@ class Builder_GUI(object):
     def edit_observation(self):
         self.edit_form = EditForm(self.Details_list.currentItem(), self.relation_selected, self)
 
-    def openFilter(self):
-        self.wind = NewSalientArtifact()
-        self.wind.initializeUI()
 
     def retranslateUi(self, BuilderWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -157,7 +154,6 @@ class Builder_GUI(object):
         self.relationships_label.setText(_translate("BuilderWindow", "Relationships"))
         self.search_label.setText(_translate("BuilderWindow", "Search"))
         self.edit_button.setText(_translate("BuilderWindow", "Edit"))
-        # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
         self.move_button.setText(_translate("BuilderWindow", ">>"))
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
         self.action_save_project.setText(_translate("BuilderWindow", "Save Project"))
@@ -171,20 +167,20 @@ class Builder_GUI(object):
 
         self.Relationship_list.itemClicked.connect(self.displayContent)
 
-    def displaySearchResults(self, text):
-        self.search_dictionary = {}
-        for relationship in self.relations_dictionary:
-            relationship_added = False
-            for relation in self.relations_dictionary.get(relationship):
-                if text in str(relation):
-                    if relationship_added == False:
-                        self.search_dictionary[relationship] = [relation]
-                        relationship_added = True
-                    self.search_dictionary[relationship].append(relation)
-
-        self.Relationship_list.clear()
-        for relation_name in self.search_dictionary.keys():
-            self.Relationship_list.addItem(relation_name)
+    # def displaySearchResults(self, text):
+    #     self.search_dictionary = {}
+    #     for relationship in self.relations_dictionary:
+    #         relationship_added = False
+    #         for relation in self.relations_dictionary.get(relationship):
+    #             if text in str(relation):
+    #                 if relationship_added == False:
+    #                     self.search_dictionary[relationship] = [relation]
+    #                     relationship_added = True
+    #                 self.search_dictionary[relationship].append(relation)
+    #
+    #     self.Relationship_list.clear()
+    #     for relation_name in self.search_dictionary.keys():
+    #         self.Relationship_list.addItem(relation_name)
 
     ##################################### Display the content in the Detail Box ########################################
     def displayContent(self, item):
@@ -193,7 +189,6 @@ class Builder_GUI(object):
         it stores and formats the Relation chosen (clicked) and changes the name to Dependency #
         Finally, for each observation, it will be added in the Detail list
         """
-
         self.Details_list.clear()
 
         self.dependency = "Dependency " + item.text().split(" ")[1]
@@ -226,9 +221,38 @@ class Builder_GUI(object):
         """
         If the dependency is not in the list, then added to out dependcy list, and display it.
         """
-        if self.dependency not in self.dependency_list:
-            self.dependency_list.append(self.dependency)
-            self.Dependency_list.addItem(self.dependency)
+        #if self.dependency not in self.dependency_list:
+
+        #     self.dependency_list.append(self.dependency)
+        #     self.Dependency_list.addItem(self.dependency)
+        if self.relation_selected is None:
+            return
+
+        # Add the Dependency on the dependencies_main, which is basically the relation chosen
+        if not self.controller_object.move_to_dependency(self.relation_selected):
+            return
+        # redisplay it to the self.Relationship_list
+        self.displayRelations()
+        # Change the name of that Relationship to be Dependency + number
+        self.relation_selected.name = "Dependency " + str(self.relation_selected.number)
+        self.Dependency_list.addItem(self.relation_selected.name)
+        # --------------------------------------------------------------
+        # Display the details of the Dependency selected
+        self.Dependency_list.itemClicked.connect(self.displayDependencyDetail)
+        # self.relation_selected = None
+
+    def displayDependencyDetail(self, item):
+        self.Details_list.clear()
+
+        found_dependency = None
+        for dependency_loop in self.controller_object.dependencies_main:
+            if item.text() == dependency_loop.name:
+                found_dependency = dependency_loop
+
+        self.relation_selected = found_dependency
+
+        for observation in found_dependency.observation_list:
+            self.Details_list.addItem(observation.show())
 
     def disable_edit_button(self):
         self.edit_button.setEnabled(False)
