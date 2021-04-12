@@ -48,6 +48,7 @@ class Controller:
             return True
         return False
 
+
     def search(self, keyword = '', table = 'relationships'):
         search = []
         if table.lower() == 'relationships':
