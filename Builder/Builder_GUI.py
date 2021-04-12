@@ -260,10 +260,6 @@ class Builder_GUI(object):
         Finally, for each observation, it will be added in the Detail list
         """
         self.details_list.clear()
-
-        self.dependency = "Dependency " + item.text().split(" ")[1]
-        print(item)
-        print(item.text())
         # Look for the selected relation in our list of relationships
         found_relation = None
         for relation_loop in self.controller_object.relationships_main:
@@ -274,6 +270,7 @@ class Builder_GUI(object):
 
         for observation in found_relation.observation_list:
             self.details_list.addItem(observation.show())
+
 
         disable_button(self.edit_button)
         self.details_list.itemClicked.connect(self.enable_edit_button)
@@ -324,8 +321,6 @@ class Builder_GUI(object):
     def display_dependency_detail(self, item):
         self.details_list.clear()
 
-
-        print(item.text())
         found_dependency = None
         for dependency_loop in self.controller_object.dependencies_main:
             if item.text() == dependency_loop.name:

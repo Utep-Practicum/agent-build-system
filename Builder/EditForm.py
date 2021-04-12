@@ -130,6 +130,7 @@ class EditForm(QMainWindow):
 
     def save_modifications(self):
         print("Saved")
+        self.builder.save_controller_state()
         if self.changes:
             # Get the same observation from the Relation selected
             observation_object = self.relation_selected.observation_list[self.observation_index]
