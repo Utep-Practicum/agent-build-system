@@ -32,7 +32,10 @@ class Controller:
         """
         # Removes relationship from relationship list and translates to dependency list
         """
-        self.dependencies_main.append(self.relationships_main.pop(self.relationships_main.index(relationship_name)))
+        if relationship_name in self.relationships_main:
+            self.dependencies_main.append(self.relationships_main.pop(self.relationships_main.index(relationship_name)))
+            return True
+        return False
 
     
     def move_to_relationship(self, relationship_name):

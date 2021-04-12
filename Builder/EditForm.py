@@ -107,8 +107,6 @@ class EditForm(QMainWindow):
             fields_grid.addWidget(field, row, 1)
             row += 1
 
-
-
         # Add other layouts to main grid layout
         main_grid.addWidget(edit_title, 0, 0, 1, 2)
         main_grid.addLayout(fields_grid, 1, 0)
@@ -204,10 +202,10 @@ class EditForm(QMainWindow):
         before_data = observation_no_index[:data_index]
 
         split_data = before_data.strip().split(",")
-
-        self.start = split_data[0].split()[1]
-        self.data_type = split_data[1].strip().split()[1]
-        self.artifact = split_data[2].strip().split()[1]
+        # the number is one after the end of each key for start is 7, data_type is 11 and artifact is
+        self.start = split_data[0][7:]
+        self.data_type = split_data[1].strip()[11:]
+        self.artifact = split_data[2].strip()[10:]
 
         data = observation_no_index[data_index+1:].strip()
         data = data[data.find('{'):]
