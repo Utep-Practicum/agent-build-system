@@ -1,6 +1,8 @@
 from Builder.Relation import *
 import json
 import os
+import datetime  # For observation grouping #Delta Time Creation
+
 
 class Controller:
     def __init__(self):
@@ -72,3 +74,24 @@ class Controller:
                             search.append(relation)
                             break
                 return search
+
+    #NOTE: start is a str before and after translation to deltaTime
+    def create_delta(self): 
+        for relationship in self.relationships_main:
+            #print(relationship.name) #DEBUG
+            timeDiff_list = [0.0] #Initial observation will always occur at 0.0 in script
+
+            #Makes DeltaTime Calculations
+            for x in range(1, len(relationship.observation_list)):
+                currTime = datetime.datetime.strptime(relationship.observation_list[x].start,'%Y-%m-%dT%H:%M:%S')
+                pastTime = datetime.datetime.strptime(relationship.observation_list[x-1].start,'%Y-%m-%dT%H:%M:%S')
+                timeDiff = currTime-pastTime
+                timeDiff_list.append(timeDiff.total_seconds())
+                #print("delta:",timeDiff.total_seconds()) #DEBUG
+
+            #Replaces startTime with DeltaTimes, Normalizes times differences that got rounded down to 0
+            for y in range(len(relationship.observation_list)):
+                if timeDiff_list[y] == 0.0: 
+                    relationship.observation_list[y].start = str(timeDiff_list[y]+0.1)
+                else:
+                    relationship.observation_list[y].start = str(timeDiff_list[y])
