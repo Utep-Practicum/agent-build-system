@@ -33,6 +33,7 @@ class Builder_GUI(object):
 
     def __init__(self, controller):
         self.controller_object = controller
+        controller.create_delta() 
         self.undo_stack = []
         self.dependency = ""
         self.undo_stack = []
