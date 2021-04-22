@@ -141,15 +141,19 @@ class CEGUI(QWidget):
 
     ######################  BROWSE BUTTON FUNCTION ###############
     def browse_Files(self):
-        # Gets directory name and sets it to a variable
-        name = QFileDialog.getExistingDirectory(self.Browse_Button, 'Choose Src Dir', 'c:\\')
-        print("dirname:", name)
-        directory = os.fsencode(name)
-        self.fileName.setText(name)
-        backend = ceBackend()
-        self.num_lines = backend.output_directory(directory, name)
-        self.get_ProjectName()
-        self.check_project()
+        try:
+            # Gets directory name and sets it to a variable
+            name = QFileDialog.getExistingDirectory(self.Browse_Button, 'Choose Src Dir', 'c:\\')
+            print("dirname:", name)
+            directory = os.fsencode(name)
+            self.fileName.setText(name)
+            backend = ceBackend()
+            self.num_lines = backend.output_directory(directory, name)
+            self.get_ProjectName()
+            self.check_project()
+        except Exception as e:
+            #print(e)
+            print("Please select an ECELd data directory")
 
     def show_analyzingWindow(self):
         self.hide()
