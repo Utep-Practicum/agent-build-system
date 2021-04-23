@@ -147,9 +147,3 @@ if __name__ == "__main__":
     ui.setupUi(ABS_Packager)
     ABS_Packager.show()
     sys.exit(app.exec_())
-
-
-'''
-TODO: gather checked items in list for export
-https://stackoverflow.com/questions/29238394/how-to-get-the-checked-items-listed-in-a-qt-qlistwidget
-'''

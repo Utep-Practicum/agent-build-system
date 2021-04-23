@@ -142,6 +142,7 @@ class CreateProject(QtWidgets.QDialog):
             filename = i+'.ova'
             out = os.path.join(dirpath,filename)
             command_args = ['vboxmanage','export', i,'--output', out]
+            print("Exporting " + i + " VM.....")
             proc = sp.Popen(command_args,stdout=sp.PIPE,stderr=sp.PIPE,shell=True)
             outp, err = proc.communicate()
             print(outp)
@@ -150,6 +151,7 @@ class CreateProject(QtWidgets.QDialog):
 
         self.compress_project()   
 
+    ##TODO: Compress Project folder in Project Data directory
     def compress_project(self):
         dirpath = 'Project Data/'+self.ProjectName.text()
         self.CompressButton.hide()
