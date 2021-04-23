@@ -135,7 +135,8 @@ class Ui_ABS_Packager(object):
         for i in range(self.machine_list.count()):
             if self.machine_list.item(i).checkState() == Qt.Checked:
                 checked_vms.append(self.machine_list.item(i).text())
-        
+
+        '''Send File List and VM List to CreateProject.py'''        
         self.sP.pass_lists(self.file_List,checked_vms)
 
 if __name__ == "__main__":

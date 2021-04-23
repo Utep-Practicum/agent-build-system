@@ -14,6 +14,7 @@ import os , shutil
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 import zipfile
+import subprocess as sp
 
 class CreateProject(QtWidgets.QDialog):
 
@@ -45,6 +46,14 @@ class CreateProject(QtWidgets.QDialog):
         self.CreateButton.setFont(font)
         self.CreateButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
         self.CreateButton.setObjectName("CreateButton")
+
+        self.CompressButton = QtWidgets.QPushButton(Form)
+        self.CompressButton.setGeometry(QtCore.QRect(40, 120, 161, 41))
+        font.setPointSize(11)
+        self.CompressButton.setFont(font)
+        self.CompressButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
+        self.CompressButton.setObjectName("CompressButton")
+        self.CompressButton.hide()
         
         self.CancelButton = QtWidgets.QPushButton(Form)
         self.CancelButton.setGeometry(QtCore.QRect(230, 120, 161, 41))
@@ -52,6 +61,14 @@ class CreateProject(QtWidgets.QDialog):
         self.CancelButton.setFont(font)
         self.CancelButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
         self.CancelButton.setObjectName("CancelButton")
+
+        self.exitButton = QtWidgets.QPushButton(Form)
+        self.exitButton.setGeometry(QtCore.QRect(230, 120, 161, 41))
+        font.setPointSize(11)
+        self.exitButton.setFont(font)
+        self.exitButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
+        self.exitButton.setObjectName("ExitButton")
+        self.exitButton.hide()
 
         # Error label
         self.error_label = QtWidgets.QLabel("This project already exists")
@@ -66,6 +83,7 @@ class CreateProject(QtWidgets.QDialog):
         #################BUTTON ACTIONS##################################
         self.CreateButton.clicked.connect(self.create_folders)
         self.CancelButton.clicked.connect(Form.close)
+        self.exitButton.clicked.connect(Form.close)
         
         self.project_sP = ""
         self.files = QtWidgets.QListWidget()
@@ -76,8 +94,10 @@ class CreateProject(QtWidgets.QDialog):
         Form.setWindowTitle(_translate("Form", "Save Project"))
         self.Projectlabel.setText(_translate("Form", "Project Name:"))
         self.CreateButton.setText(_translate("Form", "Create Project"))
+        self.CompressButton.setText(_translate("Form", "Compress"))
         self.CancelButton.setText(_translate("Form", "Cancel"))
-        
+        self.exitButton.setText(_translate("Form", "Exit"))
+
     def pass_lists(self,file_List,VMs):
         self.files = file_List
         self.VMs = VMs
@@ -96,27 +116,47 @@ class CreateProject(QtWidgets.QDialog):
             os.makedirs("Project Data/" + self.ProjectName.text())
             os.makedirs("Project Data/" + self.ProjectName.text() + "/VMs/")
             os.makedirs("Project Data/" + self.ProjectName.text() + "/Files/")
-            self.CancelButton.setText("Compress")
-            self.CancelButton.clicked.connect(self.copy_files)
+            self.CancelButton.hide()
             self.CreateButton.hide()
+
+            self.CompressButton.show()
+            self.CompressButton.clicked.connect(self.copy_files)
             print("Project was created")
         else:
             self.error_label.setHidden(False)
             print("Project Name Already Exists")
 
-    ################# Compressing Files ####################################
+    ################# Copying Files & Exporting VMs ####################################
     def copy_files(self):
-        
-        print("Copying Files into Project")
+        if(self.files.count()>0):
+            print("Copying Files into Project......")
         for i in range(self.files.count()):
             print (self.files.item(i).text())
             shutil.copy(self.files.item(i).text(),"Project Data/" + self.ProjectName.text() + "/Files/")
         
-        print("Exporting VMs")
-        for i in self.VMs:
-            print(i)
+        if self.VMs:
+            print("Exporting VMs.....")
 
-'''
+        for i in self.VMs:
+            dirpath = 'Project Data/'+self.ProjectName.text()+'/VMs'
+            filename = i+'.ova'
+            out = os.path.join(dirpath,filename)
+            command_args = ['vboxmanage','export', i,'--output', out]
+            proc = sp.Popen(command_args,stdout=sp.PIPE,stderr=sp.PIPE,shell=True)
+            outp, err = proc.communicate()
+            print(outp)
+            print(err)
+             
+
+        self.compress_project()   
+
+    def compress_project(self):
+        dirpath = 'Project Data/'+self.ProjectName.text()
+        self.CompressButton.hide()
+        self.exitButton.show()
+        
+
+''' 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
