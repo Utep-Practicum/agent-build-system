@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
-from ExportFiles import *
+from CreateProject import *
 import virtualbox
 
 
@@ -43,7 +43,7 @@ class Ui_ABS_Packager(object):
 
         self.select_files_button = QtWidgets.QPushButton(ABS_Packager)
         self.select_files_button.setGeometry(QtCore.QRect(280, 50, 101, 61))
-        font.setPointSize(12)
+        font.setPointSize(11)
         self.select_files_button.setFont(font)
         self.select_files_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.select_files_button.setObjectName("select_files_button")
@@ -74,9 +74,9 @@ class Ui_ABS_Packager(object):
         self.retranslateUi(ABS_Packager)
         QtCore.QMetaObject.connectSlotsByName(ABS_Packager)
 
-    ########Creating Objects to execute Save Project Window####
+    ############ Creating Objects to execute Save Project Window #####
         self.Form = QtWidgets.QDialog()
-        self.sP = NewProject(self.Form)
+        self.sP = CreateProject(self.Form)
 
     ################# Button Actions #################################
         self.export_button.clicked.connect(self.export)    
@@ -131,6 +131,12 @@ class Ui_ABS_Packager(object):
 
     def export(self):
         self.Form.show()
+        checked_vms = []
+        for i in range(self.machine_list.count()):
+            if self.machine_list.item(i).checkState() == Qt.Checked:
+                checked_vms.append(self.machine_list.item(i).text())
+        
+        self.sP.pass_lists(self.file_List,checked_vms)
 
 if __name__ == "__main__":
     import sys
