@@ -128,7 +128,7 @@ class Builder_GUI(object):
         self.move_button_back.clicked.connect(self.pass_relationship)
         BuilderWindow.setCentralWidget(self.centralwidget)
 
-        #####################  #####################
+        ##################### Undo Button #####################
         self.undo_button = QtWidgets.QPushButton(self.centralwidget)
         self.undo_button.setGeometry(QtCore.QRect(340, 310, 100, 75))
         self.undo_button.setMinimumSize(QtCore.QSize(100, 75))
@@ -158,6 +158,15 @@ class Builder_GUI(object):
         self.delete_button.setObjectName("delete_button")
         self.delete_button.clicked.connect(self.delete_observation)
 
+        ##################### Ignore Artifact Button ################################
+        self.ignore_button = QtWidgets.QPushButton(self.centralwidget)
+        self.ignore_button.setGeometry(QtCore.QRect(275, 660, 50, 41))
+        self.ignore_button.setMinimumSize(QtCore.QSize(100, 41))
+        self.ignore_button.setFont(font)
+        self.ignore_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
+        self.ignore_button.setObjectName("ignore_button")
+        self.ignore_button.clicked.connect(self.ignore_observation)
+
         ##################### Generate Script Button ################################
         self.script_button = QtWidgets.QPushButton(self.centralwidget)
         self.script_button.setGeometry(QtCore.QRect(500, 660, 241, 41))
@@ -180,11 +189,11 @@ class Builder_GUI(object):
         BuilderWindow.setStatusBar(self.statusbar)
 
         ###################### Save Project Menu Option #############################
-        self.action_save_project = QtWidgets.QAction(BuilderWindow)
-        self.action_save_project.setObjectName("action_save_project")
-        self.menu_project.addAction(self.action_save_project)
+        self.action_import_project = QtWidgets.QAction(BuilderWindow)
+        self.action_import_project.setObjectName("action_import_project")
+        self.menu_project.addAction(self.action_import_project)
         self.menu_project.setStyleSheet("color: black")  # modified submenu font to be black -seb
-        self.action_save_project.triggered.connect(self.import_project)  # function gets ran at click -seb
+        self.action_import_project.triggered.connect(self.import_project)  # function gets ran at click -seb
 
         ###################### Quit Builder Menu Option #############################
         self.action_quit = QtWidgets.QAction(BuilderWindow)
@@ -200,6 +209,7 @@ class Builder_GUI(object):
         self.display_relations()
         disable_button(self.edit_button)
         disable_button(self.undo_button)
+        disable_button(self.ignore_button)
 
 
 
@@ -216,12 +226,13 @@ class Builder_GUI(object):
         self.edit_button.setText(_translate("BuilderWindow", "Edit"))
         # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
         self.delete_button.setText(_translate("BuilderWindow", "Delete"))
+        self.ignore_button.setText(_translate("BuilderWindow", "Ignore"))
         self.script_button.setText(_translate("BuilderWindow", "Generate Script"))
         self.move_button.setText(_translate("BuilderWindow", ">>"))
         self.move_button_back.setText(_translate("BuilderWindow", "<<"))
         self.undo_button.setText(_translate("BuilderWindow", "⏎"))
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
-        self.action_save_project.setText(_translate("BuilderWindow", "Save Project"))
+        self.action_import_project.setText(_translate("BuilderWindow", "Save Project"))
         self.action_quit.setText(_translate("BuilderWindow", "Quit"))
 
     def display_relations(self):
@@ -275,6 +286,7 @@ class Builder_GUI(object):
 
         disable_button(self.edit_button)
         self.details_list.itemClicked.connect(self.enable_edit_button)
+        self.details_list.itemClicked.connect(self.enable_ignore_button)
 
     def displayObservationAfterEdit(self):
         self.details_list.clear()
@@ -359,7 +371,6 @@ class Builder_GUI(object):
                 found_relation.observation_list.remove(
                     observation)  # Kick that guy out of the club until project is reimported.
                 print("removing observation:", observation.show())  # DEBUG
-        # END COPYPASTE==================================================================
 
     def disable_edit_button(self):
         self.edit_button.setEnabled(False)
@@ -385,8 +396,16 @@ class Builder_GUI(object):
 
     def enable_script_button(self):
         self.script_button.setEnabled(True)
-
         self.script_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
+    ###################### Ignore Button Functions #########################
+    def disable_ignore_button(self):
+        self.ignore_button.setEnabled(False)
+        self.ignore_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
+    def enable_ignore_button(self):
+        self.ignore_button.setEnabled(True)
+        self.ignore_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
     def show_analyzingWindow(self):
         self.Analyzing_Window = QtWidgets.QDialog()
@@ -414,6 +433,17 @@ class Builder_GUI(object):
 
         except:
             print("an error occured while trying to read the directory")
+
+    ###################### Ignore Project Function -Seb #############################
+    def ignore_observation(self):
+        self.save_controller_state()
+        self.details_list.currentItem().setForeground(QtCore.Qt.gray) 
+        observationIndex = int(self.details_list.currentItem().text()[0])
+        observation = self.relation_selected.observation_list[observationIndex]
+        print("observation ignore before modifying:",observation.ignore) #DEBUG
+        observation.ignore = 1
+
+
 
     ###################### Manage control state  #############################
     def save_controller_state(self):
