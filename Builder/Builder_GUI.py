@@ -455,11 +455,17 @@ class Builder_GUI(object):
     ###################### Ignore Project Function -Seb #############################
     def ignore_observation(self):
         self.save_controller_state()
-        self.details_list.currentItem().setForeground(QtCore.Qt.gray) 
         observationIndex = int(self.details_list.currentItem().text()[0])
         observation = self.relation_selected.observation_list[observationIndex]
-        print("observation ignore before modifying:",observation.ignore) #DEBUG
-        self.relation_selected.observation_list[observationIndex].ignore = 1
+
+        #If ignore has already been set, allow an user to revert the choice by clicking "ignore" again
+        if observation.ignore == 1:
+            observation.ignore = 0
+            self.details_list.currentItem().setForeground(QtCore.Qt.black) 
+        else:
+            observation.ignore = 1
+            self.details_list.currentItem().setForeground(QtCore.Qt.gray) 
+
 
 
 
