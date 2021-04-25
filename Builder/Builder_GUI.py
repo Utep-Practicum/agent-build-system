@@ -282,7 +282,25 @@ class Builder_GUI(object):
 
         for observation in found_relation.observation_list:
             self.details_list.addItem(observation.show())
+            #print(self.details_list)
+            #print("adding observation.ignore", observation.ignore)
+            if self.details_list != None:
+                pass
+                #if observation.ignore == 1:
+                    #print("obsevation found that needs to be gray")
+                    #print(self.details_list) #NoneType??? #.setForeground(QtCore.Qt.gray) 
 
+
+
+        #"ignore" flag Font Color 
+        self.save_controller_state() #Needed?
+
+        #Go through observation list, if any ignore flag is 1, change font to gray
+        for x in range(len(self.relation_selected.observation_list)):
+            #print("observation #: %i observation.ignore: %i" % (x, self.relation_selected.observation_list[x].ignore))  #DEBUG
+            if self.relation_selected.observation_list[x].ignore == 1: 
+                self.details_list.item(x).setForeground(QtCore.Qt.gray) 
+  
 
         disable_button(self.edit_button)
         self.details_list.itemClicked.connect(self.enable_edit_button)
@@ -441,7 +459,7 @@ class Builder_GUI(object):
         observationIndex = int(self.details_list.currentItem().text()[0])
         observation = self.relation_selected.observation_list[observationIndex]
         print("observation ignore before modifying:",observation.ignore) #DEBUG
-        observation.ignore = 1
+        self.relation_selected.observation_list[observationIndex].ignore = 1
 
 
 
