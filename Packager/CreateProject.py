@@ -153,9 +153,11 @@ class CreateProject(QtWidgets.QDialog):
 
     ##TODO: Compress Project folder in Project Data directory
     def compress_project(self):
-        dirpath = 'Project Data/'+self.ProjectName.text()
+        dirpath = 'Project Data/'
+        print(dirpath)
         self.CompressButton.hide()
         self.exitButton.show()
+        shutil.make_archive(dirpath + self.ProjectName.text(),'zip',dirpath,self.ProjectName.text())
         
 
 ''' 
