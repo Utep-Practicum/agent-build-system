@@ -16,15 +16,14 @@ from Builder.Analysis_GUI import *
 import json
 import sys
 import copy
+from Builder.script_generator import *
 
 
 def enable_button(button):
-    print("enable")
     button.setEnabled(True)
     button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
 def disable_button(button):
-    print("disable")
     button.setEnabled(False)
     button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
 
@@ -174,7 +173,8 @@ class Builder_GUI(object):
         self.script_button.setFont(font)
         self.script_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.script_button.setObjectName("script_button")
-        self.script_button.clicked.connect(self.show_analyzingWindow)
+        # self.script_button.clicked.connect(self.show_analyzingWindow)
+        self.script_button.clicked.connect(self.generate_script)
 
         ###################### Menu Top Bar #########################################
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
@@ -211,6 +211,10 @@ class Builder_GUI(object):
         disable_button(self.undo_button)
         disable_button(self.ignore_button)
 
+
+    def generate_script(self):
+        sc = ScriptGenerator(self.controller_object.project_name, self.controller_object.dependencies_main)
+        sc.generate_scripts()
 
 
     ############ Open Edit Window ####################
