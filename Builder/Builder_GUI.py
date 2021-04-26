@@ -279,27 +279,14 @@ class Builder_GUI(object):
                 found_relation = relation_loop
 
         self.relation_selected = found_relation
-
+        count = 0
         for observation in found_relation.observation_list:
             self.details_list.addItem(observation.show())
-            #print(self.details_list)
-            #print("adding observation.ignore", observation.ignore)
-            if self.details_list != None:
-                pass
-                #if observation.ignore == 1:
-                    #print("obsevation found that needs to be gray")
-                    #print(self.details_list) #NoneType??? #.setForeground(QtCore.Qt.gray) 
-
-
-
-        #"ignore" flag Font Color 
-        self.save_controller_state() #Needed?
-
-        #Go through observation list, if any ignore flag is 1, change font to gray
-        for x in range(len(self.relation_selected.observation_list)):
-            #print("observation #: %i observation.ignore: %i" % (x, self.relation_selected.observation_list[x].ignore))  #DEBUG
-            if self.relation_selected.observation_list[x].ignore == 1: 
-                self.details_list.item(x).setForeground(QtCore.Qt.gray) 
+        
+            #sets font to gray
+            if self.relation_selected.observation_list[count].ignore == 1:
+                self.details_list.item(count).setForeground(QtCore.Qt.gray) 
+            count += 1
   
 
         disable_button(self.edit_button)
@@ -357,20 +344,18 @@ class Builder_GUI(object):
             if item.text() == dependency_loop.name:
                 found_dependency = dependency_loop
 
-        self.relation_selected = found_dependency
 
+        self.relation_selected = found_dependency
+        count = 0
         for observation in found_dependency.observation_list:
             print(observation.show())
             self.details_list.addItem(observation.show())
 
-        #"ignore" flag Font Color 
-        self.save_controller_state() #Needed?
+            #sets font to gray
+            if self.relation_selected.observation_list[count].ignore == 1:
+                self.details_list.item(count).setForeground(QtCore.Qt.gray) 
+            count += 1
 
-        #Go through observation list, if any ignore flag is 1, change font to gray
-        for x in range(len(self.relation_selected.observation_list)):
-            #print("observation #: %i observation.ignore: %i" % (x, self.relation_selected.observation_list[x].ignore))  #DEBUG
-            if self.relation_selected.observation_list[x].ignore == 1: 
-                self.details_list.item(x).setForeground(QtCore.Qt.gray) 
 
     ###################### Delete Button Functions ##################################
     def delete_observation(self):
