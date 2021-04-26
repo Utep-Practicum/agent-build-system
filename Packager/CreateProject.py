@@ -85,7 +85,7 @@ class CreateProject(QtWidgets.QDialog):
         self.VMs = []
    
       
-        #################BUTTON ACTIONS##################################
+        ########################### BUTTON ACTIONS ##################################
         self.CreateButton.clicked.connect(self.create_folders)
         self.CancelButton.clicked.connect(Form.close)
         self.exitButton.clicked.connect(Form.close)
@@ -102,11 +102,12 @@ class CreateProject(QtWidgets.QDialog):
         self.CancelButton.setText(_translate("Form", "Cancel"))
         self.exitButton.setText(_translate("Form", "Exit"))
 
+    ################# GATHER FILE AND VM LIST FROM PACKAGER WINDOW ################  
     def pass_objects(self,file_List,VMs):
         self.files = file_List
         self.VMs = VMs
         
-
+    ################# SAVE PROJECT AND CREATE PROJECT FILE STRUCTURE ###############
     def create_folders(self):
         self.error_label.setHidden(True)
         self.project_sP = self.ProjectName.text()
@@ -131,7 +132,7 @@ class CreateProject(QtWidgets.QDialog):
             self.error_label.setHidden(False)
             print("Project Name Already Exists")
 
-    ################# Copying Files & Exporting VMs ####################################
+    ################# COPY FILES AND EXPORT VMS INTO PROJECT DIRECTORY ####################################
     def copy_files(self):
         if(self.files.count()>0):
             print("Copying Files into Project......")
@@ -156,7 +157,7 @@ class CreateProject(QtWidgets.QDialog):
 
         self.compress_project()   
 
-    ##TODO: Compress Project folder in Project Data directory
+    ################# COMPRESS PROJECT FOLDER AND SAVE INTO /PROJECT DATA/ DIRECTORY #######################
     def compress_project(self):
         dirpath = 'Project Data/'
         

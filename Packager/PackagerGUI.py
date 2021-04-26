@@ -71,6 +71,7 @@ class Ui_ABS_Packager(object):
         self.files_label.setObjectName("files_label")
         
     ################# Entry Actions ##################################
+    '''When Packager is executed, first gather VMs in host and show their names.'''
         self.populate_machineList()
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self.ABS_Packager)
@@ -92,6 +93,8 @@ class Ui_ABS_Packager(object):
         self.VMs_label.setText(_translate("ABS_Packager", "Virtual Machines:"))
         self.files_label.setText(_translate("ABS_Packager", "Files:"))
 
+    ################ Right Click Menu ###################################
+    '''For now, right click menu only needs delete selected file functionality'''
     def contextMenuEvent(self):
         rightMenu = QtWidgets.QMenu(self.file_List)
         removeAction = QtWidgets.QAction("Delete")
@@ -103,6 +106,7 @@ class Ui_ABS_Packager(object):
         rightMenu.addAction(removeAction)
         rightMenu.exec_(QtGui.QCursor.pos())
 
+    ####################### Gather Available VMs from Host###############################
     def populate_machineList(self):
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -115,6 +119,7 @@ class Ui_ABS_Packager(object):
             self.machine_name.setCheckState(QtCore.Qt.Unchecked)
             self.machine_list.addItem(self.machine_name)
 
+    ###################### Select and Import Files Functionality ########################
     def select_files(self):
         try:
             file_names = QFileDialog.getOpenFileNames()
@@ -130,16 +135,19 @@ class Ui_ABS_Packager(object):
         except Exception as e:
             print(e)
 
+    ####################### Export Button Functionality #################################
     def export(self):
         self.Form.show()
         checked_vms = []
+        '''Add Selected VM's Name to New List'''
         for i in range(self.machine_list.count()):
             if self.machine_list.item(i).checkState() == Qt.Checked:
                 checked_vms.append(self.machine_list.item(i).text())
-
-        '''Send File VM List to CreateProject.py'''        
+        '''Send File & VM List to CreateProject.py'''        
         self.sP.pass_objects(self.file_List,checked_vms)
 
+
+######################### PACKAGER WINDOW EXECUTION CALLS ###############################
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
