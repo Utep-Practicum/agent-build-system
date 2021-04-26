@@ -62,7 +62,6 @@ class GUIManager(QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Window = QtWidgets.QMainWindow()
-    Window.show()
     manager = GUIManager()
     function = {'ce':manager.causation_extractor,
                 'builder':manager.builder,
