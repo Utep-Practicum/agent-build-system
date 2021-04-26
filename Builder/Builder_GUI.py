@@ -363,6 +363,15 @@ class Builder_GUI(object):
             print(observation.show())
             self.details_list.addItem(observation.show())
 
+        #"ignore" flag Font Color 
+        self.save_controller_state() #Needed?
+
+        #Go through observation list, if any ignore flag is 1, change font to gray
+        for x in range(len(self.relation_selected.observation_list)):
+            #print("observation #: %i observation.ignore: %i" % (x, self.relation_selected.observation_list[x].ignore))  #DEBUG
+            if self.relation_selected.observation_list[x].ignore == 1: 
+                self.details_list.item(x).setForeground(QtCore.Qt.gray) 
+
     ###################### Delete Button Functions ##################################
     def delete_observation(self):
         self.save_controller_state()
