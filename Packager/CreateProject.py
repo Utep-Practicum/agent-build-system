@@ -18,7 +18,7 @@ import subprocess as sp
 
 class CreateProject(QtWidgets.QDialog):
 
-    def __init__(self,Form):
+    def __init__(self,Form,ABS_Packager):
         super(CreateProject, self).__init__()
         Form.setObjectName("Form")
         Form.resize(459, 204)
@@ -79,15 +79,19 @@ class CreateProject(QtWidgets.QDialog):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+
+        self.project_sP = ""
+        self.files = QtWidgets.QListWidget()
+        self.VMs = []
+   
       
         #################BUTTON ACTIONS##################################
         self.CreateButton.clicked.connect(self.create_folders)
         self.CancelButton.clicked.connect(Form.close)
         self.exitButton.clicked.connect(Form.close)
+        self.exitButton.clicked.connect(ABS_Packager.close)
         
-        self.project_sP = ""
-        self.files = QtWidgets.QListWidget()
-        self.VMs = []
+       
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -98,9 +102,10 @@ class CreateProject(QtWidgets.QDialog):
         self.CancelButton.setText(_translate("Form", "Cancel"))
         self.exitButton.setText(_translate("Form", "Exit"))
 
-    def pass_lists(self,file_List,VMs):
+    def pass_objects(self,file_List,VMs):
         self.files = file_List
         self.VMs = VMs
+        
 
     def create_folders(self):
         self.error_label.setHidden(True)
@@ -154,11 +159,12 @@ class CreateProject(QtWidgets.QDialog):
     ##TODO: Compress Project folder in Project Data directory
     def compress_project(self):
         dirpath = 'Project Data/'
-        print(dirpath)
+        
         self.CompressButton.hide()
         self.exitButton.show()
         shutil.make_archive(dirpath + self.ProjectName.text(),'zip',dirpath,self.ProjectName.text())
-        
+
+        print("Done compressing project " + self.ProjectName.text())
 
 ''' 
 if __name__ == "__main__":

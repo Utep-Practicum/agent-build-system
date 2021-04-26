@@ -17,9 +17,10 @@ import virtualbox
 class Ui_ABS_Packager(object):
 
     def setupUi(self, ABS_Packager):
-        ABS_Packager.setObjectName("ABS_Packager")
-        ABS_Packager.resize(662, 246)
-        ABS_Packager.setMinimumSize(QtCore.QSize(662,220))
+        self.ABS_Packager = ABS_Packager
+        self.ABS_Packager.setObjectName("ABS_Packager")
+        self.ABS_Packager.resize(662, 246)
+        self.ABS_Packager.setMinimumSize(QtCore.QSize(662,220))
         font = QtGui.QFont()
 
         self.scroll_bar = QtWidgets.QScrollBar()
@@ -27,13 +28,13 @@ class Ui_ABS_Packager(object):
         self.scroll_bar2 = QtWidgets.QScrollBar()
         self.scroll_bar2.setStyleSheet("background: white;")
 
-        self.machine_list = QtWidgets.QListWidget(ABS_Packager)
+        self.machine_list = QtWidgets.QListWidget(self.ABS_Packager)
         self.machine_list.setGeometry(QtCore.QRect(30, 40, 231, 161))
         self.machine_list.setVerticalScrollBar(self.scroll_bar)
         self.machine_list.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 10px; border: 1px solid #D2D6E0; color: #13333F;")
         self.machine_list.setObjectName("machine_list")
 
-        self.export_button = QtWidgets.QPushButton(ABS_Packager)
+        self.export_button = QtWidgets.QPushButton(self.ABS_Packager)
         self.export_button.setGeometry(QtCore.QRect(280, 130, 101, 61))
 
         font.setPointSize(12)
@@ -41,7 +42,7 @@ class Ui_ABS_Packager(object):
         self.export_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.export_button.setObjectName("export_button")
 
-        self.select_files_button = QtWidgets.QPushButton(ABS_Packager)
+        self.select_files_button = QtWidgets.QPushButton(self.ABS_Packager)
         self.select_files_button.setGeometry(QtCore.QRect(280, 50, 101, 61))
         font.setPointSize(11)
         self.select_files_button.setFont(font)
@@ -49,7 +50,7 @@ class Ui_ABS_Packager(object):
         self.select_files_button.setObjectName("select_files_button")
         
 
-        self.file_List = QtWidgets.QListWidget(ABS_Packager)
+        self.file_List = QtWidgets.QListWidget(self.ABS_Packager)
         self.file_List.setGeometry(QtCore.QRect(400, 40, 231, 161))
         self.file_List.setVerticalScrollBar(self.scroll_bar2)
         self.file_List.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 10px; border: 1px solid #D2D6E0; color: #13333F;")
@@ -57,13 +58,13 @@ class Ui_ABS_Packager(object):
         self.file_List.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.file_List.customContextMenuRequested[QtCore.QPoint].connect(self.contextMenuEvent)
 
-        self.VMs_label = QtWidgets.QLabel(ABS_Packager)
+        self.VMs_label = QtWidgets.QLabel(self.ABS_Packager)
         self.VMs_label.setGeometry(QtCore.QRect(40, 20, 181, 16))
         self.VMs_label.setStyleSheet("color:black;")
         font.setPointSize(12)
         self.VMs_label.setFont(font)
         self.VMs_label.setObjectName("VMs_label")
-        self.files_label = QtWidgets.QLabel(ABS_Packager)
+        self.files_label = QtWidgets.QLabel(self.ABS_Packager)
         self.files_label.setStyleSheet("color:black;")
         self.files_label.setGeometry(QtCore.QRect(410, 20, 181, 16))
         self.files_label.setFont(font)
@@ -71,21 +72,21 @@ class Ui_ABS_Packager(object):
         
     ################# Entry Actions ##################################
         self.populate_machineList()
-        self.retranslateUi(ABS_Packager)
-        QtCore.QMetaObject.connectSlotsByName(ABS_Packager)
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self.ABS_Packager)
 
     ############ Creating Objects to execute Save Project Window #####
         self.Form = QtWidgets.QDialog()
-        self.sP = CreateProject(self.Form)
+        self.sP = CreateProject(self.Form,self.ABS_Packager)
 
     ################# Button Actions #################################
         self.export_button.clicked.connect(self.export)    
         self.select_files_button.clicked.connect(self.select_files)
 
     ##################################################################    
-    def retranslateUi(self, ABS_Packager):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        ABS_Packager.setWindowTitle(_translate("ABS_Packager", "ABS_Packager"))
+        self.ABS_Packager.setWindowTitle(_translate("ABS_Packager", "ABS_Packager"))
         self.export_button.setText(_translate("ABS_Packager", "Export"))
         self.select_files_button.setText(_translate("ABS_Packager", "Select Files"))
         self.VMs_label.setText(_translate("ABS_Packager", "Virtual Machines:"))
@@ -136,8 +137,8 @@ class Ui_ABS_Packager(object):
             if self.machine_list.item(i).checkState() == Qt.Checked:
                 checked_vms.append(self.machine_list.item(i).text())
 
-        '''Send File List and VM List to CreateProject.py'''        
-        self.sP.pass_lists(self.file_List,checked_vms)
+        '''Send File VM List to CreateProject.py'''        
+        self.sP.pass_objects(self.file_List,checked_vms)
 
 if __name__ == "__main__":
     import sys
