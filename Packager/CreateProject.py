@@ -146,12 +146,14 @@ class CreateProject(QtWidgets.QDialog):
         a_dir = 'Project Data'
         b_dir = self.ProjectName.text()
         c_dir = 'VMs'   
-        out = os.path.join(a_dir,b_dir,c_dir)
+        
   
         for i in self.VMs:
+            out = os.path.join(a_dir,b_dir,c_dir)
             filename = i+'.ova'
             out = os.path.join(out,filename)
             command_args = ['vboxmanage','export', i,'--output', out]
+
             proc = Popen(command_args,close_fds=True)
 
             outp, err = proc.communicate()
@@ -159,7 +161,7 @@ class CreateProject(QtWidgets.QDialog):
                 print(outp)
             if err:    
                 print(err)
-
+            
         self.compress_project()   
 
     ################# COMPRESS PROJECT FOLDER AND SAVE INTO /PROJECT DATA/ DIRECTORY #######################
