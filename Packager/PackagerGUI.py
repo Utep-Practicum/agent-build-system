@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
-from CreateProject import *
+from ExportProject import *
 import virtualbox
 
 
@@ -78,7 +78,7 @@ class Ui_ABS_Packager(object):
 
     ############ Creating Objects to execute Save Project Window #####
         self.Form = QtWidgets.QDialog()
-        self.sP = CreateProject(self.Form,self.ABS_Packager)
+        self.sP = ExportProject(self.Form,self.ABS_Packager)
 
     ################# Button Actions #################################
         self.export_button.clicked.connect(self.export)    
