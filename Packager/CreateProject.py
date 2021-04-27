@@ -12,9 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os , shutil
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QProcess 
 import zipfile
-import subprocess as sp
+from subprocess import Popen
 
 class CreateProject(QtWidgets.QDialog):
 
@@ -143,24 +143,29 @@ class CreateProject(QtWidgets.QDialog):
         if self.VMs:
             print("Exporting VMs.....")
 
+        a_dir = 'Project Data'
+        b_dir = self.ProjectName.text()
+        c_dir = 'VMs'   
+        out = os.path.join(a_dir,b_dir,c_dir)
+  
         for i in self.VMs:
-            dirpath = 'Project Data/'+self.ProjectName.text()+'/VMs'
             filename = i+'.ova'
-            out = os.path.join(dirpath,filename)
+            out = os.path.join(out,filename)
             command_args = ['vboxmanage','export', i,'--output', out]
-            print("Exporting " + i + " VM.....")
-            proc = sp.Popen(command_args,stdout=sp.PIPE,stderr=sp.PIPE,shell=True)
+            proc = Popen(command_args,close_fds=True)
+
             outp, err = proc.communicate()
-            print(outp)
-            print(err)
-             
+            if outp:
+                print(outp)
+            if err:    
+                print(err)
 
         self.compress_project()   
 
     ################# COMPRESS PROJECT FOLDER AND SAVE INTO /PROJECT DATA/ DIRECTORY #######################
     def compress_project(self):
         dirpath = 'Project Data/'
-        
+        print("Compressing.......")
         self.CompressButton.hide()
         self.exitButton.show()
         shutil.make_archive(dirpath + self.ProjectName.text(),'zip',dirpath,self.ProjectName.text())
