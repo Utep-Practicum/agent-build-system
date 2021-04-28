@@ -1,4 +1,4 @@
-# ABS_Packager
+# Packager Component
 
 ### Export all project elements
 
