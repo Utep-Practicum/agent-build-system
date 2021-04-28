@@ -1,5 +1,10 @@
 # ABS_Packager
 
+### Export all project elements
+
+Allows user to select Virtual Machines and Files that are part of a project for packaging in a zip file.
+
+
 **The Packager.exe is meant to be executed on the host machine, outside the sandbox environment.**
 
 System Requirements:
@@ -12,7 +17,7 @@ System Requirements:
   
   - Terminal with Admin Privileges Command:
   
-    _set PATH=%PATH%;"C:\Program Files\Oracle\VirtualBox"_
+    _set PATH=%PATH%;"[Path to Oracle\VirtualBox\ Directory]"_
   
   - Manual Process:
     
