@@ -10,7 +10,9 @@ System Requirements:
   
 * Add VBoxManage to PATH variable
   
-  - Terminal with Admin Privileges Command: _set PATH=%PATH%;"C:\Program Files\Oracle\VirtualBox"_
+  - Terminal with Admin Privileges Command:
+  
+    _set PATH=%PATH%;"C:\Program Files\Oracle\VirtualBox"_
   
   - Manual Process:
     
