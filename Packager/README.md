@@ -28,7 +28,7 @@ System Requirements:
     
       Select *New*
     
-      Paste the location of *Oracle\VirtualBox* folder
-    
-          Default Location: C:\Program Files\Oracle\VirtualBox\
+      Paste the location of *Oracle\VirtualBox* directory
+  
+    > Default Location: C:\Program Files\Oracle\VirtualBox\
     
