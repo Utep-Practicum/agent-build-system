@@ -1,0 +1,17 @@
+#!/bin/bash
+prompt_accepted_Yn() {
+    read -r -p "$1 [Y/n] " yn
+    case $yn in
+        [nN]*) return 1 ;;
+        *) return 0 ;;
+    esac
+}
+ABS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+if [ "$EUID" -ne 0 ]; then
+echo -e "${GRN} The Agent-Build-System must be run as root ${NC}"
+exit 1
+fi
+cd "$ABS_DIR"
+
+#venv/bin/python3 GUI_manager.py #DOESNT WORK BECAUSE THE VENV DOESNT HAVE PYQT
+python3 GUI_manager.py
