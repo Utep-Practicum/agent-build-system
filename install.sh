@@ -108,7 +108,7 @@ fi
 cd "$ABS_DIR"
 
 #venv/bin/python3 GUI_manager.py #DOESNT WORK BECAUSE THE VENV DOESNT HAVE PYQT
-python3 GUI_manager.py
+python3 GUI_manager.py $1
 EOFagent-build-system
 
 chmod +x "$ABS_DIR"/Agent-Build-System
