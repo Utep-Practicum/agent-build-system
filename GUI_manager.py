@@ -7,6 +7,7 @@ from Builder.Controller import *
 from Builder.Builder_GUI import *
 from Builder.Relation import *
 from Runner.Runner_GUI import *
+from Runner.Runner_Manager import *
 
 class GUIManager(QMainWindow):
 
@@ -43,10 +44,20 @@ class GUIManager(QMainWindow):
 
 
     def runner(self,name = None):
+        self.project = name
+        #These lines are only to test the Runner
+        #Remove upon test completion
+        temp = Controller()
+        temp.update(self.project)
+        rel_lst = temp.relationships_main[0]
+        RunnerManager(rel_lst).definer(rel_lst.observation_list[0])
+
+        """
         self.runner = Runner_GUI()
         self.r = Window
         self.runner.setupUi(self.r)
         self.r.show()
+        """
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

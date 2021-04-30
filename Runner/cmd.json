@@ -1,0 +1,5 @@
+[{
+    "ip.src":"src net",
+    "ip.dst":"dst net", 
+    "ip.len":"len <= "
+    }]

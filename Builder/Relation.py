@@ -32,6 +32,9 @@ class Observation:
         self.user_action = False
         self.script = None
 
+        # Information to filter
+        self.select_filters = ['ip.src', 'ip.len']
+
     def show(self):
         string = str(self.index_observation) + ") " + "start: " + str(self.start) + ', ' + "data_type: " + str(self.data_type) + ', ' + "artifact: " + str(self.artifact) + ', ' + "data: " + str(self.data)
         return string
