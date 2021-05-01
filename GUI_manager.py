@@ -47,10 +47,10 @@ class GUIManager(QMainWindow):
         self.project = name
         #These lines are only to test the Runner
         #Remove upon test completion
-        temp = Controller()
-        temp.update(self.project)
-        rel_lst = temp.relationships_main[0]
-        RunnerManager(rel_lst.observation_list).runner_review()
+        controller = Controller()
+        controller.update(self.project)
+        controller.dependencies_main = controller.relationships_main
+        RunnerManager(controller).runner_review()
 
         """
         self.runner = Runner_GUI()

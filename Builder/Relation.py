@@ -24,11 +24,12 @@ class Observation:
         self.data = node['data']
         self.data_type = node['data_type']
         self.artifact = node['artifact']
+        self.ignore = 0
 
         # Depicts the time to wait before looking for observation or executing script
         self.delay = 0
 
-        # Information to create script
+        # Determine if observation is a user action
         self.user_action = False
         self.script = None
         if self.data_type != 'network':    

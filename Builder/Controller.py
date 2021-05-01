@@ -95,3 +95,13 @@ class Controller:
                     relationship.observation_list[y].start = str(timeDiff_list[y]+0.1)
                 else:
                     relationship.observation_list[y].start = str(timeDiff_list[y])
+
+
+    def unified_list(self):
+        uni_list = []
+        for dep in self.dependencies_main:
+            for obs in dep.observation_list:
+                if obs.ignore != 1:
+                    uni_list.append(obs)
+
+        return uni_list

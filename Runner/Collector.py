@@ -28,7 +28,13 @@ class Collector:
         global filter_def
         filter = ''
         counter = 0
+
+        # This line is to test the filter function
+        # Remove before final integration
+        #############################################
         self.observation.data['ip.src'] = '10.0.2.15'
+        #############################################
+
         for item in self.observation.select_filters:       
             if counter == 0:
                 filter += ' ' + filter_def[item] + ' ' + self.observation.data[item]

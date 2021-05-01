@@ -5,8 +5,8 @@ from Builder.Controller import *
 
 class RunnerManager:
 
-    def __init__(self, observations):
-        self.observation_list = observations
+    def __init__(self, controller):
+        self.observation_list = controller.unified_list()
     
 
     def func_definer(self, observation):
