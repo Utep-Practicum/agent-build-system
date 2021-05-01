@@ -50,7 +50,7 @@ class GUIManager(QMainWindow):
         temp = Controller()
         temp.update(self.project)
         rel_lst = temp.relationships_main[0]
-        RunnerManager(rel_lst).definer(rel_lst.observation_list[0])
+        RunnerManager(rel_lst.observation_list).runner_review()
 
         """
         self.runner = Runner_GUI()

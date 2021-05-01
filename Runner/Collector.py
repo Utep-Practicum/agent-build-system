@@ -2,8 +2,9 @@ import sys
 import os
 import json
 
+# This uses a json file that converts the labels into filter syntax
 filter_def = None
-with open('Runner/cmd.json') as f:
+with open('Runner/filter_settings.json') as f:
     filter_def = json.load(f)[0]
 
 class Collector:
@@ -18,6 +19,7 @@ class Collector:
             file_name = 'pcap_' + str(count) + '.pcap'
             filter_str = self.traffic_filter()
             cmd = 'tshark -c 1 -w Runner/tshark/{0} -f \"{1}\"'.format(file_name, filter_str)
+            print(cmd)
             os.system(cmd)
             count += 1
 
@@ -26,7 +28,8 @@ class Collector:
         global filter_def
         filter = ''
         counter = 0
-        for item in self.observation.select_filters:
+        self.observation.data['ip.src'] = '10.0.2.15'
+        for item in self.observation.select_filters:       
             if counter == 0:
                 filter += ' ' + filter_def[item] + ' ' + self.observation.data[item]
             else:

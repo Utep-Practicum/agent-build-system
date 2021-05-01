@@ -31,8 +31,11 @@ class Observation:
         # Information to create script
         self.user_action = False
         self.script = None
+        if self.data_type != 'network':    
+            self.user_action = True
+            self.script = None
 
-        # Information to filter
+        # Selected labels which will be used to filter traffic on the Runner
         self.select_filters = ['ip.src', 'ip.len']
 
     def show(self):

@@ -9,8 +9,13 @@ class RunnerManager:
         self.observation_list = observations
     
 
-    def definer(self, observation):
+    def func_definer(self, observation):
         if observation.user_action:
             print('Call script')
         else:
             Collector(observation).tshark_collector()
+
+
+    def runner_review(self):
+        for item in self.observation_list:
+            self.func_definer(item)
