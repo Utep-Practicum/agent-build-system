@@ -12,7 +12,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Builder.EditForm import *
 from Builder.Controller import *
 from Builder.EditForm import *
-from Builder.Analysis_GUI import *
 import json
 import sys
 import copy
