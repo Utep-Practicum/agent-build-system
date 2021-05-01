@@ -32,6 +32,10 @@ class Observation:
         self.user_action = False
         self.script = None
 
+        #change to 1 when ignoring observation in script
+        self.ignore = 0
+
+
     def show(self):
         string = str(self.index_observation) + ") " + "start: " + str(self.start) + ', ' + "data_type: " + str(self.data_type) + ', ' + "artifact: " + str(self.artifact) + ', ' + "data: " + str(self.data)
         return string
