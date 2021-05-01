@@ -63,8 +63,9 @@ fi
 
 ### Install dependencies
 #
-REQUIRED_PROGRAMS="python3-pip python3-venv"
-REQUIRED_PYTHON_PACKAGES="PyQt5" #Eventually add virtualbox
+REQUIRED_PROGRAMS="python3-pip python3-venv virtualbox"
+#PyQt5, python-dateutil, pyautogui, opencv-python, numpy, virtualbox
+REQUIRED_PYTHON_PACKAGES="PyQt5 python-dateutil pyautogui opencv-python numpy virtualbox" #Eventually add virtualbox
 
 #Installs python3 and venv
 echo -e "${GRN} $OUTPUT_PREFIX Installing Additional Dependencies ${NC}"
@@ -77,7 +78,7 @@ else
 fi
 
 
-#MIGHT NOT NEED THIS?
+######might need to instantiate a venv enviornment in order to get vboxapi to work#######
 ### Create virtualenv if it doesn't currently exist
 echo -e "${GRN} $OUTPUT_PREFIX Installing python dependencies ${NC}"
 if [ ! -d "venv" ]; then
