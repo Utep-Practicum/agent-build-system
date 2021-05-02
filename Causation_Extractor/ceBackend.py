@@ -46,7 +46,7 @@ class ceBackend:
                             packetList[i]["data"] = node.frame_info.copy() #Frame information
                             packetList[i]["data_type"] = "network" #Packet type
                             node.frame_info.clear() #Clears node before next capture
-                        print(packetList)
+                        #print(packetList)
                         head += packetList
                     else:
                         file_data = json.load(infile)
@@ -55,7 +55,7 @@ class ceBackend:
                             array.append(self.format_data(line))
                         head += array
             json.dump(head, outfile, indent=4)
-        print("done enumerating files")
+        print("Done enumerating files")
 
         #self.project_Name = project_name
         #print(self.project_Name)
@@ -128,7 +128,7 @@ class ceBackend:
                 endTime = startTime + timeframe
                 tempList = []
         # print(len(relationshipList))
-        self.outputRelationships(relationshipList)
+        #self.outputRelationships(relationshipList)
 
         # Relationships look like the following
         # relationshipList[0], Each index is a relationship
@@ -167,7 +167,6 @@ class ceBackend:
         # print(json.dumps(relationshipList, sort_keys=True, indent=4)) #Debug, prints out entire json list in a pretty format
         return count
 
-    ##TODO: SAVE RELATIONSHIP FOLDER UNDER PROJECT DATA FOLDER
     # creates individual files for each relationship
     def createRelationshipFile(self, relationshipList,project_Name):
         # relationshipList[0], Each index is a relationship
@@ -181,6 +180,7 @@ class ceBackend:
                 json.dump(relationshipList[i], json_file, indent=4)
 
     # Formats the relationship output, used pretty much only for debugging.
+    '''
     def outputRelationships(self, relationshipList):
         for i in range(len(relationshipList)):
             print("Relationship:%i----------------------------------------------------------" % (i + 1))
@@ -190,3 +190,4 @@ class ceBackend:
                 print(
                     "Timestamp:%s, Content:%s " % (relationshipList[i][j]["start"], relationshipList[i][j]['data']))
             print("\n\n\n")  # Make the output less harsh on the yees
+    '''
