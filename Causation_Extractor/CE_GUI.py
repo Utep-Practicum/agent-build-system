@@ -147,7 +147,10 @@ class CEGUI(QWidget):
         directory = os.fsencode(name)
         self.fileName.setText(name)
         backend = ceBackend()
-        self.num_lines = backend.output_directory(directory, name)
+        try:
+            self.num_lines = backend.output_directory(directory, name)
+        except:
+            self.alert_msg("Directory Error","Invalid Directory, Please reselect a new directory")
         self.get_ProjectName()
         self.check_project()
 
@@ -197,5 +200,14 @@ class CEGUI(QWidget):
         self.actionSave_Project.setText(_translate("self.CEWindow", "Save Project"))
         self.actionExit.setText(_translate("self.CEWindow", "Exit"))
         self.actionREADME.setText(_translate("self.CEWindow", "README"))
+
+    ###################### Alert Pop-up Window  #############################
+    def alert_msg(self, title, msg):
+        print("Error occured: \n\t-Title: %s\n\t-Message: %s\n " %(str(title), str(msg)))
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.setWindowTitle(str(title))
+        msgbox.setText(str(msg))
+        msgbox.setStyleSheet("QLabel{ color: red}");
+        msgbox.exec_()
 
 

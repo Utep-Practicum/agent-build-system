@@ -85,7 +85,7 @@ class NewProject(QtWidgets.QDialog):
             os.makedirs("Project Data")
 
         #  Create Project Paths
-        if not os.path.exists("../Project Data/" + self.ProjectName.text()):
+        if not os.path.exists("Project Data/" + self.ProjectName.text()):
             print("creating folders....")
             os.makedirs("Project Data/" + self.ProjectName.text())
             os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/")
@@ -102,8 +102,21 @@ class NewProject(QtWidgets.QDialog):
             self.CreateButton.hide()
             print("Project was created")
         else:
-            self.error_label.setHidden(False)
+            errorMsg = "Project Name "+ "'"+self.ProjectName.text()+"'" +" Already exists. Please input a different name"
+            self.alert_msg("Name Error", errorMsg)
+            #self.error_label.setHidden(False)
             print("Project Name Already Exists")
+
+
+    ###################### Alert Pop-up Window  #############################
+    def alert_msg(self, title, msg):
+        print("Error occured: \n\t-Title: %s\n\t-Message: %s\n " %(str(title), str(msg)))
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.setWindowTitle(str(title))
+        msgbox.setText(str(msg))
+        #msgbox.setStyleSheet("background-color: yellow; border: 1px solid black;")
+        msgbox.setStyleSheet("QLabel{ color: red}");
+        msgbox.exec_()
 
 '''
 if __name__ == "__main__":
