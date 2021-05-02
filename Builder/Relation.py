@@ -27,8 +27,6 @@ class Observation:
 
         # Depicts the time to wait before looking for observation or executing script
         self.delay = 0
-        
-        self.ignore = 0
 
         # Information to create script
         if(self.data_type == "Keypresses" or self.data_type == "imgPoint"):
@@ -41,6 +39,8 @@ class Observation:
         # Selected labels which will be used to filter traffic on the Runner
         self.select_filters = ['ip.src', 'ip.len']
 
+        #change to 1 when ignoring observation in script
+        self.ignore = 0
 
 
     def show(self):
