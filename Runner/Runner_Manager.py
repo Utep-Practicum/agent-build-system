@@ -16,14 +16,17 @@ class RunnerManager:
 
     def func_definer(self, observation):
         if observation.user_action:
-            # Still need to add delta time to run script
 
-            # if int(observation.start) > 20:
-            #     time.sleep(int(observation.start))
+            print(observation.observation_number)
+        
+            # This conditions is to prevent running high delta times
+            if float(observation.start) < 20:
+                time.sleep(float(observation.start))
             os.system("python3 Project\ Data/"+ self.controller.project_name +"/Builder/Dependencies/observation"+ str(observation.observation_number) +".py")
             # execfile()
         else:
             print("Test")
+            # Temporary disabled
             # Collector(observation).tshark_collector()
 
 
