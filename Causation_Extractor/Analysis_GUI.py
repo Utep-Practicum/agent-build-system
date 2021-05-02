@@ -140,13 +140,21 @@ class Ui_Analyzing_Window(QWidget):
         frac = round(100 / count, 1)
         prct = 0
         start_time = time.time()
+
+        while 33 > prct:
+            prct += frac
+            time.sleep(.1)
+            self.progressBar.setValue(prct)
+        relationshipList = causationObject.relationshipDefiner(time_frame)
+        while 88 > prct:
+            prct += frac
+            time.sleep(.1)
+            self.progressBar.setValue(prct)
+        artifactCount = causationObject.makeArtifacts(relationshipList)
         while 100 > prct:
             prct += frac
-            time.sleep(.01)
+            time.sleep(.1)
             self.progressBar.setValue(prct)
-
-        relationshipList = causationObject.relationshipDefiner(time_frame)
-        artifactCount = causationObject.makeArtifacts(relationshipList)
         causationObject.createRelationshipFile(relationshipList, project_name)
         final_time = time.time() - start_time
 
