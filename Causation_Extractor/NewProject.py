@@ -54,7 +54,7 @@ class NewProject(QtWidgets.QDialog):
         # Error label
         self.error_label = QtWidgets.QLabel(Form)
         self.error_label.setStyleSheet("color: red;")
-        self.error_label.setGeometry(QtCore.QRect(40, 165, 150, 18))
+        self.error_label.setGeometry(QtCore.QRect(40, 165, 190, 18))
         self.error_label.setFont(font)
         self.error_label.setHidden(True)
 
@@ -87,7 +87,7 @@ class NewProject(QtWidgets.QDialog):
 
         #  Create Project Paths
         if not os.path.exists("Project Data/" + self.ProjectName.text()):
-            print("creating folders....")
+            print("Creating folders....")
             os.makedirs("Project Data/" + self.ProjectName.text())
             os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/")
             os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/CE_logs/")
@@ -101,7 +101,7 @@ class NewProject(QtWidgets.QDialog):
             os.makedirs("Project Data/" + self.ProjectName.text() + "/Packager/Packager_logs")
             self.CancelButton.setText("Continue")
             self.CreateButton.hide()
-            print("Project was created")
+            print("Project " + self.ProjectName.text()+" was created")
         else:
             self.error_label.setHidden(False)
             print("Project Name Already Exists")

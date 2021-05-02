@@ -144,7 +144,7 @@ class CEGUI(QWidget):
         try:
             # Gets directory name and sets it to a variable
             name = QFileDialog.getExistingDirectory(self.Browse_Button, 'Choose Src Dir', 'c:\\')
-            print("dirname:", name)
+            print("ECELd dirname:", name)
             directory = os.fsencode(name)
             self.fileName.setText(name)
             backend = ceBackend()
@@ -173,7 +173,7 @@ class CEGUI(QWidget):
     ##############################################################################
     def get_ProjectName(self):
         self.project_name = self.sP.project_sP
-        print(self.project_name)
+
 
     ###################### CHECK THAT A PROJECT HAS BEEN CREATED #############################
     def check_project(self):
@@ -181,7 +181,7 @@ class CEGUI(QWidget):
             print("Project not created. Please create one")
         else:
             self.label.setText("ECELd Project Folder:")
-            print("Working with project...." + self.project_name)
+            print("Working with project " + self.project_name + "...")
             self.Analyze_Button.setEnabled(True)
             self.Analyze_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
             self.SaveProject_Button.setEnabled(False)
