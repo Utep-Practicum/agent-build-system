@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog
 from Builder.EditForm import *
 from Builder.Controller import *
 from Builder.EditForm import *
@@ -179,6 +180,7 @@ class Builder_GUI(object):
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 778, 21))
         self.menubar.setObjectName("menubar")
+
         ######################Project Top Bar Dropdown ##############################
         self.menu_project = QtWidgets.QMenu(self.menubar)
         self.menu_project.setObjectName("menu_project")
@@ -187,12 +189,29 @@ class Builder_GUI(object):
         self.statusbar.setObjectName("statusbar")
         BuilderWindow.setStatusBar(self.statusbar)
 
-        ###################### Save Project Menu Option #############################
+
+        ###################### Import Project Menu Option #############################
         self.action_import_project = QtWidgets.QAction(BuilderWindow)
         self.action_import_project.setObjectName("action_import_project")
         self.menu_project.addAction(self.action_import_project)
         self.menu_project.setStyleSheet("color: black")  # modified submenu font to be black -seb
         self.action_import_project.triggered.connect(self.import_project)  # function gets ran at click -seb
+
+        ###################### Load Project Option ##################################
+        self.action_load = QtWidgets.QAction(BuilderWindow)
+        self.action_load.setObjectName("action_load")
+        self.action_load.setText("Load Object")
+        self.menu_project.addAction(self.action_load)
+        self.menu_project.setStyleSheet("color: black")
+        self.action_load.triggered.connect(self.load_object)
+
+        ###################### Save Object Option ##################################
+        self.action_save_object = QtWidgets.QAction(BuilderWindow)
+        self.action_save_object.setObjectName("action_save_object")
+        self.action_save_object.setText("Save Object")
+        self.menu_project.addAction(self.action_save_object)
+        self.menu_project.setStyleSheet("color: black")
+        self.action_save_object.triggered.connect(self.save_object)
 
         ###################### Quit Builder Menu Option #############################
         self.action_quit = QtWidgets.QAction(BuilderWindow)
@@ -203,6 +222,7 @@ class Builder_GUI(object):
         self.menubar.addAction(self.menu_project.menuAction())
         self.retranslate_ui(BuilderWindow)
         QtCore.QMetaObject.connectSlotsByName(BuilderWindow)
+
 
         ############ Call the method to display relations #####################
         self.display_relations()
@@ -235,7 +255,7 @@ class Builder_GUI(object):
         self.move_button_back.setText(_translate("BuilderWindow", "<<"))
         self.undo_button.setText(_translate("BuilderWindow", "⏎"))
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
-        self.action_import_project.setText(_translate("BuilderWindow", "Save Project"))
+        self.action_import_project.setText(_translate("BuilderWindow", "Import Project"))
         self.action_quit.setText(_translate("BuilderWindow", "Quit"))
 
     def display_relations(self):
@@ -256,6 +276,82 @@ class Builder_GUI(object):
     def update_lists(self):
         self.display_relations()
         self.display_dependencies()
+
+    def load_object(self):
+        """
+            Import project
+        """
+        print("load object")
+        observation_list = []
+        self.controller_object.relationships_main.clear()
+        self.controller_object.dependencies_main.clear()
+
+        with open("saved_object1.json") as load_file:
+            a = json.load(load_file)
+
+        # Relations
+        relations_dictionary = a[0]["Relationships"]
+        print(relations_dictionary.keys())
+        for key in relations_dictionary.keys():
+            index = int(key.split()[1])
+            for observation in relations_dictionary[key]:
+                print(observation)
+                observation_list.append(relations_dictionary[key][observation])
+            self.controller_object.relationships_main.append(Relation(observation_list, index))
+        print()
+
+        # Dependencies
+        observation_list = []
+        dependencies_dictionary = a[1]["Dependencies"]
+        print(dependencies_dictionary.keys())
+        for key in dependencies_dictionary.keys():
+            index = int(key.split()[1])
+            for observation in dependencies_dictionary[key]:
+                print(observation)
+                observation_list.append(dependencies_dictionary[key][observation])
+            self.controller_object.dependencies_main.append(Relation(observation_list, index))
+        print()
+
+    def save_object(self):
+        """
+        Deep copy of project
+        """
+        print("save object")
+        objectToSave = []
+
+        objectToSaveRelations = {"Relationships": {}}
+        objectToSaveDependencies = {"Dependencies": {}}
+
+        for relation in self.controller_object.relationships_main:
+            objectToSaveRelations["Relationships"][relation.name] = {}
+            # objectToSave[relation.name] = {}
+            print(relation.name)
+            for observation in relation.observation_list:
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation] = {}
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['start'] = observation.start
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data'] = observation.data
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data_type'] = observation.data_type
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['artifact'] = observation.artifact
+
+        objectToSave.append(objectToSaveRelations)
+
+        # Dependencies
+        for dependency in self.controller_object.dependencies_main:
+            objectToSaveDependencies["Dependencies"][dependency.name] = {}
+            # objectToSave[dependency.name] = {}
+            print(dependency.name)
+            for observation in dependency.observation_list:
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation] = {}
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['start'] = observation.start
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data'] = observation.data
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data_type'] = observation.data_type
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['artifact'] = observation.artifact
+            #objectToSave["dependencies"].append(dependency.name)
+
+        objectToSave.append(objectToSaveDependencies)
+
+        with open("saved_object1.json", 'w') as outfile:
+            json.dump(objectToSave, outfile, indent=4)
 
     def display_search_results(self, text):
         self.relationship_list.clear()
@@ -468,7 +564,7 @@ class Builder_GUI(object):
 
     ###################### Manage control state  #############################
     def save_controller_state(self):
-        if len(self.undo_stack) > 10:
+        if len(self.undo_stack) > 20:
             self.undo_stack.pop(0)
         enable_button(self.undo_button)
         self.undo_stack.append(copy.deepcopy(self.controller_object))
