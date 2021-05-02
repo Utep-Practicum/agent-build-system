@@ -232,7 +232,7 @@ class Builder_GUI(object):
         self.move_button_back.setText(_translate("BuilderWindow", "<<"))
         self.undo_button.setText(_translate("BuilderWindow", "⏎"))
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
-        self.action_import_project.setText(_translate("BuilderWindow", "Save Project"))
+        self.action_import_project.setText(_translate("BuilderWindow", "Import Project"))
         self.action_quit.setText(_translate("BuilderWindow", "Quit"))
 
     def display_relations(self):
@@ -383,7 +383,7 @@ class Builder_GUI(object):
                 found_relation.observation_list.remove(
                     observation)  # Kick that guy out of the club until project is reimported.
                 print("removing observation:", observation.show())  # DEBUG
-
+    
     def disable_edit_button(self):
         self.edit_button.setEnabled(False)
         self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
@@ -427,24 +427,31 @@ class Builder_GUI(object):
         QtWidgets.qApp.processEvents()
         self.ui.progressBar_update()
 
-    ###################### Import Project Function -Seb #############################
+    ###################### Import Project Function ###############################
     def import_project(self):
-        name = QFileDialog.getExistingDirectory(self.menu_project, 'Choose Src Dir', 'c:\\')
+        currentDirectory = os.getcwd()
+        name = QtWidgets.QFileDialog.getExistingDirectory(self.menu_project, 'Choose Src Dir', 'currentDirectory')
         print("directory selected:", name)
+        print("dirname:", os.path.dirname(name))  #The path leading up to the chosen folder
+        print("basename:",os.path.basename(name)) #The actual chosen folder name
+
         try:
             subdir_folders = os.listdir(name)
             # print(subdir_folders[0]) #DEBUG: list elements are str
             if "Builder" not in subdir_folders:
-                print("This directory is not properly formatted, please select a project data directory")
-                # Maybe call some function that sends a popup window here?
-                # break
+                #print("This directory is not properly formatted, please select a project data directory")
+                self.alert_msg("Invalid Directory","This directory is not properly formatted, please select a project data directory")
+                
             else:
-                print("folder with relationships:", name)
-                # self.back_end.read_relationships(name) #ideally call this function to load them once selected
-                return name  # For now: Returns path to folder
+                #print("folder with relationships:", name) #DEBUG
+                print("updating controller with new project:", name)
+                self.controller_object.update(os.path.basename(name))
+                self.display_relations()
 
-        except:
-            print("an error occured while trying to read the directory")
+        except Exception as e: 
+            print("The following error has occured:",e)
+
+
 
     ###################### Ignore Project Function -Seb #############################
     def ignore_observation(self):
@@ -482,6 +489,16 @@ class Builder_GUI(object):
         self.setupUi(BuilderWindow)
         BuilderWindow.show()
         sys.exit(app.exec_())
+
+    ###################### Alert Pop-up Window  #############################
+    def alert_msg(self, title, msg):
+        print("Error occured. Tite:%s Message:%s " %(str(title), str(msg))
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.setWindowTitle(str(title))
+        msgbox.setText(str(msg))
+        msgbox.exec_()
+
+
 
 # if __name__ == "__main__":
 #     import sys
