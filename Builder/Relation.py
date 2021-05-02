@@ -24,20 +24,24 @@ class Observation:
         self.data = node['data']
         self.data_type = node['data_type']
         self.artifact = node['artifact']
-        self.ignore = 0
 
         # Depicts the time to wait before looking for observation or executing script
         self.delay = 0
+        
+        self.ignore = 0
 
-        # Determine if observation is a user action
-        self.user_action = False
-        self.script = None
-        if self.data_type != 'network':    
+        # Information to create script
+        if(self.data_type == "Keypresses" or self.data_type == "imgPoint"):
             self.user_action = True
-            self.script = None
+        else:
+            self.user_action = False
+
+        self.script = None
 
         # Selected labels which will be used to filter traffic on the Runner
         self.select_filters = ['ip.src', 'ip.len']
+
+
 
     def show(self):
         string = str(self.index_observation) + ") " + "start: " + str(self.start) + ', ' + "data_type: " + str(self.data_type) + ', ' + "artifact: " + str(self.artifact) + ', ' + "data: " + str(self.data)

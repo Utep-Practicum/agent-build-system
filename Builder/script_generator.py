@@ -7,32 +7,47 @@ class ScriptGenerator:
     def __init__(self, project, dependencies):
         self.project = project
         self.dependencies = dependencies
+        self.observation_list = []
+        self.generate_observation_list()
+
+
+    def generate_observation_list(self):
+        print("Test")
+        index = 1
+        for dependency in self.dependencies:
+            for observation in dependency.observation_list:
+                print(observation.user_action)
+
+                observation.observation_number = index
+                index = index + 1
+                if observation.user_action:
+                    self.observation_list.append(observation)
+
 
     def generate_scripts(self):
         self.clean_project_folder()
 
-        for dependency in self.dependencies:
-            self.generate_single_script(dependency)
+        for observation in self.observation_list:
+            self.generate_single_script(observation)
 
     def clean_project_folder(self):
         files = glob.glob("Project Data/" + self.project + '/Builder/Dependencies/*')
         for f in files:
             os.remove(f)
 
-    def generate_single_script(self, dependency):
-        file = open("Project Data/" + self.project + '/Builder/Dependencies/' + dependency.name + ".py", 'w')
+    def generate_single_script(self, observation):
+        file = open("Project Data/" + self.project + '/Builder/Dependencies/observation' + str(observation.observation_number) + ".py", 'w')
         sys.stdout = file
 
         print("import pyautogui")
         print("")
 
-        for observation in dependency.observation_list:
-            self.translate_observation_to_script_command(observation)
+    
+        self.translate_observation_to_script_command(observation)
 
         file.close()
 
-    @staticmethod
-    def translate_observation_to_script_command(observation):
+    def translate_observation_to_script_command(self, observation):
         if observation.data_type == "imgPoint":
             print("pyautogui.click(x=100, y=200)")
         elif observation.data_type == "Keypresses":
@@ -43,12 +58,34 @@ class ScriptGenerator:
                     string_to_print = "["
                 elif char == "]":
                     string_to_print = string_to_print + "]"
+                    print("pyautogui.press(\"" + self.translate_key(string_to_print) + "\")")
+                    string_to_print = ""
+                elif char == "\"":
                     print("pyautogui.write(\"" + string_to_print + "\")")
                     string_to_print = ""
                 else:
                     string_to_print = string_to_print + char
             if len(string_to_print) > 0:
                 print("pyautogui.write(\"" + string_to_print + "\")")
+
+    def translate_key(self, string):
+        if string == "[Return]":
+            return "enter"
+        elif string == "[Control_L]" or string == "[Control_R]":
+            return "ctrl"
+        elif string == "[Shift_L]" or string == "[Shift_R]":
+            return "shift"
+        # elif string == "[Control_L]" or string == "[Control_R]":
+        #     return "ctrl"
+        # elif string == "[Control_L]" or string == "[Control_R]":
+        #     return "ctrl"
+        # elif string == "[Control_L]" or string == "[Control_R]":
+        #     return "ctrl"
+        # elif string == "[Control_L]" or string == "[Control_R]":
+        #     return "ctrl"
+        else:
+            return string[1:-1]
+        
 
 
 

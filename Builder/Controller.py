@@ -99,9 +99,12 @@ class Controller:
 
     def unified_list(self):
         uni_list = []
+        i = 1
         for dep in self.dependencies_main:
             for obs in dep.observation_list:
                 if obs.ignore != 1:
+                    obs.observation_number = i
                     uni_list.append(obs)
+                    i += 1
 
         return uni_list
