@@ -71,7 +71,7 @@ class Ui_ABS_Packager(object):
         self.files_label.setObjectName("files_label")
         
     ################# Entry Actions ##################################
-        '''When Packager is executed, first gather VMs in host and show their names.'''
+        # When Packager is executed, first gather VMs in host and show their names.
         self.populate_machineList()
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self.ABS_Packager)
