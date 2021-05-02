@@ -492,7 +492,7 @@ class Builder_GUI(object):
 
     ###################### Alert Pop-up Window  #############################
     def alert_msg(self, title, msg):
-        print("Error occured. Tite:%s Message:%s " %(str(title), str(msg))
+        print("Error occured. Tite:%s Message:%s " %(str(title), str(msg)))
         msgbox = QtWidgets.QMessageBox()
         msgbox.setWindowTitle(str(title))
         msgbox.setText(str(msg))
