@@ -468,7 +468,7 @@ class Builder_GUI(object):
 
     ###################### Manage control state  #############################
     def save_controller_state(self):
-        if len(self.undo_stack) > 5:
+        if len(self.undo_stack) > 10:
             self.undo_stack.pop(0)
         enable_button(self.undo_button)
         self.undo_stack.append(copy.deepcopy(self.controller_object))

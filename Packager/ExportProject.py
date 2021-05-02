@@ -12,21 +12,21 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os , shutil
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
-import zipfile
-import subprocess as sp
+from PyQt5.QtCore import Qt, QProcess 
+from subprocess import Popen
 
-class CreateProject(QtWidgets.QDialog):
+
+class ExportProject(QtWidgets.QDialog):
 
     def __init__(self,Form,ABS_Packager):
-        super(CreateProject, self).__init__()
+        super(ExportProject, self).__init__()
         Form.setObjectName("Form")
         Form.resize(459, 204)
         Form.setMinimumSize(QtCore.QSize(450, 200))
         Form.setStyleSheet("background-color: white")
 
         self.Projectlabel = QtWidgets.QLabel(Form)
-        self.Projectlabel.setGeometry(QtCore.QRect(40, 20, 191, 31))
+        self.Projectlabel.setGeometry(QtCore.QRect(40, 20, 231, 51))
         font = QtGui.QFont()
         font.setFamily("MS Sans Serif")
         font.setPointSize(18)
@@ -47,13 +47,13 @@ class CreateProject(QtWidgets.QDialog):
         self.CreateButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
         self.CreateButton.setObjectName("CreateButton")
 
-        self.CompressButton = QtWidgets.QPushButton(Form)
-        self.CompressButton.setGeometry(QtCore.QRect(40, 120, 161, 41))
+        self.PackageButton = QtWidgets.QPushButton(Form)
+        self.PackageButton.setGeometry(QtCore.QRect(40, 120, 161, 41))
         font.setPointSize(11)
-        self.CompressButton.setFont(font)
-        self.CompressButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
-        self.CompressButton.setObjectName("CompressButton")
-        self.CompressButton.hide()
+        self.PackageButton.setFont(font)
+        self.PackageButton.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px; padding: 8px 0px;")
+        self.PackageButton.setObjectName("PackageButton")
+        self.PackageButton.hide()
         
         self.CancelButton = QtWidgets.QPushButton(Form)
         self.CancelButton.setGeometry(QtCore.QRect(230, 120, 161, 41))
@@ -85,28 +85,27 @@ class CreateProject(QtWidgets.QDialog):
         self.VMs = []
    
       
-        #################BUTTON ACTIONS##################################
+        ########################### BUTTON ACTIONS ##################################
         self.CreateButton.clicked.connect(self.create_folders)
         self.CancelButton.clicked.connect(Form.close)
         self.exitButton.clicked.connect(Form.close)
         self.exitButton.clicked.connect(ABS_Packager.close)
         
-       
-
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Save Project"))
+        Form.setWindowTitle(_translate("Form", "Export Project"))
         self.Projectlabel.setText(_translate("Form", "Project Name:"))
         self.CreateButton.setText(_translate("Form", "Create Project"))
-        self.CompressButton.setText(_translate("Form", "Compress"))
+        self.PackageButton.setText(_translate("Form", "Package"))
         self.CancelButton.setText(_translate("Form", "Cancel"))
         self.exitButton.setText(_translate("Form", "Exit"))
 
+    ################# GATHER FILE AND VM LIST FROM PACKAGER WINDOW ################  
     def pass_objects(self,file_List,VMs):
         self.files = file_List
         self.VMs = VMs
         
-
+    ################# SAVE PROJECT AND CREATE PROJECT FILE STRUCTURE ###############
     def create_folders(self):
         self.error_label.setHidden(True)
         self.project_sP = self.ProjectName.text()
@@ -124,15 +123,17 @@ class CreateProject(QtWidgets.QDialog):
             self.CancelButton.hide()
             self.CreateButton.hide()
 
-            self.CompressButton.show()
-            self.CompressButton.clicked.connect(self.copy_files)
+            self.PackageButton.show()
+            self.PackageButton.clicked.connect(self.copy_files)
             print("Project was created")
+            
         else:
             self.error_label.setHidden(False)
             print("Project Name Already Exists")
 
-    ################# Copying Files & Exporting VMs ####################################
+    ################# COPY FILES AND EXPORT VMS INTO PROJECT DIRECTORY ####################################
     def copy_files(self):
+        
         if(self.files.count()>0):
             print("Copying Files into Project......")
         for i in range(self.files.count()):
@@ -142,29 +143,36 @@ class CreateProject(QtWidgets.QDialog):
         if self.VMs:
             print("Exporting VMs.....")
 
+        a_dir = 'Project Data'
+        b_dir = self.ProjectName.text()
+        c_dir = 'VMs'   
+        
         for i in self.VMs:
-            dirpath = 'Project Data/'+self.ProjectName.text()+'/VMs'
+            print("Exporting " + i + " Virtual Machine")
+            out = os.path.join(a_dir,b_dir,c_dir)
             filename = i+'.ova'
-            out = os.path.join(dirpath,filename)
+            out = os.path.join(out,filename)
             command_args = ['vboxmanage','export', i,'--output', out]
-            print("Exporting " + i + " VM.....")
-            proc = sp.Popen(command_args,stdout=sp.PIPE,stderr=sp.PIPE,shell=True)
-            outp, err = proc.communicate()
-            print(outp)
-            print(err)
-             
 
+            proc = Popen(command_args,close_fds=True)
+            
+            outp, err = proc.communicate()
+            if outp:
+                print(outp)
+            if err:    
+                print(err)
+            
         self.compress_project()   
 
-    ##TODO: Compress Project folder in Project Data directory
+    ################# COMPRESS PROJECT FOLDER AND SAVE INTO /PROJECT DATA/ DIRECTORY #######################
     def compress_project(self):
         dirpath = 'Project Data/'
-        
-        self.CompressButton.hide()
+        print("Compressing.......")
+        self.PackageButton.hide()
         self.exitButton.show()
         shutil.make_archive(dirpath + self.ProjectName.text(),'zip',dirpath,self.ProjectName.text())
-
-        print("Done compressing project " + self.ProjectName.text())
+        self.Projectlabel.setText("Finished Packaging")
+        print("Done Packaging project " + self.ProjectName.text())
 
 ''' 
 if __name__ == "__main__":
