@@ -155,10 +155,6 @@ class Controller:
         """
         Import project
         """
-        print("load object")
-        #self.details_list.clear()
-        #self.relations_list.clear()
-        #self.relation_selected = None
         self.project_name = project_name
 
         observation_list = []
@@ -170,25 +166,20 @@ class Controller:
 
         # Relations
         relations_dictionary = a[0]["Relationships"]
-        print(relations_dictionary.keys())
         for key in relations_dictionary.keys():
             index = int(key.split()[1])
             for observation in relations_dictionary[key]:
-                print(observation)
                 observation_list.append(relations_dictionary[key][observation])
             self.relationships_main.append(Relation(observation_list, index))
             observation_list.clear()
-        print()
+
 
         # Dependencies
         observation_list = []
         dependencies_dictionary = a[1]["Dependencies"]
-        print(dependencies_dictionary.keys())
         for key in dependencies_dictionary.keys():
             index = int(key.split()[1])
             for observation in dependencies_dictionary[key]:
-                print(observation)
                 observation_list.append(dependencies_dictionary[key][observation])
             self.dependencies_main.append(Relation(observation_list, index, True))
             observation_list.clear()
-        print()
