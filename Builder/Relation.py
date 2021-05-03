@@ -1,6 +1,6 @@
 import os
 import json
-from ClickCoordinate import *
+# from ClickCoordinate import *
 
 counter = 1
 
@@ -42,12 +42,12 @@ class Observation:
             img_Name = self.get_image_path(self.data['content'])
             print(f"image: {img_Name}")
             self.data['content'] = img_Name
-            print("before coordinates ----")
-            analyze = ClickCoordinate()
-            analyze.analyze_file("/home/kali/Downloads/demo_1/Clicks/1620030375.6318858_xfdesktop_root.png")
+            # print("before coordinates ----")
+            # analyze = ClickCoordinate()
+            # analyze.analyze_file("/home/kali/Downloads/demo_1/Clicks/1620030375.6318858_xfdesktop_root.png")
             
-            self.coordinateX, self.coordinateY = analyze.click_coord()
-            print(f"x: {self.coordinateX}, y: {self.coordinateY}")
+            # self.coordinateX, self.coordinateY = analyze.click_coord()
+            # print(f"x: {self.coordinateX}, y: {self.coordinateY}")
             
 
         # Depicts the time to wait before looking for observation or executing script
