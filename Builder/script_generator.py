@@ -4,11 +4,10 @@ import glob
 
 
 class ScriptGenerator:
-    def __init__(self, project, dependencies):
-        self.project = project
-        self.dependencies = dependencies
-        self.observation_list = []
-        self.generate_observation_list()
+    def __init__(self, controller):
+        self.project = controller.project_name
+        self.controller = controller
+        self.observation_list = controller.unified_list()
 
 
     def generate_observation_list(self):
@@ -28,7 +27,8 @@ class ScriptGenerator:
         temp = sys.stdout
 
         for observation in self.observation_list:
-            self.generate_single_script(observation)
+            if observation.user_action:
+                self.generate_single_script(observation)
 
         sys.stdout = temp 
 

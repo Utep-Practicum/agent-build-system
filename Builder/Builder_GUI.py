@@ -13,10 +13,10 @@ from PyQt5.QtWidgets import QFileDialog
 from Builder.EditForm import *
 from Builder.Controller import *
 from Builder.EditForm import *
+from Builder.script_generator import *
 import json
 import sys
 import copy
-from Builder.script_generator import *
 
 
 def enable_button(button):
@@ -240,7 +240,7 @@ class Builder_GUI(object):
 
 
     def generate_script(self):
-        sc = ScriptGenerator(self.controller_object.project_name, self.controller_object.dependencies_main)
+        sc = ScriptGenerator(self.controller_object)
         sc.generate_scripts()
         self.saved_project_alert()
 
@@ -288,7 +288,6 @@ class Builder_GUI(object):
         """
             Import project
         """
-        print("load object")
         observation_list = []
         self.controller_object.relationships_main.clear()
         self.controller_object.dependencies_main.clear()
@@ -376,7 +375,6 @@ class Builder_GUI(object):
         it stores and formats the Relation chosen (clicked) and changes the name to Dependency #
         Finally, for each observation, it will be added in the Detail list
         """
-        print("Relatioship")
         self.selected_item = "Relationship"
         self.details_list.clear()
         # Look for the selected relation in our list of relationships
@@ -410,7 +408,6 @@ class Builder_GUI(object):
 
 
     def display_dependency_detail(self, item):
-        print("Dependency")
         self.selected_item = "Dependency"
         self.details_list.clear()
 
@@ -589,6 +586,7 @@ class Builder_GUI(object):
         if len(self.undo_stack) < 1:
             disable_button(self.undo_button)
 
+        # Update Detail List if changed detected
         if len(self.relationship_list.selectedItems()) > 0 and self.selected_item == "Relationship":
             self.display_content(self.relationship_list.selectedItems()[0])
         elif len(self.dependency_list.selectedItems()) > 0 and self.selected_item == "Dependency":
