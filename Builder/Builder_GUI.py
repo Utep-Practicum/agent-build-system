@@ -9,21 +9,22 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog
 from Builder.EditForm import *
 from Builder.Controller import *
 from Builder.EditForm import *
-from Builder.script_generator import *
+from Builder.Analysis_GUI import *
 import json
 import sys
 import copy
 
 
 def enable_button(button):
+    print("enable")
     button.setEnabled(True)
     button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
 def disable_button(button):
+    print("disable")
     button.setEnabled(False)
     button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
 
@@ -32,10 +33,9 @@ class Builder_GUI(object):
 
     def __init__(self, controller):
         self.controller_object = controller
-        controller.create_delta() 
+        self.undo_stack = []
         self.dependency = ""
         self.undo_stack = []
-        self.selected_item  = None
         self.relations_list = controller.relationships_main
         self.relation_selected = None
         if __name__ != "__main__":
@@ -127,7 +127,7 @@ class Builder_GUI(object):
         self.move_button_back.clicked.connect(self.pass_relationship)
         BuilderWindow.setCentralWidget(self.centralwidget)
 
-        ##################### Undo Button #####################
+        #####################  #####################
         self.undo_button = QtWidgets.QPushButton(self.centralwidget)
         self.undo_button.setGeometry(QtCore.QRect(340, 310, 100, 75))
         self.undo_button.setMinimumSize(QtCore.QSize(100, 75))
@@ -157,15 +157,6 @@ class Builder_GUI(object):
         self.delete_button.setObjectName("delete_button")
         self.delete_button.clicked.connect(self.delete_observation)
 
-        ##################### Ignore Artifact Button ################################
-        self.ignore_button = QtWidgets.QPushButton(self.centralwidget)
-        self.ignore_button.setGeometry(QtCore.QRect(275, 660, 50, 41))
-        self.ignore_button.setMinimumSize(QtCore.QSize(100, 41))
-        self.ignore_button.setFont(font)
-        self.ignore_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
-        self.ignore_button.setObjectName("ignore_button")
-        self.ignore_button.clicked.connect(self.ignore_observation)
-
         ##################### Generate Script Button ################################
         self.script_button = QtWidgets.QPushButton(self.centralwidget)
         self.script_button.setGeometry(QtCore.QRect(500, 660, 241, 41))
@@ -173,14 +164,12 @@ class Builder_GUI(object):
         self.script_button.setFont(font)
         self.script_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.script_button.setObjectName("script_button")
-        # self.script_button.clicked.connect(self.show_analyzingWindow)
-        self.script_button.clicked.connect(self.generate_script)
+        self.script_button.clicked.connect(self.show_analyzingWindow)
 
         ###################### Menu Top Bar #########################################
         self.menubar = QtWidgets.QMenuBar(BuilderWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 778, 21))
         self.menubar.setObjectName("menubar")
-
         ######################Project Top Bar Dropdown ##############################
         self.menu_project = QtWidgets.QMenu(self.menubar)
         self.menu_project.setObjectName("menu_project")
@@ -189,15 +178,24 @@ class Builder_GUI(object):
         self.statusbar.setObjectName("statusbar")
         BuilderWindow.setStatusBar(self.statusbar)
 
-
-        ###################### Import Project Menu Option #############################
-        self.action_import_project = QtWidgets.QAction(BuilderWindow)
-        self.action_import_project.setObjectName("action_import_project")
-        self.menu_project.addAction(self.action_import_project)
+        ###################### Save Project Menu Option #############################
+        self.action_save_project = QtWidgets.QAction(BuilderWindow)
+        self.action_save_project.setObjectName("action_save_project")
+        self.menu_project.addAction(self.action_save_project)
         self.menu_project.setStyleSheet("color: black")  # modified submenu font to be black -seb
-        self.action_import_project.triggered.connect(self.import_project)  # function gets ran at click -seb
+        self.action_save_project.triggered.connect(self.import_project)  # function gets ran at click -seb
 
-        ###################### Load Project Option ##################################
+        ###################### Quit Builder Menu Option #############################
+        self.action_quit = QtWidgets.QAction(BuilderWindow)
+        self.action_quit.setObjectName("action_quit")
+        self.menu_project.addAction(self.action_quit)
+        self.action_quit.triggered.connect(QtWidgets.qApp.quit)  # exits on click -seb
+
+        self.menubar.addAction(self.menu_project.menuAction())
+        self.retranslate_ui(BuilderWindow)
+        QtCore.QMetaObject.connectSlotsByName(BuilderWindow)
+
+        ###################### Load Object Option ##################################
         self.action_load = QtWidgets.QAction(BuilderWindow)
         self.action_load.setObjectName("action_load")
         self.action_load.setText("Load Object")
@@ -213,36 +211,12 @@ class Builder_GUI(object):
         self.menu_project.setStyleSheet("color: black")
         self.action_save_object.triggered.connect(self.save_object)
 
-        ###################### Quit Builder Menu Option #############################
-        self.action_quit = QtWidgets.QAction(BuilderWindow)
-        self.action_quit.setObjectName("action_quit")
-        self.menu_project.addAction(self.action_quit)
-        self.action_quit.triggered.connect(QtWidgets.qApp.quit)  # exits on click -seb
-
-        self.menubar.addAction(self.menu_project.menuAction())
-        self.retranslate_ui(BuilderWindow)
-        QtCore.QMetaObject.connectSlotsByName(BuilderWindow)
-
 
         ############ Call the method to display relations #####################
         self.display_relations()
-        self.display_dependencies()
         disable_button(self.edit_button)
         disable_button(self.undo_button)
-        disable_button(self.ignore_button)
 
-
-        ############# Add Lists actions ####################
-        self.details_list.itemClicked.connect(self.enable_ignore_button)
-        self.details_list.itemClicked.connect(self.enable_edit_button)
-        self.relationship_list.itemClicked.connect(self.display_content)
-        self.dependency_list.itemClicked.connect(self.display_dependency_detail)
-
-
-    def generate_script(self):
-        sc = ScriptGenerator(self.controller_object)
-        sc.generate_scripts()
-        self.saved_project_alert()
 
 
     ############ Open Edit Window ####################
@@ -258,13 +232,12 @@ class Builder_GUI(object):
         self.edit_button.setText(_translate("BuilderWindow", "Edit"))
         # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
         self.delete_button.setText(_translate("BuilderWindow", "Delete"))
-        self.ignore_button.setText(_translate("BuilderWindow", "Ignore"))
         self.script_button.setText(_translate("BuilderWindow", "Generate Script"))
         self.move_button.setText(_translate("BuilderWindow", ">>"))
         self.move_button_back.setText(_translate("BuilderWindow", "<<"))
         self.undo_button.setText(_translate("BuilderWindow", "⏎"))
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
-        self.action_import_project.setText(_translate("BuilderWindow", "Import Project"))
+        self.action_save_project.setText(_translate("BuilderWindow", "Save Project"))
         self.action_quit.setText(_translate("BuilderWindow", "Quit"))
 
     def display_relations(self):
@@ -273,12 +246,14 @@ class Builder_GUI(object):
         for relation in self.controller_object.relationships_main:
             self.relationship_list.addItem(relation.name)
 
+        self.relationship_list.itemClicked.connect(self.display_content)
+
     def display_dependencies(self):
         self.dependency_list.clear()
         # For each relation add them to the relations display list
         for dependency in self.controller_object.dependencies_main:
             self.dependency_list.addItem(dependency.name)
-        # self.relationship_list.itemClicked.connect(self.display_content)
+        # self.relationship_list.itemClicked.connect(self.display_dependency_detail)
 
     def update_lists(self):
         self.display_relations()
@@ -286,78 +261,23 @@ class Builder_GUI(object):
 
     def load_object(self):
         """
-            Import project
+        Import project
         """
-        observation_list = []
-        self.controller_object.relationships_main.clear()
-        self.controller_object.dependencies_main.clear()
-
-        with open("saved_object1.json") as load_file:
-            a = json.load(load_file)
-
-        # Relations
-        relations_dictionary = a[0]["Relationships"]
-        print(relations_dictionary.keys())
-        for key in relations_dictionary.keys():
-            index = int(key.split()[1])
-            for observation in relations_dictionary[key]:
-                print(observation)
-                observation_list.append(relations_dictionary[key][observation])
-            self.controller_object.relationships_main.append(Relation(observation_list, index))
-        print()
-
-        # Dependencies
-        observation_list = []
-        dependencies_dictionary = a[1]["Dependencies"]
-        print(dependencies_dictionary.keys())
-        for key in dependencies_dictionary.keys():
-            index = int(key.split()[1])
-            for observation in dependencies_dictionary[key]:
-                print(observation)
-                observation_list.append(dependencies_dictionary[key][observation])
-            self.controller_object.dependencies_main.append(Relation(observation_list, index))
-        print()
+        print("load object")
+        self.details_list.clear()
+        self.relations_list.clear()
+        self.relation_selected = None
+        self.controller_object.load_object()
+        # Display the object in their windows.
+        self.update_lists()
 
     def save_object(self):
         """
         Deep copy of project
         """
         print("save object")
-        objectToSave = []
+        self.controller_object.save_object()
 
-        objectToSaveRelations = {"Relationships": {}}
-        objectToSaveDependencies = {"Dependencies": {}}
-
-        for relation in self.controller_object.relationships_main:
-            objectToSaveRelations["Relationships"][relation.name] = {}
-            # objectToSave[relation.name] = {}
-            print(relation.name)
-            for observation in relation.observation_list:
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation] = {}
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['start'] = observation.start
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data'] = observation.data
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data_type'] = observation.data_type
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['artifact'] = observation.artifact
-
-        objectToSave.append(objectToSaveRelations)
-
-        # Dependencies
-        for dependency in self.controller_object.dependencies_main:
-            objectToSaveDependencies["Dependencies"][dependency.name] = {}
-            # objectToSave[dependency.name] = {}
-            print(dependency.name)
-            for observation in dependency.observation_list:
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation] = {}
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['start'] = observation.start
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data'] = observation.data
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data_type'] = observation.data_type
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['artifact'] = observation.artifact
-            #objectToSave["dependencies"].append(dependency.name)
-
-        objectToSave.append(objectToSaveDependencies)
-
-        with open("saved_object1.json", 'w') as outfile:
-            json.dump(objectToSave, outfile, indent=4)
 
     def display_search_results(self, text):
         self.relationship_list.clear()
@@ -366,6 +286,7 @@ class Builder_GUI(object):
         for relation in self.controller_object.search(text):
             self.relationship_list.addItem(relation.name)
 
+        self.relationship_list.itemClicked.connect(self.display_content)
 
 
     ##################################### Display the content in the Detail Box ########################################
@@ -375,7 +296,6 @@ class Builder_GUI(object):
         it stores and formats the Relation chosen (clicked) and changes the name to Dependency #
         Finally, for each observation, it will be added in the Detail list
         """
-        self.selected_item = "Relationship"
         self.details_list.clear()
         # Look for the selected relation in our list of relationships
         found_relation = None
@@ -384,49 +304,19 @@ class Builder_GUI(object):
                 found_relation = relation_loop
 
         self.relation_selected = found_relation
-        count = 0
 
-        if found_relation != None:
-            for observation in found_relation.observation_list:
-                self.details_list.addItem(observation.show())
-            
-                #sets font to gray
-                if self.relation_selected.observation_list[count].ignore == 1:
-                    self.details_list.item(count).setForeground(QtCore.Qt.gray) 
-                count += 1
-    
-
+        for observation in found_relation.observation_list:
+            self.details_list.addItem(observation.show())
         disable_button(self.edit_button)
-        disable_button(self.ignore_button)
+        self.details_list.itemClicked.connect(self.enable_edit_button)
 
-    def display_observation_after_edit(self):
+    def displayObservationAfterEdit(self):
         self.details_list.clear()
 
         for observation in self.relation_selected.observation_list:
             self.details_list.addItem(observation.show())
         disable_button(self.edit_button)
-
-
-    def display_dependency_detail(self, item):
-        self.selected_item = "Dependency"
-        self.details_list.clear()
-
-        found_dependency = None
-        for dependency_loop in self.controller_object.dependencies_main:
-            if item.text() == dependency_loop.name:
-                found_dependency = dependency_loop
-
-
-        self.relation_selected = found_dependency
-        count = 0
-        if found_dependency != None:
-            for observation in found_dependency.observation_list:
-                self.details_list.addItem(observation.show())
-
-                #sets font to gray
-                if self.relation_selected.observation_list[count].ignore == 1:
-                    self.details_list.item(count).setForeground(QtCore.Qt.gray) 
-                count += 1
+        self.details_list.itemClicked.connect(self.enable_edit_button)
 
     def pass_dependency(self):
         """
@@ -444,6 +334,7 @@ class Builder_GUI(object):
 
         # --------------------------------------------------------------
         # Display the details of the Dependency selected
+        self.dependency_list.itemClicked.connect(self.display_dependency_detail)
 
     def pass_relationship(self):
         """
@@ -461,6 +352,20 @@ class Builder_GUI(object):
 
         # --------------------------------------------------------------
         # Display the details of the Dependency selected
+
+    def display_dependency_detail(self, item):
+        self.details_list.clear()
+
+        found_dependency = None
+        for dependency_loop in self.controller_object.dependencies_main:
+            if item.text() == dependency_loop.name:
+                found_dependency = dependency_loop
+
+        self.relation_selected = found_dependency
+
+        for observation in found_dependency.observation_list:
+            print(observation.show())
+            self.details_list.addItem(observation.show())
 
     ###################### Delete Button Functions ##################################
     def delete_observation(self):
@@ -488,7 +393,8 @@ class Builder_GUI(object):
                 found_relation.observation_list.remove(
                     observation)  # Kick that guy out of the club until project is reimported.
                 print("removing observation:", observation.show())  # DEBUG
-    
+        # END COPYPASTE==================================================================
+
     def disable_edit_button(self):
         self.edit_button.setEnabled(False)
         self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
@@ -513,16 +419,8 @@ class Builder_GUI(object):
 
     def enable_script_button(self):
         self.script_button.setEnabled(True)
+
         self.script_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
-
-    ###################### Ignore Button Functions #########################
-    def disable_ignore_button(self):
-        self.ignore_button.setEnabled(False)
-        self.ignore_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
-
-    def enable_ignore_button(self):
-        self.ignore_button.setEnabled(True)
-        self.ignore_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
     def show_analyzingWindow(self):
         self.Analyzing_Window = QtWidgets.QDialog()
@@ -532,50 +430,28 @@ class Builder_GUI(object):
         QtWidgets.qApp.processEvents()
         self.ui.progressBar_update()
 
-    ###################### Import Project Function ###############################
+    ###################### Import Project Function -Seb #############################
     def import_project(self):
-        currentDirectory = os.getcwd()
-        name = QtWidgets.QFileDialog.getExistingDirectory(self.menu_project, 'Choose Src Dir', 'currentDirectory')
+        name = QFileDialog.getExistingDirectory(self.menu_project, 'Choose Src Dir', 'c:\\')
         print("directory selected:", name)
-        print("dirname:", os.path.dirname(name))  #The path leading up to the chosen folder
-        print("basename:",os.path.basename(name)) #The actual chosen folder name
-
         try:
             subdir_folders = os.listdir(name)
             # print(subdir_folders[0]) #DEBUG: list elements are str
             if "Builder" not in subdir_folders:
-                #print("This directory is not properly formatted, please select a project data directory")
-                self.alert_msg("Invalid Directory","This directory is not properly formatted, please select a project data directory")
-                
+                print("This directory is not properly formatted, please select a project data directory")
+                # Maybe call some function that sends a popup window here?
+                # break
             else:
-                #print("folder with relationships:", name) #DEBUG
-                print("updating controller with new project:", name)
-                self.controller_object.update(os.path.basename(name))
-                self.display_relations()
+                print("folder with relationships:", name)
+                # self.back_end.read_relationships(name) #ideally call this function to load them once selected
+                return name  # For now: Returns path to folder
 
-        except Exception as e: 
-            print("The following error has occured:",e)
-
-
-
-    ###################### Ignore Project Function -Seb #############################
-    def ignore_observation(self):
-        self.save_controller_state()
-        observationIndex = int(self.details_list.currentItem().text()[0])
-        observation = self.relation_selected.observation_list[observationIndex]
-
-        #If ignore has already been set, allow an user to revert the choice by clicking "ignore" again
-        if observation.ignore == 1:
-            observation.ignore = 0
-            self.details_list.currentItem().setForeground(QtCore.Qt.black) 
-        else:
-            observation.ignore = 1
-            self.details_list.currentItem().setForeground(QtCore.Qt.gray) 
-
+        except:
+            print("an error occured while trying to read the directory")
 
     ###################### Manage control state  #############################
     def save_controller_state(self):
-        if len(self.undo_stack) > 20:
+        if len(self.undo_stack) > 5:
             self.undo_stack.pop(0)
         enable_button(self.undo_button)
         self.undo_stack.append(copy.deepcopy(self.controller_object))
@@ -584,13 +460,6 @@ class Builder_GUI(object):
         self.controller_object = self.undo_stack.pop()
         if len(self.undo_stack) < 1:
             disable_button(self.undo_button)
-
-        # Update Detail List if changed detected
-        if len(self.relationship_list.selectedItems()) > 0 and self.selected_item == "Relationship":
-            self.display_content(self.relationship_list.selectedItems()[0])
-        elif len(self.dependency_list.selectedItems()) > 0 and self.selected_item == "Dependency":
-            self.display_dependency_detail(self.dependency_list.selectedItems()[0])
-
         self.update_lists()
 
     def execute(self):
@@ -599,22 +468,6 @@ class Builder_GUI(object):
         self.setupUi(BuilderWindow)
         BuilderWindow.show()
         sys.exit(app.exec_())
-
-    ###################### Alert Pop-up Window  #############################
-    def alert_msg(self, title, msg):
-        print("Error occured. Title:%s Message:%s " %(str(title), str(msg)))
-        msgbox = QtWidgets.QMessageBox()
-        msgbox.setWindowTitle(str(title))
-        msgbox.setText(str(msg))
-        msgbox.exec_()
-
-    def saved_project_alert(self):
-        msgbox = QtWidgets.QMessageBox()
-        msgbox.setWindowTitle("Project Saved!")
-        msgbox.setText("The state of the project has been saved.")
-        msgbox.exec_()
-
-
 
 # if __name__ == "__main__":
 #     import sys

@@ -1,10 +1,9 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QTextEdit, QScrollArea, QPushButton, QMainWindow, QVBoxLayout,
-                             QGridLayout)
+                             QGridLayout, QCheckBox)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 import json
-from subprocess import Popen,PIPE
 
 class EditForm(QMainWindow):
 
@@ -13,12 +12,15 @@ class EditForm(QMainWindow):
         self.builder = builder
         self.relation_selected = relation_selected
         self.observation_selected = item.text()
+        #self.observation_chosen = item
         self.observation_index = None
         self.start: str
         self.data_type: str
         self.artifact: str
         self.data_dict: dict = {}
         self.fields_entry: dict = {}
+        self.data_checkbox: dict = {}
+        self.data_clicked: dict = {}
         self.changes: bool = False
         self.initializeUI()
 
@@ -32,8 +34,6 @@ class EditForm(QMainWindow):
 
         self.start_entry.setText(self.start)
         self.data_type_entry.setText(self.data_type)
-        if self.data_type_entry.toPlainText() == 'imgPoint':
-                self.gimp_button.setDisabled(False)
         self.artifact_entry.setText(self.artifact)
         for tag in self.fields_entry.keys():
             self.fields_entry[tag].setText(str(self.data_dict[tag]))
@@ -60,9 +60,6 @@ class EditForm(QMainWindow):
         edit_title.setAlignment(Qt.AlignCenter)
         save_button = QPushButton("Save")
         save_button.clicked.connect(self.save_modifications)
-        self.gimp_button = QPushButton("Open GIMP")
-        self.gimp_button.setDisabled(True)
-        self.gimp_button.clicked.connect(self.open_gimp)
         cancel_button = QPushButton("Cancel")
 
         # Create Section labels for to-do list
@@ -106,9 +103,10 @@ class EditForm(QMainWindow):
         row = 3
 
         for tag, field in self.fields_entry.items():
-            data_tag = QLabel(tag)
+            data_tag = QCheckBox(tag)
+            self.data_checkbox[tag] = data_tag
             field.setMinimumSize(35, 35)
-            data_tag.setAlignment(Qt.AlignRight)
+            #data_tag.setAlignment(Qt.AlignRight)
             fields_grid.addWidget(data_tag, row, 0)
             fields_grid.addWidget(field, row, 1)
             row += 1
@@ -117,7 +115,6 @@ class EditForm(QMainWindow):
         main_grid.addWidget(edit_title, 0, 0, 1, 2)
         main_grid.addLayout(fields_grid, 1, 0)
         main_grid.addWidget(save_button, 2, 0)
-        main_grid.addWidget(self.gimp_button,3,0)
 
         self.scroll = QScrollArea()
         self.widget = QWidget()
@@ -136,6 +133,7 @@ class EditForm(QMainWindow):
         # self.setLayout(main_grid)
 
     def save_modifications(self):
+        print("Saved")
         self.builder.save_controller_state()
         if self.changes:
             # Get the same observation from the Relation selected
@@ -149,12 +147,23 @@ class EditForm(QMainWindow):
                     observation_object.data[key] = int(self.fields_entry[key].toPlainText())
                 else:
                     observation_object.data[key] = self.fields_entry[key].toPlainText()
-        self.builder.display_observation_after_edit()
+        else:
+            self.close()
+            return
+        self.builder.displayObservationAfterEdit()
+
+        obs: any = None
+        for key in self.data_checkbox:
+            if self.data_checkbox[key].isChecked():
+                obs = self.relation_selected.observation_list[self.observation_index]
+                obs.select_filters.append(key)
+
+        print(obs.select_filters)
+
         print("--------- End of save ---------")
         self.close()
 
-    def open_gimp(self):
-        Popen(['gimp', self.relation_selected.observation_list[self.observation_index]],stdout=PIPE, stderr=PIPE)
+
 
     def cancel_edit(self):
         """
@@ -190,9 +199,14 @@ class EditForm(QMainWindow):
             self.changes = True
         for key in self.fields_entry.keys():
             if type(self.data_dict[key]) == int:
-                if self.fields_entry[key].toPlainText() == '' or self.data_dict[key] != int(self.fields_entry[key].toPlainText()):
-                    print(f"Chages done in {key}")
-                    self.changes = True
+                try:
+                    if self.fields_entry[key].toPlainText() == '' or self.data_dict[key] != int(self.fields_entry[key].toPlainText()):
+                        print(f"Chages done in {key}")
+                        self.changes = True
+                except Exception:
+                    print("Value has to be an integer")
+                    self.changes = False
+                    return
             elif self.data_dict[key] != self.fields_entry[key].toPlainText():
                 print(f"Chages done in {key}")
                 self.changes = True
@@ -226,6 +240,9 @@ class EditForm(QMainWindow):
         self.create_data_dictionary(divided_data)
 
     def create_data_dictionary(self, divided_data_list):
+        '''
+        fills the attribute data_dict and the data_clicked with False
+        '''
         for pair_data in divided_data_list:
             divider = pair_data.find(" ")
             # print(pair_data[:divider-1])
@@ -237,6 +254,7 @@ class EditForm(QMainWindow):
             else:
                 value = value[1:-1]
             self.data_dict[key] = value
+            self.data_clicked[key] = False
 
 
 if __name__ == "__main__":

@@ -5,10 +5,15 @@ counter = 1
 
 class Relation:
 
-    def __init__(self, fields):
+    def __init__(self, fields, relation_counter=None, dependency=None):
         global counter
+        if relation_counter:
+            counter = relation_counter
         self.number = counter
-        self.name = "Relationship " + str(self.number)
+        if not dependency:
+            self.name = "Relationship " + str(self.number)
+        else:
+            self.name = "Dependency " + str(self.number)
         self.observation_list = []
         counter += 1
         for index, item in enumerate(fields):
@@ -25,25 +30,14 @@ class Observation:
         self.data_type = node['data_type']
         self.artifact = node['artifact']
 
-        self.is_click = True if "clicks_id" in node['data'] else False
+        self.select_filters = []
 
         # Depicts the time to wait before looking for observation or executing script
         self.delay = 0
 
         # Information to create script
-        if(self.data_type == "Keypresses" or self.data_type == "imgPoint" or self.data_type == "auditd"):
-            self.user_action = True
-        else:
-            self.user_action = False
-
+        self.user_action = False
         self.script = None
-
-        # Selected labels which will be used to filter traffic on the Runner
-        self.select_filters = ['ip.src', 'ip.len']
-
-        #change to 1 when ignoring observation in script
-        self.ignore = 0
-
 
     def show(self):
         string = str(self.index_observation) + ") " + "start: " + str(self.start) + ', ' + "data_type: " + str(self.data_type) + ', ' + "artifact: " + str(self.artifact) + ', ' + "data: " + str(self.data)
