@@ -190,6 +190,5 @@ class Controller:
         self.eceld_folder_path = open('Project Data/' + self.project_name + '/CE/CE_logs/eceld_project_path.txt')
         self.lines = self.eceld_folder_path.readlines()
         self.eceld_folder_path.close() 
-        print(self.lines)
         return self.lines[0]  
          
