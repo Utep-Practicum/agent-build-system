@@ -116,6 +116,7 @@ class Builder_GUI(object):
         self.playButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.playButton.setObjectName("playButton")
         self.playButton.clicked.connect(self.open_runner)
+        self.playButton.clicked.connect(BuilderWindow.close)
 
         ##################### Relationship -> Dependency Button #####################
         self.move_button = QtWidgets.QPushButton(self.centralwidget)

@@ -161,9 +161,11 @@ class Controller:
         observation_list = []
         self.relationships_main.clear()
         self.dependencies_main.clear()
+        self.eceld_folder_path = self.eceld_file_path()
 
         with open("Project Data/" + self.project_name + "/Builder/" + self.project_name + ".json", 'r') as load_file:
             a = json.load(load_file)
+
 
         # Relations
         relations_dictionary = a[0]["Relationships"]
@@ -171,7 +173,7 @@ class Controller:
             index = int(key.split()[1])
             for observation in relations_dictionary[key]:
                 observation_list.append(relations_dictionary[key][observation])
-            self.relationships_main.append(Relation(observation_list, index, None, eceld_folder= self.eceld_file_path()))
+            self.relationships_main.append(Relation(observation_list, index, None, eceld_folder= self.eceld_folder_path))
             observation_list.clear()
 
 
@@ -182,14 +184,12 @@ class Controller:
             index = int(key.split()[1])
             for observation in dependencies_dictionary[key]:
                 observation_list.append(dependencies_dictionary[key][observation])
-            self.dependencies_main.append(Relation(observation_list, index, True, eceld_folder= self.eceld_file_path()))
+            self.dependencies_main.append(Relation(observation_list, index, True, eceld_folder= self.eceld_folder_path))
             observation_list.clear()
-
 
     def eceld_file_path(self):
         self.eceld_folder_path = open('Project Data/' + self.project_name + '/CE/CE_logs/eceld_project_path.txt')
         self.lines = self.eceld_folder_path.readlines()
-        self.eceld_folder_path.close() 
-        print(self.lines)
+        self.eceld_folder_path.close()
         return self.lines[0]  
          
