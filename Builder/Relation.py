@@ -1,5 +1,6 @@
 import os
 import json
+from ClickCoordinate import *
 
 counter = 1
 
@@ -32,11 +33,23 @@ class Observation:
         self.eceld_folder = eceld_folder
         self.imgName = ""
         self.is_click = True if "clicks_id" in node['data'] else False
+        self.coordinateX = 0
+        self.coordinateY = 0
 
         if self.is_click:
+            print("FUE CLICK???")
             self.data = node['data']
             img_Name = self.get_image_path(self.data['content'])
+            print(f"image: {img_Name}")
             self.data['content'] = img_Name
+            print("before coordinates ----")
+            analyze = ClickCoordinate()
+            analyze.analyze_file("/home/kali/Downloads/demo_1/Clicks/1620030375.6318858_xfdesktop_root.png")
+            
+            self.coordinateX, self.coordinateY = analyze.click_coord()
+            print(f"x: {self.coordinateX}, y: {self.coordinateY}")
+            
+
         # Depicts the time to wait before looking for observation or executing script
         self.delay = 0
 
@@ -49,7 +62,7 @@ class Observation:
         self.script = None
 
         # Selected labels which will be used to filter traffic on the Runner
-        self.select_filters = ['ip.src', 'ip.len']
+        self.select_filters = []
 
         #change to 1 when ignoring observation in script
         self.ignore = 0
