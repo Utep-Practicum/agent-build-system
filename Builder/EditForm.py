@@ -178,8 +178,12 @@ class EditForm(QMainWindow):
         self.close()
 
     def open_gimp(self):
-        Popen(['gimp', self.fields_entry['content'].toPlainText()],stdout=PIPE, stderr=PIPE)
-
+        try:
+            Popen(['gimp', self.fields_entry['content'].toPlainText()],stdout=PIPE, stderr=PIPE)
+        except Exception as e:
+            print (e)
+            self.gimp_button.setDisabled(True)
+            print("Please install GIMP")
     def cancel_edit(self):
         """
         Check if changes were donde, if some changes were done, prompt the user if he wants to save before closing.
