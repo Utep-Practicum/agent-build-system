@@ -27,16 +27,19 @@ class GUIManager(QMainWindow):
 
     def builder(self,name = None):
         controller = Controller()
+        direct = 'Project Data/' + name + '/Builder/'
         if name == None:
-            Builder_GUI(controller)
+            print('No project loaded')
+        elif (name + '.json') in os.listdir(direct):
+            self.project = name
+            controller.load_object(self.project)
         else:
             self.project = name
-            controller = Controller()
             controller.update(self.project)
 
             # I already got the relations
             # pass them to the Builder_GUI
-            Builder_GUI(controller)
+        Builder_GUI(controller)
 
         # This is just a print...
         for relation in controller.relationships_main:
@@ -44,20 +47,14 @@ class GUIManager(QMainWindow):
 
 
     def runner(self,name = None):
+        print('Starting Runner')
         self.project = name
         #These lines are only to test the Runner
         #Remove upon test completion
         controller = Controller()
-        controller.update(self.project)
-        controller.dependencies_main = controller.relationships_main
-        RunnerManager(controller).runner_review()
+        controller.load_object(self.project)
+        Runner_GUI(controller)
 
-        """
-        self.runner = Runner_GUI()
-        self.r = Window
-        self.runner.setupUi(self.r)
-        self.r.show()
-        """
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

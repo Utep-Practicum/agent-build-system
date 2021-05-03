@@ -27,8 +27,8 @@ class Controller:
         for file_name in file_list:
             with open(relationship_dir + file_name, 'r') as relation:
                 self.relationships_main.append(Relation(json.load(relation)))
-        ######################################################
-        # self.relationships_main.append(Relation(relationship))
+        
+        self.create_delta()
 
     def move_to_dependency(self, relationship):
         """
@@ -108,3 +108,78 @@ class Controller:
                     i += 1
 
         return uni_list
+
+
+    def save_object(self):
+        """
+        Deep copy of project
+        """
+        print("save object")
+        objectToSave = []
+
+        objectToSaveRelations = {"Relationships": {}}
+        objectToSaveDependencies = {"Dependencies": {}}
+
+        for relation in self.relationships_main:
+            objectToSaveRelations["Relationships"][relation.name] = {}
+            print(relation.name)
+            for observation in relation.observation_list:
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation] = {}
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['start'] = observation.start
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data'] = observation.data
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data_type'] = observation.data_type
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['artifact'] = observation.artifact
+
+        objectToSave.append(objectToSaveRelations)
+
+        # Dependencies
+        for dependency in self.dependencies_main:
+            objectToSaveDependencies["Dependencies"][dependency.name] = {}
+            # objectToSave[dependency.name] = {}
+            print(dependency.name)
+            for observation in dependency.observation_list:
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation] = {}
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['start'] = observation.start
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data'] = observation.data
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data_type'] = observation.data_type
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['artifact'] = observation.artifact
+            #objectToSave["dependencies"].append(dependency.name)
+
+        objectToSave.append(objectToSaveDependencies)
+
+        with open("Project Data/"+self.project_name+"/Builder/" + self.project_name + ".json", 'w') as outfile:
+            json.dump(objectToSave, outfile, indent=4)
+
+
+    def load_object(self,project_name):
+        """
+        Import project
+        """
+        self.project_name = project_name
+
+        observation_list = []
+        self.relationships_main.clear()
+        self.dependencies_main.clear()
+
+        with open("Project Data/" + self.project_name + "/Builder/" + self.project_name + ".json", 'r') as load_file:
+            a = json.load(load_file)
+
+        # Relations
+        relations_dictionary = a[0]["Relationships"]
+        for key in relations_dictionary.keys():
+            index = int(key.split()[1])
+            for observation in relations_dictionary[key]:
+                observation_list.append(relations_dictionary[key][observation])
+            self.relationships_main.append(Relation(observation_list, index))
+            observation_list.clear()
+
+
+        # Dependencies
+        observation_list = []
+        dependencies_dictionary = a[1]["Dependencies"]
+        for key in dependencies_dictionary.keys():
+            index = int(key.split()[1])
+            for observation in dependencies_dictionary[key]:
+                observation_list.append(dependencies_dictionary[key][observation])
+            self.dependencies_main.append(Relation(observation_list, index, True))
+            observation_list.clear()

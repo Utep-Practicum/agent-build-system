@@ -5,12 +5,13 @@ from Builder.Controller import *
 
 import os
 import time
+from subprocess import Popen,PIPE
+import platform
 
 class RunnerManager:
 
     def __init__(self, controller):
         self.controller = controller
-        self.controller.create_delta()
         self.observation_list = self.controller.unified_list()
     
 
@@ -31,3 +32,10 @@ class RunnerManager:
     def runner_review(self):
         for item in self.observation_list:
             self.func_definer(item)
+
+
+    def back_to_builder(self):
+        if platform.system() == "Windows":
+            Popen(['python', 'GUI_manager.py', 'builder', self.controller.project_name],stdout=PIPE, stderr=PIPE)
+        else:
+            Popen(['python3', 'GUI_manager.py', 'builder', self.controller.project_name],stdout=PIPE, stderr=PIPE)

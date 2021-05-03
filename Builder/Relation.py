@@ -5,10 +5,15 @@ counter = 1
 
 class Relation:
 
-    def __init__(self, fields):
+    def __init__(self, fields, relation_counter=None, dependency=None):
         global counter
+        if relation_counter:
+            counter = relation_counter
         self.number = counter
-        self.name = "Relationship " + str(self.number)
+        if not dependency:
+            self.name = "Relationship " + str(self.number)
+        else:
+            self.name = "Dependency " + str(self.number)
         self.observation_list = []
         counter += 1
         for index, item in enumerate(fields):
