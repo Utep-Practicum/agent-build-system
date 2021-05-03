@@ -184,6 +184,10 @@ class Runner_GUI(object):
         self.runner_manager.back_to_builder()
         self.close
 
+    
+    def play_runner(self):
+        self.runner_manager.runner_review()
+
     def execute(self):
         app = QtWidgets.QApplication(sys.argv)
         RunnerWindow = QtWidgets.QMainWindow()
