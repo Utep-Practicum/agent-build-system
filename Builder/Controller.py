@@ -27,7 +27,7 @@ class Controller:
         file_list.sort()
         for file_name in file_list:
             with open(relationship_dir + file_name, 'r') as relation:
-                self.relationships_main.append(Relation(json.load(relation),self.eceld_folder_path))
+                self.relationships_main.append(Relation(json.load(relation),None,None,self.eceld_folder_path))
         
         self.create_delta()
 
