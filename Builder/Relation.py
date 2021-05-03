@@ -42,9 +42,17 @@ class Observation:
             img_Name = self.get_image_path(self.data['content'])
             print(f"image: {img_Name}")
             self.data['content'] = img_Name
+            img_Name = img_Name.strip()
             print("before coordinates ----")
             analyze = ClickCoordinate()
-            analyze.analyze_file("/home/kali/Downloads/demo_1/Clicks/1620030375.6318858_xfdesktop_root.png")
+            print(img_Name[1:].split("/"))
+            path_list = img_Name[1:].split("/")
+            path_list.insert(4, 'Clicks')
+            print(path_list)
+            img_Name = '/'.join(path_list)
+            img_Name = '/'+img_Name
+            print(f"image: {img_Name}")
+            analyze.analyze_file(img_Name)
             
             self.coordinateX, self.coordinateY = analyze.click_coord()
             print(f"x: {self.coordinateX}, y: {self.coordinateY}")
