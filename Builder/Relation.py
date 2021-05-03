@@ -1,6 +1,6 @@
 import os
 import json
-# from ClickCoordinate import *
+from ClickCoordinate import *
 
 counter = 1
 
@@ -47,7 +47,7 @@ class Observation:
             analyze = ClickCoordinate()
             print(img_Name[1:].split("/"))
             path_list = img_Name[1:].split("/")
-            path_list.insert(4, 'Clicks')
+            path_list.insert(5, 'Clicks')
             print(path_list)
             img_Name = '/'.join(path_list)
             img_Name = '/'+img_Name
@@ -58,7 +58,7 @@ class Observation:
             print(f"x: {self.coordinateX}, y: {self.coordinateY}")
             
 
-        # Depicts the time to wait before looking for observation or executing script
+        # # Depicts the time to wait before looking for observation or executing script
         self.delay = 0
 
         # Information to create script
