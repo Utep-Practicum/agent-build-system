@@ -100,6 +100,7 @@ class Runner_GUI(object):
         self.actionSave_Project.setObjectName("actionSave_Project")
         self.actionExit = QtWidgets.QAction(Runner)
         self.actionExit.setObjectName("actionExit")
+        self.actionExit.triggered.connect(Runner.close)
         self.actionREADME = QtWidgets.QAction(Runner)
         self.actionREADME.setObjectName("actionREADME")
         self.menuFile.addAction(self.actionSave_Project)
