@@ -16,6 +16,7 @@ class Controller:
         self.relationships_main.clear()
         self.dependencies_main.clear()
         self.project_name = project
+        self.eceld_folder_path = self.eceld_file_path()
         """
         # Import relationships into the controller
         """
@@ -26,7 +27,7 @@ class Controller:
         file_list.sort()
         for file_name in file_list:
             with open(relationship_dir + file_name, 'r') as relation:
-                self.relationships_main.append(Relation(json.load(relation)))
+                self.relationships_main.append(Relation(json.load(relation),self.eceld_folder_path))
         ######################################################
         # self.relationships_main.append(Relation(relationship))
 
@@ -108,3 +109,11 @@ class Controller:
                     i += 1
 
         return uni_list
+
+    def eceld_file_path(self):
+        self.eceld_folder_path = open('Project Data/' + self.project_name + '/CE/CE_logs/eceld_project_path.txt')
+        self.lines = self.eceld_folder_path.readlines()
+        self.eceld_folder_path.close() 
+        print(self.lines)
+        return self.lines[0]  
+         
