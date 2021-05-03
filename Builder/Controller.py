@@ -97,20 +97,6 @@ class Controller:
                 else:
                     relationship.observation_list[y].start = str(timeDiff_list[y])
 
-
-    def unified_list(self):
-        uni_list = []
-        i = 1
-        for dep in self.dependencies_main:
-            for obs in dep.observation_list:
-                if obs.ignore != 1:
-                    obs.observation_number = i
-                    uni_list.append(obs)
-                    i += 1
-
-        return uni_list
-
-
     def save_object(self):
         """
         Deep copy of project
@@ -191,5 +177,26 @@ class Controller:
         self.eceld_folder_path = open('Project Data/' + self.project_name + '/CE/CE_logs/eceld_project_path.txt')
         self.lines = self.eceld_folder_path.readlines()
         self.eceld_folder_path.close()
-        return self.lines[0]  
+        return self.lines[0] 
+         
+    def unified_list(self):
+        uni_list = []
+        i = 1
+        user_action_counter = 1
+        observation_counter = 1
+        for dep in self.dependencies_main:
+            for obs in dep.observation_list:
+                if obs.ignore != 1:
+                    if obs.user_action:
+                        obs.observation_name = "User Action " + str(user_action_counter)
+                        obs.user_action_number = user_action_counter
+                        user_action_counter += 1
+                    else:
+                        obs.observation_name = "Observation " + str(observation_counter)
+                        obs.observation_number = observation_counter
+                        observation_counter += 1
+                    uni_list.append(obs)
+                    i += 1
+
+        return uni_list
          

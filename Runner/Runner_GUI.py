@@ -12,18 +12,21 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from Runner.Runner_Manager import *
 import sys
+import os
 
 
 class Runner_GUI(object):
     def __init__(self, controller):
-        self.runner_manager = RunnerManager(controller)
+        self.controller_object = controller
+        self.runner_manager = RunnerManager(self.controller_object)
+        self.observations = self.controller_object.unified_list()
         if __name__ != "__main__":
             self.execute()
 
     def setupUi(self, Runner):
         Runner.setObjectName("Runner_GUI")
         Runner.resize(800, 569)
-        Runner.setStyleSheet("background-color: white;")
+        Runner.setStyleSheet("background-color: #f4f5f7;")
         self.centralwidget = QtWidgets.QWidget(Runner)
         self.centralwidget.setObjectName("centralwidget")
         self.centralwidget.setMinimumSize(QtCore.QSize(760, 530))
@@ -39,23 +42,29 @@ class Runner_GUI(object):
 
         self.ABS = QtWidgets.QLabel(self.centralwidget)
         self.ABS.setStyleSheet("color:black;")
-        self.ABS.setGeometry(QtCore.QRect(20, 20, 151, 21))
+        self.ABS.setGeometry(QtCore.QRect(20, 20, 250, 21))
         self.ABS.setFont(font)
         self.ABS.setObjectName("ABS")
 
         #################### ABS Output ########################
-        self.ABSOutput = QtWidgets.QTextEdit(self.centralwidget)
-        self.ABSOutput.setGeometry(QtCore.QRect(20, 50, 321, 391))
-        self.ABSOutput.setObjectName("ABSOutput")
-        self.ABSOutput.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.ABSOutput.setEnabled(False)
+        # self.ABSOutput = QtWidgets.QTextEdit(self.centralwidget)
+        # self.ABSOutput.setGeometry(QtCore.QRect(20, 50, 321, 391))
+        # self.ABSOutput.setObjectName("ABSOutput")
+        # self.ABSOutput.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        # self.ABSOutput.setEnabled(False)
+
+        self.observation_list = QtWidgets.QListWidget(self.centralwidget)
+        self.observation_list.setGeometry(QtCore.QRect(20, 50, 321, 391))
+        self.observation_list.setObjectName("observation_list")
+        self.observation_list.setStyleSheet(
+            "background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
 
         #################### ECELd Output #######################
-        self.ECELdOutput = QtWidgets.QTextEdit(self.centralwidget)
-        self.ECELdOutput.setGeometry(QtCore.QRect(420, 50, 301, 391))
-        self.ECELdOutput.setObjectName("ECELdOutput")
-        self.ECELdOutput.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.ECELdOutput.setEnabled(False)
+        self.observation_output = QtWidgets.QTextEdit(self.centralwidget)
+        self.observation_output.setGeometry(QtCore.QRect(420, 50, 301, 391))
+        self.observation_output.setObjectName("observation_output")
+        self.observation_output.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.observation_output.setEnabled(False)
 
         ################### Back2Builder Button #########################
         self.back2BuilderButton = QtWidgets.QPushButton(self.centralwidget)
@@ -112,15 +121,20 @@ class Runner_GUI(object):
         self.retranslateUi(Runner)
         QtCore.QMetaObject.connectSlotsByName(Runner)
 
+
+        # Actions to star
+        self.display_observations()
+        self.observation_list.itemClicked.connect(self.display_observation_content)
+
     def retranslateUi(self, Runner_GUI):
         _translate = QtCore.QCoreApplication.translate
         Runner_GUI.setWindowTitle(_translate("Runner_GUI", "ABS_Runner"))
-        self.ECELd.setText(_translate("Runner_GUI", "ECELd Output:"))
+        self.ECELd.setText(_translate("Runner_GUI", "Content:"))
 
         self.back2BuilderButton.setText(_translate("Runner_GUI","Back to Builder"))
         self.playButton.setIcon(self.playButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPlay))
         self.stopButton.setIcon(self.stopButton.style().standardIcon(QtWidgets.QStyle.SP_MediaStop))
-        self.ABS.setText(_translate("Runner_GUI", "ABS Output:"))
+        self.ABS.setText(_translate("Runner_GUI", "Observations / User Actions:"))
         self.pauseButton.setIcon(self.pauseButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPause))
         self.menuFile.setTitle(_translate("Runner_GUI", "File"))
         self.menuHelp.setTitle(_translate("Runner_GUI", "Help"))
@@ -128,6 +142,36 @@ class Runner_GUI(object):
         self.actionExit.setText(_translate("Runner_GUI", "Exit"))
         self.actionREADME.setText(_translate("Runner_GUI", "README"))
 
+    
+    def display_observations(self):
+        self.observation_list.clear()
+        # For each relation add them to the relations display list
+        for observation in self.observations:
+            self.observation_list.addItem(observation.observation_name)
+
+    def display_observation_content(self, item):
+        observation = self.get_observation(item)
+
+        if observation.user_action:
+            self.display_script(observation)
+        
+        else:
+            self.observation_output.setText("No Content")
+            self.observation_output.setEnabled(False)
+
+
+    def display_script(self, observation):
+        path = "Project Data/" + self.controller_object.project_name + "/Runner/Scripts/user_action" + str(observation.user_action_number) + ".py"
+        if os.path.exists(path):
+            text = ''.join(open(path).readlines())
+            self.observation_output.setText(text)
+        self.observation_output.setEnabled(True)
+            
+
+    def get_observation(self, item):
+        for observation in self.observations:
+            if item.text() == observation.observation_name:
+                return observation
 
     def back_to_builder(self):
         self.runner_manager.back_to_builder()

@@ -27,11 +27,8 @@ class ScriptGenerator:
         temp = sys.stdout
 
         for observation in self.observation_list:
-            if observation.user_action and observation.data_type == "imgPoint" and observation.is_click:
+            if observation.user_action:
                 self.generate_single_script(observation)
-            elif observation.user_action and observation.data_type != "imgPoint":
-                self.generate_single_script(observation)
-            
 
         sys.stdout = temp 
 
@@ -41,7 +38,7 @@ class ScriptGenerator:
             os.remove(f)
 
     def generate_single_script(self, observation):
-        file = open("Project Data/" + self.project + '/Runner/Scripts/observation' + str(observation.observation_number) + ".py", 'w')
+        file = open("Project Data/" + self.project + '/Runner/Scripts/user_action' + str(observation.user_action_number) + ".py", 'w')
         sys.stdout = file
 
         print("import pyautogui")
@@ -53,7 +50,7 @@ class ScriptGenerator:
         file.close()
 
     def translate_observation_to_script_command(self, observation):
-        if observation.data_type == "imgPoint":
+        if observation.data_type == "imgPoint" and observation.is_click:
             print("pyautogui.click(x=100, y=200)")
         elif observation.data_type == "Keypresses":
             string_to_print = ""
