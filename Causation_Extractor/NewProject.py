@@ -91,6 +91,9 @@ class NewProject(QtWidgets.QDialog):
             os.makedirs("Project Data/" + self.ProjectName.text())
             os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/")
             os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/CE_logs/")
+            eceld_path_file = 'eceld_project_path.txt'
+            with open (os.path.join("Project Data/" + self.ProjectName.text() + "/CE/CE_logs/",eceld_path_file),'w') as fp:
+                pass
             os.makedirs("Project Data/" + self.ProjectName.text() + "/CE/Relationships/")
             os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/")
             os.makedirs("Project Data/" + self.ProjectName.text() + "/Builder/Builder_logs/")

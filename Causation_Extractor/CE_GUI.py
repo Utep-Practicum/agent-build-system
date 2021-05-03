@@ -148,11 +148,21 @@ class CEGUI(QWidget):
         self.fileName.setText(name)
         backend = ceBackend()
         try:
+            # Gets directory name and sets it to a variable
+            name = QFileDialog.getExistingDirectory(self.Browse_Button, 'Choose Src Dir', 'c:\\')
+            print("ECELd dirname:", name)
+            self.get_ProjectName()
+            eceld_path_file = open('Project Data/'+ self.project_name+'/CE/CE_logs/eceld_project_path.txt','w')
+            eceld_path_file.write(name)
+            directory = os.fsencode(name)
+            self.fileName.setText(name)
+            backend = ceBackend()
             self.num_lines = backend.output_directory(directory, name)
-        except:
-            self.alert_msg("Directory Error","Invalid Directory, Please reselect a new directory")
-        self.get_ProjectName()
-        self.check_project()
+            
+            self.check_project()
+        except Exception as e:
+            #print(e)
+            print("Please select an ECELd data directory")
 
     def show_analyzingWindow(self):
         self.hide()
