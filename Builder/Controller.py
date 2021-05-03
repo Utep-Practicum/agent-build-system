@@ -171,7 +171,7 @@ class Controller:
             index = int(key.split()[1])
             for observation in relations_dictionary[key]:
                 observation_list.append(relations_dictionary[key][observation])
-            self.relationships_main.append(Relation(observation_list, index, eceld_folder= self.eceld_file_path()))
+            self.relationships_main.append(Relation(observation_list, index, None, eceld_folder= self.eceld_file_path()))
             observation_list.clear()
 
 
@@ -182,8 +182,10 @@ class Controller:
             index = int(key.split()[1])
             for observation in dependencies_dictionary[key]:
                 observation_list.append(dependencies_dictionary[key][observation])
-            self.dependencies_main.append(Relation(observation_list, index, True))
+            self.dependencies_main.append(Relation(observation_list, index, True, eceld_folder= self.eceld_file_path()))
             observation_list.clear()
+
+
     def eceld_file_path(self):
         self.eceld_folder_path = open('Project Data/' + self.project_name + '/CE/CE_logs/eceld_project_path.txt')
         self.lines = self.eceld_folder_path.readlines()

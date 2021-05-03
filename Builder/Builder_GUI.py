@@ -580,7 +580,7 @@ class Builder_GUI(object):
     def open_runner(self):
         #Save all changes before opening runner
         self.controller_object.save_object()
-
+        print('Finished saving changes')
         
         if platform.system() == "Windows":
             Popen(['python', 'GUI_manager.py', 'runner', self.controller_object.project_name],stdout=PIPE, stderr=PIPE)
