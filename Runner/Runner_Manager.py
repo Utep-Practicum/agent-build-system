@@ -20,7 +20,7 @@ class RunnerManager:
             # This conditions is to prevent running high delta times
             if float(observation.start) < 20:
                 time.sleep(float(observation.start))
-            os.system("python3 Project\ Data/"+ self.controller.project_name +"/Builder/Dependencies/observation"+ str(observation.observation_number) +".py")
+            os.system("python3 Project\ Data/"+ self.controller.project_name +"/Runner/Scripts/observation"+ str(observation.observation_number) +".py")
             # execfile()
         else:
             print("Test")
