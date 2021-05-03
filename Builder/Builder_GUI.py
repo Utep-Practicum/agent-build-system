@@ -33,9 +33,9 @@ class Builder_GUI(object):
     def __init__(self, controller):
         self.controller_object = controller
         controller.create_delta() 
-        self.undo_stack = []
         self.dependency = ""
         self.undo_stack = []
+        self.selected_item  = None
         self.relations_list = controller.relationships_main
         self.relation_selected = None
         if __name__ != "__main__":
@@ -226,14 +226,23 @@ class Builder_GUI(object):
 
         ############ Call the method to display relations #####################
         self.display_relations()
+        self.display_dependencies()
         disable_button(self.edit_button)
         disable_button(self.undo_button)
         disable_button(self.ignore_button)
 
 
+        ############# Add Lists actions ####################
+        self.details_list.itemClicked.connect(self.enable_ignore_button)
+        self.details_list.itemClicked.connect(self.enable_edit_button)
+        self.relationship_list.itemClicked.connect(self.display_content)
+        self.dependency_list.itemClicked.connect(self.display_dependency_detail)
+
+
     def generate_script(self):
         sc = ScriptGenerator(self.controller_object.project_name, self.controller_object.dependencies_main)
         sc.generate_scripts()
+        self.saved_project_alert()
 
 
     ############ Open Edit Window ####################
@@ -263,8 +272,6 @@ class Builder_GUI(object):
         # For each relation add them to the relations display list
         for relation in self.controller_object.relationships_main:
             self.relationship_list.addItem(relation.name)
-
-        self.relationship_list.itemClicked.connect(self.display_content)
 
     def display_dependencies(self):
         self.dependency_list.clear()
@@ -360,7 +367,6 @@ class Builder_GUI(object):
         for relation in self.controller_object.search(text):
             self.relationship_list.addItem(relation.name)
 
-        self.relationship_list.itemClicked.connect(self.display_content)
 
 
     ##################################### Display the content in the Detail Box ########################################
@@ -370,6 +376,8 @@ class Builder_GUI(object):
         it stores and formats the Relation chosen (clicked) and changes the name to Dependency #
         Finally, for each observation, it will be added in the Detail list
         """
+        print("Relatioship")
+        self.selected_item = "Relationship"
         self.details_list.clear()
         # Look for the selected relation in our list of relationships
         found_relation = None
@@ -379,26 +387,50 @@ class Builder_GUI(object):
 
         self.relation_selected = found_relation
         count = 0
-        for observation in found_relation.observation_list:
-            self.details_list.addItem(observation.show())
-        
-            #sets font to gray
-            if self.relation_selected.observation_list[count].ignore == 1:
-                self.details_list.item(count).setForeground(QtCore.Qt.gray) 
-            count += 1
-  
+
+        if found_relation != None:
+            for observation in found_relation.observation_list:
+                self.details_list.addItem(observation.show())
+            
+                #sets font to gray
+                if self.relation_selected.observation_list[count].ignore == 1:
+                    self.details_list.item(count).setForeground(QtCore.Qt.gray) 
+                count += 1
+    
 
         disable_button(self.edit_button)
-        self.details_list.itemClicked.connect(self.enable_edit_button)
-        self.details_list.itemClicked.connect(self.enable_ignore_button)
+        disable_button(self.ignore_button)
 
-    def displayObservationAfterEdit(self):
+    def display_observation_after_edit(self):
         self.details_list.clear()
 
         for observation in self.relation_selected.observation_list:
             self.details_list.addItem(observation.show())
         disable_button(self.edit_button)
-        self.details_list.itemClicked.connect(self.enable_edit_button)
+
+
+    def display_dependency_detail(self, item):
+        print("Dependency")
+        self.selected_item = "Dependency"
+        self.details_list.clear()
+
+        print(item.text())
+        found_dependency = None
+        for dependency_loop in self.controller_object.dependencies_main:
+            if item.text() == dependency_loop.name:
+                found_dependency = dependency_loop
+
+
+        self.relation_selected = found_dependency
+        count = 0
+        if found_dependency != None:
+            for observation in found_dependency.observation_list:
+                self.details_list.addItem(observation.show())
+
+                #sets font to gray
+                if self.relation_selected.observation_list[count].ignore == 1:
+                    self.details_list.item(count).setForeground(QtCore.Qt.gray) 
+                count += 1
 
     def pass_dependency(self):
         """
@@ -416,7 +448,6 @@ class Builder_GUI(object):
 
         # --------------------------------------------------------------
         # Display the details of the Dependency selected
-        self.dependency_list.itemClicked.connect(self.display_dependency_detail)
 
     def pass_relationship(self):
         """
@@ -434,27 +465,6 @@ class Builder_GUI(object):
 
         # --------------------------------------------------------------
         # Display the details of the Dependency selected
-
-    def display_dependency_detail(self, item):
-        self.details_list.clear()
-
-        found_dependency = None
-        for dependency_loop in self.controller_object.dependencies_main:
-            if item.text() == dependency_loop.name:
-                found_dependency = dependency_loop
-
-
-        self.relation_selected = found_dependency
-        count = 0
-        for observation in found_dependency.observation_list:
-            print(observation.show())
-            self.details_list.addItem(observation.show())
-
-            #sets font to gray
-            if self.relation_selected.observation_list[count].ignore == 1:
-                self.details_list.item(count).setForeground(QtCore.Qt.gray) 
-            count += 1
-
 
     ###################### Delete Button Functions ##################################
     def delete_observation(self):
@@ -567,8 +577,6 @@ class Builder_GUI(object):
             self.details_list.currentItem().setForeground(QtCore.Qt.gray) 
 
 
-
-
     ###################### Manage control state  #############################
     def save_controller_state(self):
         if len(self.undo_stack) > 20:
@@ -580,6 +588,12 @@ class Builder_GUI(object):
         self.controller_object = self.undo_stack.pop()
         if len(self.undo_stack) < 1:
             disable_button(self.undo_button)
+
+        if len(self.relationship_list.selectedItems()) > 0 and self.selected_item == "Relationship":
+            self.display_content(self.relationship_list.selectedItems()[0])
+        elif len(self.dependency_list.selectedItems()) > 0 and self.selected_item == "Dependency":
+            self.display_dependency_detail(self.dependency_list.selectedItems()[0])
+
         self.update_lists()
 
     def execute(self):
@@ -591,10 +605,16 @@ class Builder_GUI(object):
 
     ###################### Alert Pop-up Window  #############################
     def alert_msg(self, title, msg):
-        print("Error occured. Tite:%s Message:%s " %(str(title), str(msg)))
+        print("Error occured. Title:%s Message:%s " %(str(title), str(msg)))
         msgbox = QtWidgets.QMessageBox()
         msgbox.setWindowTitle(str(title))
         msgbox.setText(str(msg))
+        msgbox.exec_()
+
+    def saved_project_alert(self):
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.setWindowTitle("Project Saved!")
+        msgbox.setText("The state of the project has been saved.")
         msgbox.exec_()
 
 

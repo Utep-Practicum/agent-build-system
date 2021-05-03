@@ -16,8 +16,6 @@ class RunnerManager:
 
     def func_definer(self, observation):
         if observation.user_action:
-
-            print(observation.observation_number)
         
             # This conditions is to prevent running high delta times
             if float(observation.start) < 20:

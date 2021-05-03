@@ -12,11 +12,9 @@ class ScriptGenerator:
 
 
     def generate_observation_list(self):
-        print("Test")
         index = 1
         for dependency in self.dependencies:
             for observation in dependency.observation_list:
-                print(observation.user_action)
 
                 observation.observation_number = index
                 index = index + 1
@@ -27,16 +25,20 @@ class ScriptGenerator:
     def generate_scripts(self):
         self.clean_project_folder()
 
+        temp = sys.stdout
+
         for observation in self.observation_list:
             self.generate_single_script(observation)
 
+        sys.stdout = temp 
+
     def clean_project_folder(self):
-        files = glob.glob("Project Data/" + self.project + '/Builder/Dependencies/*')
+        files = glob.glob("Project Data/" + self.project + '/Runner/Scripts/*')
         for f in files:
             os.remove(f)
 
     def generate_single_script(self, observation):
-        file = open("Project Data/" + self.project + '/Builder/Dependencies/observation' + str(observation.observation_number) + ".py", 'w')
+        file = open("Project Data/" + self.project + '/Runner/Scripts/observation' + str(observation.observation_number) + ".py", 'w')
         sys.stdout = file
 
         print("import pyautogui")

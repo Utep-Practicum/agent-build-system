@@ -143,7 +143,7 @@ class EditForm(QMainWindow):
                     observation_object.data[key] = int(self.fields_entry[key].toPlainText())
                 else:
                     observation_object.data[key] = self.fields_entry[key].toPlainText()
-        self.builder.displayObservationAfterEdit()
+        self.builder.display_observation_after_edit()
         print("--------- End of save ---------")
         self.close()
 
