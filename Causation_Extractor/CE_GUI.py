@@ -143,20 +143,14 @@ class CEGUI(QWidget):
     def browse_Files(self):
         # Gets directory name and sets it to a variable
         name = QFileDialog.getExistingDirectory(self.Browse_Button, 'Choose Src Dir', 'c:\\')
-        print("dirname:", name)
+        print("ECELd dirname:", name)
+        self.get_ProjectName()
+        eceld_path_file = open('Project Data/'+ self.project_name+'/CE/CE_logs/eceld_project_path.txt','w')
+        eceld_path_file.write(name)
         directory = os.fsencode(name)
         self.fileName.setText(name)
         backend = ceBackend()
         try:
-            # Gets directory name and sets it to a variable
-            name = QFileDialog.getExistingDirectory(self.Browse_Button, 'Choose Src Dir', 'c:\\')
-            print("ECELd dirname:", name)
-            self.get_ProjectName()
-            eceld_path_file = open('Project Data/'+ self.project_name+'/CE/CE_logs/eceld_project_path.txt','w')
-            eceld_path_file.write(name)
-            directory = os.fsencode(name)
-            self.fileName.setText(name)
-            backend = ceBackend()
             self.num_lines = backend.output_directory(directory, name)
             
             self.check_project()
