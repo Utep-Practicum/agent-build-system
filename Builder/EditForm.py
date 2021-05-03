@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QTextEdit, QScrollAr
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 import json
+from subprocess import Popen,PIPE
 
 class EditForm(QMainWindow):
 
@@ -31,6 +32,8 @@ class EditForm(QMainWindow):
 
         self.start_entry.setText(self.start)
         self.data_type_entry.setText(self.data_type)
+        if self.data_type_entry.toPlainText() == 'imgPoint':
+                self.gimp_button.setDisabled(False)
         self.artifact_entry.setText(self.artifact)
         for tag in self.fields_entry.keys():
             self.fields_entry[tag].setText(str(self.data_dict[tag]))
@@ -57,6 +60,9 @@ class EditForm(QMainWindow):
         edit_title.setAlignment(Qt.AlignCenter)
         save_button = QPushButton("Save")
         save_button.clicked.connect(self.save_modifications)
+        self.gimp_button = QPushButton("Open GIMP")
+        self.gimp_button.setDisabled(True)
+        self.gimp_button.clicked.connect(self.open_gimp)
         cancel_button = QPushButton("Cancel")
 
         # Create Section labels for to-do list
@@ -111,6 +117,7 @@ class EditForm(QMainWindow):
         main_grid.addWidget(edit_title, 0, 0, 1, 2)
         main_grid.addLayout(fields_grid, 1, 0)
         main_grid.addWidget(save_button, 2, 0)
+        main_grid.addWidget(self.gimp_button,3,0)
 
         self.scroll = QScrollArea()
         self.widget = QWidget()
@@ -147,7 +154,8 @@ class EditForm(QMainWindow):
         print("--------- End of save ---------")
         self.close()
 
-
+    def open_gimp(self):
+        Popen(['gimp', self.relation_selected.observation_list[self.observation_index]],stdout=PIPE, stderr=PIPE)
 
     def cancel_edit(self):
         """
