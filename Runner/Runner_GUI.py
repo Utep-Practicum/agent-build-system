@@ -69,6 +69,7 @@ class Runner_GUI(object):
         self.playButton.setGeometry(QtCore.QRect(20, 470, 81, 31))
         self.playButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.playButton.setObjectName("playButton")
+        self.playButton.clicked.connect(self.runner_manager.runner_review())
 
         ################## Pause Button #########################
         self.pauseButton = QtWidgets.QPushButton(self.centralwidget)

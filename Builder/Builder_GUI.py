@@ -586,7 +586,7 @@ class Builder_GUI(object):
             Popen(['python', 'GUI_manager.py', 'runner', self.controller_object.project_name],stdout=PIPE, stderr=PIPE)
         else:
             Popen(['python3', 'GUI_manager.py', 'runner', self.controller_object.project_name],stdout=PIPE, stderr=PIPE)
-        
+        self.close
 
 
 # if __name__ == "__main__":
