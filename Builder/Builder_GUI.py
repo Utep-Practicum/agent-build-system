@@ -10,13 +10,18 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
+
 from Builder.EditForm import *
 from Builder.Controller import *
 from Builder.EditForm import *
+from Builder.script_generator import *
+
 import json
 import sys
 import copy
-from Builder.script_generator import *
+from subprocess import Popen,PIPE
+import platform
+
 
 
 def enable_button(button):
@@ -32,7 +37,7 @@ class Builder_GUI(object):
 
     def __init__(self, controller):
         self.controller_object = controller
-        controller.create_delta() 
+        #controller.create_delta() 
         self.undo_stack = []
         self.dependency = ""
         self.undo_stack = []
@@ -104,6 +109,13 @@ class Builder_GUI(object):
         self.dependency_list.setStyleSheet(
             "background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.dependency_list.setDragEnabled(True)
+
+        ################### Play Button #########################
+        self.playButton = QtWidgets.QPushButton(self.centralwidget)
+        self.playButton.setGeometry(QtCore.QRect(660, 0, 81, 31))
+        self.playButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.playButton.setObjectName("playButton")
+        self.playButton.clicked.connect(self.open_runner)
 
         ##################### Relationship -> Dependency Button #####################
         self.move_button = QtWidgets.QPushButton(self.centralwidget)
@@ -257,6 +269,8 @@ class Builder_GUI(object):
         self.menu_project.setTitle(_translate("BuilderWindow", "Project"))
         self.action_import_project.setText(_translate("BuilderWindow", "Import Project"))
         self.action_quit.setText(_translate("BuilderWindow", "Quit"))
+        self.playButton.setIcon(self.playButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPlay))
+
 
     def display_relations(self):
         self.relationship_list.clear()
@@ -266,6 +280,7 @@ class Builder_GUI(object):
 
         self.relationship_list.itemClicked.connect(self.display_content)
 
+
     def display_dependencies(self):
         self.dependency_list.clear()
         # For each relation add them to the relations display list
@@ -273,85 +288,32 @@ class Builder_GUI(object):
             self.dependency_list.addItem(dependency.name)
         # self.relationship_list.itemClicked.connect(self.display_content)
 
+
     def update_lists(self):
         self.display_relations()
         self.display_dependencies()
 
+
     def load_object(self):
         """
-            Import project
+        Import project
         """
         print("load object")
-        observation_list = []
-        self.controller_object.relationships_main.clear()
-        self.controller_object.dependencies_main.clear()
+        self.details_list.clear()
+        self.relations_list.clear()
+        self.relation_selected = None
+        self.controller_object.load_object()
+        # Display the object in their windows.
+        self.update_lists()
 
-        with open("saved_object1.json") as load_file:
-            a = json.load(load_file)
-
-        # Relations
-        relations_dictionary = a[0]["Relationships"]
-        print(relations_dictionary.keys())
-        for key in relations_dictionary.keys():
-            index = int(key.split()[1])
-            for observation in relations_dictionary[key]:
-                print(observation)
-                observation_list.append(relations_dictionary[key][observation])
-            self.controller_object.relationships_main.append(Relation(observation_list, index))
-        print()
-
-        # Dependencies
-        observation_list = []
-        dependencies_dictionary = a[1]["Dependencies"]
-        print(dependencies_dictionary.keys())
-        for key in dependencies_dictionary.keys():
-            index = int(key.split()[1])
-            for observation in dependencies_dictionary[key]:
-                print(observation)
-                observation_list.append(dependencies_dictionary[key][observation])
-            self.controller_object.dependencies_main.append(Relation(observation_list, index))
-        print()
 
     def save_object(self):
         """
         Deep copy of project
         """
         print("save object")
-        objectToSave = []
+        self.controller_object.save_object()
 
-        objectToSaveRelations = {"Relationships": {}}
-        objectToSaveDependencies = {"Dependencies": {}}
-
-        for relation in self.controller_object.relationships_main:
-            objectToSaveRelations["Relationships"][relation.name] = {}
-            # objectToSave[relation.name] = {}
-            print(relation.name)
-            for observation in relation.observation_list:
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation] = {}
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['start'] = observation.start
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data'] = observation.data
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data_type'] = observation.data_type
-                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['artifact'] = observation.artifact
-
-        objectToSave.append(objectToSaveRelations)
-
-        # Dependencies
-        for dependency in self.controller_object.dependencies_main:
-            objectToSaveDependencies["Dependencies"][dependency.name] = {}
-            # objectToSave[dependency.name] = {}
-            print(dependency.name)
-            for observation in dependency.observation_list:
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation] = {}
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['start'] = observation.start
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data'] = observation.data
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data_type'] = observation.data_type
-                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['artifact'] = observation.artifact
-            #objectToSave["dependencies"].append(dependency.name)
-
-        objectToSave.append(objectToSaveDependencies)
-
-        with open("saved_object1.json", 'w') as outfile:
-            json.dump(objectToSave, outfile, indent=4)
 
     def display_search_results(self, text):
         self.relationship_list.clear()
@@ -597,6 +559,17 @@ class Builder_GUI(object):
         msgbox.setText(str(msg))
         msgbox.exec_()
 
+
+    def open_runner(self):
+        #Save all changes before opening runner
+        self.controller_object.save_object()
+
+        
+        if platform.system() == "Windows":
+            Popen(['python', 'GUI_manager.py', 'runner', self.controller_object.project_name],stdout=PIPE, stderr=PIPE)
+        else:
+            Popen(['python3', 'GUI_manager.py', 'runner', self.controller_object.project_name],stdout=PIPE, stderr=PIPE)
+        
 
 
 # if __name__ == "__main__":

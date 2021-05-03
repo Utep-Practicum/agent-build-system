@@ -10,8 +10,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from Runner.Runner_Manager import *
+import sys
+
 
 class Runner_GUI(object):
+    def __init__(self, controller):
+        self.runner_manager = RunnerManager(controller)
+        if __name__ != "__main__":
+            self.execute()
+
     def setupUi(self, Runner):
         Runner.setObjectName("Runner_GUI")
         Runner.resize(800, 569)
@@ -48,6 +56,13 @@ class Runner_GUI(object):
         self.ECELdOutput.setObjectName("ECELdOutput")
         self.ECELdOutput.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.ECELdOutput.setEnabled(False)
+
+        ################### Back2Builder Button #########################
+        self.back2BuilderButton = QtWidgets.QPushButton(self.centralwidget)
+        self.back2BuilderButton.setGeometry(QtCore.QRect(470, 470, 150, 31))
+        self.back2BuilderButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.back2BuilderButton.setObjectName("back2Builder")
+        self.back2BuilderButton.clicked.connect(self.back_to_builder)
 
         ################### Play Button #########################
         self.playButton = QtWidgets.QPushButton(self.centralwidget)
@@ -101,6 +116,7 @@ class Runner_GUI(object):
         Runner_GUI.setWindowTitle(_translate("Runner_GUI", "ABS_Runner"))
         self.ECELd.setText(_translate("Runner_GUI", "ECELd Output:"))
 
+        self.back2BuilderButton.setText(_translate("Runner_GUI","Back to Builder"))
         self.playButton.setIcon(self.playButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPlay))
         self.stopButton.setIcon(self.stopButton.style().standardIcon(QtWidgets.QStyle.SP_MediaStop))
         self.ABS.setText(_translate("Runner_GUI", "ABS Output:"))
@@ -110,6 +126,18 @@ class Runner_GUI(object):
         self.actionSave_Project.setText(_translate("Runner_GUI", "Save Project"))
         self.actionExit.setText(_translate("Runner_GUI", "Exit"))
         self.actionREADME.setText(_translate("Runner_GUI", "README"))
+
+
+    def back_to_builder(self):
+        self.runner_manager.back_to_builder()
+        self.close
+
+    def execute(self):
+        app = QtWidgets.QApplication(sys.argv)
+        RunnerWindow = QtWidgets.QMainWindow()
+        self.setupUi(RunnerWindow)
+        RunnerWindow.show()
+        sys.exit(app.exec_())
 
 
 if __name__ == "__main__":

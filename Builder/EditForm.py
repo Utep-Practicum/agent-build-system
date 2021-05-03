@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QTextEdit, QScrollArea, QPushButton, QMainWindow, QVBoxLayout,
-                             QGridLayout)
+                             QGridLayout, QCheckBox)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 import json
@@ -12,12 +12,15 @@ class EditForm(QMainWindow):
         self.builder = builder
         self.relation_selected = relation_selected
         self.observation_selected = item.text()
+        #self.observation_chosen = item
         self.observation_index = None
         self.start: str
         self.data_type: str
         self.artifact: str
         self.data_dict: dict = {}
         self.fields_entry: dict = {}
+        self.data_checkbox: dict = {}
+        self.data_clicked: dict = {}
         self.changes: bool = False
         self.initializeUI()
 
@@ -100,9 +103,10 @@ class EditForm(QMainWindow):
         row = 3
 
         for tag, field in self.fields_entry.items():
-            data_tag = QLabel(tag)
+            data_tag = QCheckBox(tag)
+            self.data_checkbox[tag] = data_tag
             field.setMinimumSize(35, 35)
-            data_tag.setAlignment(Qt.AlignRight)
+            #data_tag.setAlignment(Qt.AlignRight)
             fields_grid.addWidget(data_tag, row, 0)
             fields_grid.addWidget(field, row, 1)
             row += 1
@@ -144,6 +148,17 @@ class EditForm(QMainWindow):
                 else:
                     observation_object.data[key] = self.fields_entry[key].toPlainText()
         self.builder.displayObservationAfterEdit()
+
+        obs: any = None
+        for key in self.data_checkbox:
+            if self.data_checkbox[key].isChecked():
+                obs = self.relation_selected.observation_list[self.observation_index]
+                obs.select_filters.append(key)
+
+        print(obs.select_filters)
+
+
+
         print("--------- End of save ---------")
         self.close()
 
@@ -219,6 +234,9 @@ class EditForm(QMainWindow):
         self.create_data_dictionary(divided_data)
 
     def create_data_dictionary(self, divided_data_list):
+        '''
+        fills the attribute data_dict and the data_clicked with False
+        '''
         for pair_data in divided_data_list:
             divider = pair_data.find(" ")
             # print(pair_data[:divider-1])
@@ -230,6 +248,7 @@ class EditForm(QMainWindow):
             else:
                 value = value[1:-1]
             self.data_dict[key] = value
+            self.data_clicked[key] = False
 
 
 if __name__ == "__main__":

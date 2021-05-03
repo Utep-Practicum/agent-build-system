@@ -44,20 +44,16 @@ class GUIManager(QMainWindow):
 
 
     def runner(self,name = None):
+        print('Starting Runner')
         self.project = name
         #These lines are only to test the Runner
         #Remove upon test completion
         controller = Controller()
-        controller.update(self.project)
-        controller.dependencies_main = controller.relationships_main
-        RunnerManager(controller).runner_review()
+        controller.load_object(self.project_name)
+        #controller.dependencies_main = controller.relationships_main
+        #RunnerManager(controller).runner_review()
+        Runner_GUI(controller)
 
-        """
-        self.runner = Runner_GUI()
-        self.r = Window
-        self.runner.setupUi(self.r)
-        self.r.show()
-        """
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
@@ -66,6 +62,7 @@ if __name__ == "__main__":
     function = {'ce':manager.causation_extractor,
                 'builder':manager.builder,
                 'runner':manager.runner}
+    print('Again')
     if len(sys.argv) == 2:
         function[sys.argv[1]]()
     elif len(sys.argv) == 3:
