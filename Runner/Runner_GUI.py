@@ -81,17 +81,17 @@ class Runner_GUI(object):
         self.playButton.setObjectName("playButton")
         self.playButton.clicked.connect(self.run_scripts)
 
-        ################## Pause Button #########################
-        self.pauseButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pauseButton.setGeometry(QtCore.QRect(110, 470, 71, 31))
-        self.pauseButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.pauseButton.setObjectName("pauseButton")
+        # ################## Pause Button #########################
+        # self.pauseButton = QtWidgets.QPushButton(self.centralwidget)
+        # self.pauseButton.setGeometry(QtCore.QRect(110, 470, 71, 31))
+        # self.pauseButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        # self.pauseButton.setObjectName("pauseButton")
 
-        ################## Stop Button ##########################
-        self.stopButton = QtWidgets.QPushButton(self.centralwidget)
-        self.stopButton.setGeometry(QtCore.QRect(190, 470, 81, 31))
-        self.stopButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.stopButton.setObjectName("stopButton")
+        # ################## Stop Button ##########################
+        # self.stopButton = QtWidgets.QPushButton(self.centralwidget)
+        # self.stopButton.setGeometry(QtCore.QRect(190, 470, 81, 31))
+        # self.stopButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        # self.stopButton.setObjectName("stopButton")
 
         ################## Menu Top Bar #########################
         Runner.setCentralWidget(self.centralwidget)
@@ -135,9 +135,9 @@ class Runner_GUI(object):
 
         self.back2BuilderButton.setText(_translate("Runner_GUI","Back to Builder"))
         self.playButton.setIcon(self.playButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPlay))
-        self.stopButton.setIcon(self.stopButton.style().standardIcon(QtWidgets.QStyle.SP_MediaStop))
+        # self.stopButton.setIcon(self.stopButton.style().standardIcon(QtWidgets.QStyle.SP_MediaStop))
         self.ABS.setText(_translate("Runner_GUI", "Observations / User Actions:"))
-        self.pauseButton.setIcon(self.pauseButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPause))
+        # self.pauseButton.setIcon(self.pauseButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPause))
         self.menuFile.setTitle(_translate("Runner_GUI", "File"))
         self.menuHelp.setTitle(_translate("Runner_GUI", "Help"))
         self.actionSave_Project.setText(_translate("Runner_GUI", "Save Project"))
