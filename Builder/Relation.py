@@ -43,10 +43,11 @@ class Observation:
             print(f"image: {img_Name}")
             self.data['content'] = img_Name
             print("before coordinates ----")
-            #analyze = ClickCoordinate()
-            #analyze.analyze_file(img_Name)
+            analyze = ClickCoordinate()
+            analyze.analyze_file("/home/kali/Downloads/demo_1/Clicks/1620030375.6318858_xfdesktop_root.png")
             
-            #self.coordinateX, self.coordinateY = analyze.click_coord()
+            self.coordinateX, self.coordinateY = analyze.click_coord()
+            print(f"x: {self.coordinateX}, y: {self.coordinateY}")
             
 
         # Depicts the time to wait before looking for observation or executing script
@@ -61,7 +62,7 @@ class Observation:
         self.script = None
 
         # Selected labels which will be used to filter traffic on the Runner
-        self.select_filters = ['ip.src', 'ip.len']
+        self.select_filters = []
 
         #change to 1 when ignoring observation in script
         self.ignore = 0
