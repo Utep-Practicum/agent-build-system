@@ -25,6 +25,8 @@ class Observation:
         self.data_type = node['data_type']
         self.artifact = node['artifact']
 
+        self.is_click = True if "clicks_id" in node['data'] else False
+
         # Depicts the time to wait before looking for observation or executing script
         self.delay = 0
 

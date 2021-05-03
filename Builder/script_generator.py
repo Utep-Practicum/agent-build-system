@@ -27,8 +27,11 @@ class ScriptGenerator:
         temp = sys.stdout
 
         for observation in self.observation_list:
-            if observation.user_action:
+            if observation.user_action and observation.data_type == "imgPoint" and observation.is_click:
                 self.generate_single_script(observation)
+            elif observation.user_action and observation.data_type != "imgPoint":
+                self.generate_single_script(observation)
+            
 
         sys.stdout = temp 
 
