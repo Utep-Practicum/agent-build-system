@@ -153,6 +153,9 @@ class EditForm(QMainWindow):
                     observation_object.data[key] = int(self.fields_entry[key].toPlainText())
                 else:
                     observation_object.data[key] = self.fields_entry[key].toPlainText()
+        else:
+            self.close()
+            return
         self.builder.display_observation_after_edit()
 
         obs: any = None
@@ -160,10 +163,6 @@ class EditForm(QMainWindow):
             if self.data_checkbox[key].isChecked():
                 obs = self.relation_selected.observation_list[self.observation_index]
                 obs.select_filters.append(key)
-
-        print(obs.select_filters)
-
-
 
         print("--------- End of save ---------")
         self.close()
@@ -205,9 +204,14 @@ class EditForm(QMainWindow):
             self.changes = True
         for key in self.fields_entry.keys():
             if type(self.data_dict[key]) == int:
-                if self.fields_entry[key].toPlainText() == '' or self.data_dict[key] != int(self.fields_entry[key].toPlainText()):
-                    print(f"Chages done in {key}")
-                    self.changes = True
+                try:
+                    if self.fields_entry[key].toPlainText() == '' or self.data_dict[key] != int(self.fields_entry[key].toPlainText()):
+                        print(f"Chages done in {key}")
+                        self.changes = True
+                except Exception:
+                    print("Value has to be an integer")
+                    self.changes = False
+                    return
             elif self.data_dict[key] != self.fields_entry[key].toPlainText():
                 print(f"Chages done in {key}")
                 self.changes = True
