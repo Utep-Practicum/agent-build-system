@@ -1,6 +1,6 @@
 import os
 import json
-from ClickCoordinate import *
+# from ClickCoordinate import *
 
 counter = 1
 
@@ -54,8 +54,8 @@ class Observation:
             print(f"image: {img_Name}")
             analyze.analyze_file(img_Name)
             
-            # self.coordinateX, self.coordinateY = analyze.click_coord()
-            # print(f"x: {self.coordinateX}, y: {self.coordinateY}")
+            self.coordinateX, self.coordinateY = analyze.click_coord()
+            print(f"x: {self.coordinateX}, y: {self.coordinateY}")
             
 
         # Depicts the time to wait before looking for observation or executing script
