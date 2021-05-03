@@ -411,7 +411,6 @@ class Builder_GUI(object):
         self.selected_item = "Dependency"
         self.details_list.clear()
 
-        print(item.text())
         found_dependency = None
         for dependency_loop in self.controller_object.dependencies_main:
             if item.text() == dependency_loop.name:

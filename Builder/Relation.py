@@ -29,7 +29,7 @@ class Observation:
         self.delay = 0
 
         # Information to create script
-        if(self.data_type == "Keypresses" or self.data_type == "imgPoint"):
+        if(self.data_type == "Keypresses" or self.data_type == "imgPoint" or self.data_type == "auditd"):
             self.user_action = True
         else:
             self.user_action = False

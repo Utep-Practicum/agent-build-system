@@ -15,14 +15,14 @@ class RunnerManager:
     
 
     def func_definer(self, observation):
-        if observation.user_action:
+        if observation.user_action and observation.data_type != "auditd":
         
             # This conditions is to prevent running high delta times
             if float(observation.start) < 20:
                 time.sleep(float(observation.start))
             os.system("python3 Project\ Data/"+ self.controller.project_name +"/Runner/Scripts/observation"+ str(observation.observation_number) +".py")
             # execfile()
-        else:
+        elif observation.user_action == False:
             print("Test")
             # Temporary disabled
             # Collector(observation).tshark_collector()
