@@ -35,8 +35,7 @@ class EditForm(QMainWindow):
 
         self.start_entry.setText(self.start)
         self.data_type_entry.setText(self.data_type)
-        if self.data_type_entry.toPlainText() == 'imgPoint':
-                self.gimp_button.setDisabled(False)
+        
         self.artifact_entry.setText(self.artifact)
         for tag in self.fields_entry.keys():
             self.fields_entry[tag].setText(str(self.data_dict[tag]))
@@ -65,7 +64,17 @@ class EditForm(QMainWindow):
         save_button.clicked.connect(self.save_modifications)
         self.gimp_button = QPushButton("Open GIMP")
         self.gimp_button.setDisabled(True)
-        self.gimp_button.clicked.connect(self.open_gimp)
+        
+        try:
+            if self.data_dict['clicks_id']:
+                self.gimp_button.setDisabled(False)
+                self.gimp_button.clicked.connect(self.open_gimp)
+                
+        except Exception as e:
+            print(e)
+            print("not a click")
+
+        
         cancel_button = QPushButton("Cancel")
 
         # Create Section labels for to-do list
@@ -169,7 +178,7 @@ class EditForm(QMainWindow):
         self.close()
 
     def open_gimp(self):
-        Popen(['gimp', self.relation_selected.observation_list[self.observation_index]],stdout=PIPE, stderr=PIPE)
+        Popen(['gimp', self.fields_entry['content'].toPlainText()],stdout=PIPE, stderr=PIPE)
 
     def cancel_edit(self):
         """
