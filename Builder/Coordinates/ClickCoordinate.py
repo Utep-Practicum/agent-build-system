@@ -15,8 +15,9 @@ class ClickCoordinate:
             self.hsv = cv2.cvtColor(self.img, cv2.COLOR_BGR2HSV)
             
         except Exception as e:
-            print(e)
-            print("File is broken " + image_name, sys.exc_info()[0])
+            #print(e)
+            print("Cannot detect coordinates " + image_name, sys.exc_info()[0])
+            print("Please introduce coordinates manually")
             return
 
         self.lower_range = np.array([0, 100, 100])

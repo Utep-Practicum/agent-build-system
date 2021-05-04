@@ -36,14 +36,23 @@ class Observation:
         self.coordinateX = 0
         self.coordinateY = 0
 
+        # If Click image detected, get coordinates and save them as object data
         if self.is_click:
             self.data = node['data']
             img_Name = self.get_image_path(self.data['content'])
             self.data['content'] = img_Name
-            analyze = ClickCoordinate()
+            try:
+                analyze = ClickCoordinate()
+                analyze.analyze_file(img_Name)
+                self.coordinateX, self.coordinateY = analyze.click_coord()
+                self.data['Xcoordinate'] = self.coordinateX
+                self.data['Ycoordinate'] = self.coordinateY
+            except Exception as e:
+                # If algorithm cannot determine the coordinates, they will be set to (0,0)
+                print(e)
+                self.data['Xcoordinate'] = 0
+                self.data['Ycoordinate'] = 0    
             print(f"image: {img_Name}")
-            analyze.analyze_file(img_Name)
-            self.coordinateX, self.coordinateY = analyze.click_coord()
             print(f"x: {self.coordinateX}, y: {self.coordinateY}")
             
 
@@ -64,6 +73,7 @@ class Observation:
         #change to 1 when ignoring observation in script
         self.ignore = 0
 
+    # Get location of image for further analysis
     def get_image_path(self,default_content):
         head_tail = os.path.split(default_content)
         pic_name = head_tail[1]
