@@ -1,6 +1,6 @@
 import os
 import json
-# from ClickCoordinate import *
+from Builder.Coordinates.ClickCoordinate import ClickCoordinate
 
 counter = 1
 
@@ -37,23 +37,12 @@ class Observation:
         self.coordinateY = 0
 
         if self.is_click:
-            print("FUE CLICK???")
             self.data = node['data']
             img_Name = self.get_image_path(self.data['content'])
-            print(f"image: {img_Name}")
             self.data['content'] = img_Name
-            img_Name = img_Name.strip()
-            print("before coordinates ----")
             analyze = ClickCoordinate()
-            print(img_Name[1:].split("/"))
-            path_list = img_Name[1:].split("/")
-            path_list.insert(4, 'Clicks')
-            print(path_list)
-            img_Name = '/'.join(path_list)
-            img_Name = '/'+img_Name
             print(f"image: {img_Name}")
             analyze.analyze_file(img_Name)
-            
             self.coordinateX, self.coordinateY = analyze.click_coord()
             print(f"x: {self.coordinateX}, y: {self.coordinateY}")
             
@@ -78,7 +67,7 @@ class Observation:
     def get_image_path(self,default_content):
         head_tail = os.path.split(default_content)
         pic_name = head_tail[1]
-        pic_path = self.eceld_folder+'/'+pic_name
+        pic_path = self.eceld_folder+'/Clicks/'+pic_name
         return pic_path
         
 
