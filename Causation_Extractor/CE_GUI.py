@@ -17,6 +17,7 @@ from Causation_Extractor.NewProject import *
 
 import os  # os and json are used for dir json aggregation for now
 import sys
+import shutil
 
 
 class CEGUI(QWidget):
@@ -173,10 +174,13 @@ class CEGUI(QWidget):
 
     def show_analyzingWindow(self):
         self.hide()
+        # Make Copy of Imported JSON File
+        shutil.copy(self.sa_file_path,'Project Data/'+self.project_name + '/CE/CE_logs')
         self.Analyzing_Window = QtWidgets.QDialog()
         self.ui = Ui_Analyzing_Window()
         self.ui.setupUi(self.Analyzing_Window,self.CEWindow)
         self.Analyzing_Window.show()
+        
         QtWidgets.qApp.processEvents()
         if self.time_input.text():
             self.time_frame = float(self.time_input.text())
@@ -196,11 +200,13 @@ class CEGUI(QWidget):
             file_name = QFileDialog.getOpenFileName()
             if file_name[0].endswith('.json'):
                     print("Selected JSON File:")
+                    ## Save selected JSON file to ob
                     self.sa_file_path = file_name[0]
                     print(self.sa_file_path)
             else:
                 print('Please select a JSON file')
                 file_name = QFileDialog.getOpenFileName()
+
         except Exception as e:
             print("Error Selecting Json File")
             
