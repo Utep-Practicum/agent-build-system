@@ -105,6 +105,10 @@ class CEGUI(QWidget):
         self.actionSave_Project.setObjectName("actionSave_Project")
         self.actionSave_Project.triggered.connect(self.save_Project)
 
+        self.actionImport_JSON = QtWidgets.QAction(self.CEWindow)
+        self.actionImport_JSON.setObjectName("actionImport_JSON")
+        self.actionImport_JSON.triggered.connect(self.import_JSON)
+
         self.actionExit = QtWidgets.QAction(self.CEWindow)
         self.actionExit.setObjectName("actionExit")
         self.actionExit.triggered.connect(self.CEWindow.close)
@@ -112,7 +116,9 @@ class CEGUI(QWidget):
         self.actionREADME = QtWidgets.QAction(self.CEWindow)
         self.actionREADME.setObjectName("actionREADME")
         self.menuNew_Project.addAction(self.actionSave_Project)
+        self.menuNew_Project.addAction(self.actionImport_JSON)
         self.menuNew_Project.addAction(self.actionExit)
+
         self.menuHelp.addAction(self.actionREADME)
         self.menubar.addAction(self.menuNew_Project.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -130,9 +136,13 @@ class CEGUI(QWidget):
         self.project_name = ""
         self.check_project()
 
-        ########Creating Objects to execute Save Project Window####
+        ######## Creating Objects to execute Save Project Window ####
         self.Form = QtWidgets.QDialog()
         self.sP = NewProject(self.Form)
+
+        ######## JSON FILE FOR SALIENT ARTIFACTS PATH ##############
+
+        self.sa_file_path = str
 
         ################# BUTTON ACTIONS ###########################
         self.Browse_Button.clicked.connect(self.browse_Files)
@@ -156,7 +166,6 @@ class CEGUI(QWidget):
         backend = ceBackend()
         try:
             self.num_lines = backend.output_directory(directory, name)
-            
             self.check_project()
         except Exception as e:
             #print(e)
@@ -181,7 +190,20 @@ class CEGUI(QWidget):
     def get_ProjectName(self):
         self.project_name = self.sP.project_sP
 
-
+    #####################  IMPORT JSON FILE ##########################################
+    def import_JSON(self):
+        try:
+            file_name = QFileDialog.getOpenFileName()
+            if file_name[0].endswith('.json'):
+                    print("Selected JSON File:")
+                    self.sa_file_path = file_name[0]
+                    print(self.sa_file_path)
+            else:
+                print('Please select a JSON file')
+                file_name = QFileDialog.getOpenFileName()
+        except Exception as e:
+            print("Error Selecting Json File")
+            
     ###################### CHECK THAT A PROJECT HAS BEEN CREATED #############################
     def check_project(self):
         if not self.project_name:
@@ -206,6 +228,7 @@ class CEGUI(QWidget):
         self.menuNew_Project.setTitle(_translate("self.CEWindow", "Project"))
         self.menuHelp.setTitle(_translate("self.CEWindow", "Help"))
         self.actionSave_Project.setText(_translate("self.CEWindow", "Save Project"))
+        self.actionImport_JSON.setText(_translate("self.CEWindow", "Import JSON File"))
         self.actionExit.setText(_translate("self.CEWindow", "Exit"))
         self.actionREADME.setText(_translate("self.CEWindow", "README"))
 

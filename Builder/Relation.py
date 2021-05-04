@@ -31,9 +31,9 @@ class Observation:
         self.data_type = node['data_type']
         self.artifact = node['artifact']
         self.eceld_folder = eceld_folder
-        self.imgName = ""
+        self.imgName = str
         self.is_click = True if "clicks_id" in node['data'] else False
-        self.coordinateX = 0
+        self.oordinateX = 0
         self.coordinateY = 0
 
         # If Click image detected, get coordinates and save them as object data
@@ -45,15 +45,15 @@ class Observation:
                 analyze = ClickCoordinate()
                 analyze.analyze_file(img_Name)
                 self.coordinateX, self.coordinateY = analyze.click_coord()
-                self.data['Xcoordinate'] = self.coordinateX
-                self.data['Ycoordinate'] = self.coordinateY
+                self.data['X_Coordinate'] = int(self.coordinateX)
+                self.data['Y_Coordinate'] = int(self.coordinateY)
             except Exception as e:
                 # If algorithm cannot determine the coordinates, they will be set to (0,0)
                 print(e)
-                self.data['Xcoordinate'] = 0
-                self.data['Ycoordinate'] = 0    
-            print(f"image: {img_Name}")
-            print(f"x: {self.coordinateX}, y: {self.coordinateY}")
+                self.data['X_Coordinate'] = 0
+                self.data['Y_Coordinate'] = 0    
+            #print(f"image: {img_Name}")
+            #print(f"x: {self.coordinateX}, y: {self.coordinateY}")
             
 
         # Depicts the time to wait before looking for observation or executing script
