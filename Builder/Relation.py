@@ -33,14 +33,18 @@ class Observation:
         self.eceld_folder = eceld_folder
         self.imgName = str
         self.is_click = True if "clicks_id" in node['data'] else False
-        self.coordinateX = int
-        self.coordinateY = int
 
         # If Click image detected, get coordinates and save them as object data
         if self.is_click:
             self.data = node['data']
             img_Name = self.get_image_path(self.data['content'])
             self.data['content'] = img_Name
+            self.coordinateX = 0
+            self.coordinateY = 0
+            self.button = 'left'
+            self.clicks = 1
+            self.data['clicks'] = self.clicks
+            self.data['button'] = self.button
             try:
                 analyze = ClickCoordinate()
                 analyze.analyze_file(img_Name)
