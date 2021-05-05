@@ -33,8 +33,8 @@ class Observation:
         self.eceld_folder = eceld_folder
         self.imgName = str
         self.is_click = True if "clicks_id" in node['data'] else False
-        self.oordinateX = 0
-        self.coordinateY = 0
+        self.coordinateX = int
+        self.coordinateY = int
 
         # If Click image detected, get coordinates and save them as object data
         if self.is_click:
