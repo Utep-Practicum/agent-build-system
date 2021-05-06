@@ -1,0 +1,21 @@
+{
+	"auditd" : "[0-9]",
+	"auditd" : "onf",
+	"auditd" : "sudo",
+	"auditd" : "ls",
+	"auditd" : "cd",
+	"auditd" : "dir",
+	"auditd" : "dri",
+	"auditd" : "tou",
+	"auditd" : "mod",
+	"auditd" : "ping",
+	"auditd" : "pnig",
+	"auditd" : "map",
+	"auditd" : "amp",
+	"auditd" : "nma",
+	"auditd" : "nam",
+	"network": "tcp",
+	"network": "udp",
+	"network": "http",
+	"network": "icmp"
+}
