@@ -21,7 +21,11 @@ In order to create relationships: the user must select the top level folder for 
 
 The CE allows users to enter their own definitions for Salient artifacts. If the user would like to enter their own Salient Artifact Definition, you can select a json file that is located on your system with the following format
 
-> "eceld_data_header": "value"
+> "eceld_classname": "value"
+
+"eceld_classname" meaning any of the "classname" attributes that are represented within the eceld project's ParsedLogs folder. Although this will vary depending on the data that you would like to consider as a salient artifact, a valid example can be seen below:
+
+> "auditd_id" : "sudo"
 
 If no file is entered, the System will instead rely on a "default" json file to determine Salient Artifacts. 
 
