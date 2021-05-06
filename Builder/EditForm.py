@@ -160,6 +160,10 @@ class EditForm(QMainWindow):
             for key in observation_object.data.keys():
                 if type(self.data_dict[key]) == int:
                     observation_object.data[key] = int(self.fields_entry[key].toPlainText())
+                    if key == "X_Coordinate":
+                        observation_object.coordinateX = observation_object.data[key]
+                    elif key == "Y_Coordinate":
+                        observation_object.coordinateY = observation_object.data[key]
                 else:
                     observation_object.data[key] = self.fields_entry[key].toPlainText()
         else:
