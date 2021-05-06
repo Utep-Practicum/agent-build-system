@@ -151,7 +151,7 @@ class Ui_Analyzing_Window(QWidget):
             time.sleep(.1)
             self.progressBar.setValue(prct)
         artifactCount = causationObject.makeArtifacts(relationshipList)
-        while 100 > prct:
+        while 98 > prct:
             prct += frac
             time.sleep(.1)
             self.progressBar.setValue(prct)
@@ -159,11 +159,12 @@ class Ui_Analyzing_Window(QWidget):
         final_time = time.time() - start_time
 
         self.progressBar.setValue(100)
+        
         self.label.setText("Finished")
         self.Time_Elapsed_A.setText(str(final_time)[:5])
         self.SArtifacts_A.setText(str(artifactCount))
         self.Relationships_A.setText(str(len(relationshipList)))
-
+        self.progressBar.setValue(100)
     ######################## OPEN BUILDER ##################################
     def open_builder(self):
 

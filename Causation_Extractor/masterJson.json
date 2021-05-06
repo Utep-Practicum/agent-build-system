@@ -1,63 +1,63 @@
 [
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:15",
+        "start": "2021-03-09T21:44:31",
         "data": {
             "auditd_id": 0,
-            "content": "bash"
+            "content": "sudo ifconfig"
         }
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:15",
+        "start": "2021-03-09T21:44:31",
         "data": {
             "auditd_id": 1,
-            "content": "tput setaf 1"
+            "content": "ifconfig"
         }
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:15",
+        "start": "2021-03-09T21:45:36",
         "data": {
             "auditd_id": 2,
-            "content": "dircolors -b"
+            "content": "sudo ls"
         }
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:19",
+        "start": "2021-03-09T21:45:36",
         "data": {
             "auditd_id": 3,
-            "content": "ls -b"
+            "content": "ls"
         }
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:22",
+        "start": "2021-03-09T21:45:43",
         "data": {
             "auditd_id": 4,
-            "content": "ls -b -l"
+            "content": "print /usr/bin/print done here:\n"
         }
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:30",
+        "start": "2021-03-09T21:45:44",
         "data": {
             "auditd_id": 5,
-            "content": "ls -b"
+            "content": "which /usr/bin/which file"
         }
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:34",
+        "start": "2021-03-09T21:45:44",
         "data": {
             "auditd_id": 6,
-            "content": "dir"
+            "content": "file -b --mime-type -e tokens -L -z done here:\n"
         }
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 7,
             "content": "service /usr/sbin/service auditd stop"
@@ -65,7 +65,7 @@
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 8,
             "content": "basename /usr/sbin/service"
@@ -73,7 +73,7 @@
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 9,
             "content": "basename /usr/sbin/service"
@@ -81,7 +81,7 @@
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 10,
             "content": "systemctl --quiet is-active multi-user.target"
@@ -89,15 +89,15 @@
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 11,
-            "content": "systemctl list-unit-files --full multi-user.target"
+            "content": "xhost -SI:localuser:root"
         }
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 12,
             "content": "sed -ne s/\\.socket\\s*[a-z]*\\s*$/.socket/p"
@@ -105,15 +105,15 @@
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 13,
-            "content": "xhost -SI:localuser:root"
+            "content": "systemctl list-unit-files --full multi-user.target"
         }
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 14,
             "content": "auditd_parser.s bash /home/kali/eceld-netsys/eceld/plugins/parsers/auditd/auditd_parser.sh /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/parsed"
@@ -121,7 +121,7 @@
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 15,
             "content": "bash /home/kali/eceld-netsys/eceld/plugins/parsers/auditd/auditd_parser.sh /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/parsed"
@@ -129,233 +129,715 @@
     },
     {
         "data_type": "auditd",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "auditd_id": 16,
-            "content": "cat /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw/1620030370_auditd.txt"
+            "content": "cat /home/kali/eceld-netsys/eceld/plugins/collectors/auditd/raw/1615326264_auditd.txt"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:15",
+        "start": "2021-03-09T21:45:50",
         "data": {
             "clicks_id": 0,
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1620030375.6318858_xfdesktop_root.png",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326350.864823_qterminal_root.png",
             "type": "point"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:37",
+        "start": "2021-03-09T21:44:28",
         "data": {
             "clicks_id": 1,
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1620030397.4311185_qterminal_root.png",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326268.7193344_qterminal_root.png",
             "type": "point"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:39",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "clicks_id": 2,
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1620030399.0076716_main.py_root.png",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1615326352.3166468_main.py_root.png",
             "type": "point"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:16",
-        "data": {
-            "clicks_id": 3,
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1620030376.9381397_qterminal_root.png",
-            "type": "point"
-        }
-    },
-    {
-        "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:13",
-        "data": {
-            "clicks_id": 4,
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/click_images/1620030373.1459875_xfdesktop_root.png",
-            "type": "point"
-        }
-    },
-    {
-        "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:21",
+        "start": "2021-03-09T21:44:33",
         "data": {
             "timed_id": 0,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030381.7520192_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326273.9248188_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:15",
+        "start": "2021-03-09T21:45:52",
         "data": {
             "timed_id": 1,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030375.5530858_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326352.2748482_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:34",
+        "start": "2021-03-09T21:44:39",
         "data": {
             "timed_id": 2,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030394.5983553_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326279.1460357_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:29",
+        "start": "2021-03-09T21:44:32",
         "data": {
             "timed_id": 3,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030389.5004747_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326272.6641197_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:19",
+        "start": "2021-03-09T21:44:36",
         "data": {
             "timed_id": 4,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030379.4460723_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326276.49936_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:26",
+        "start": "2021-03-09T21:45:40",
         "data": {
             "timed_id": 5,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030386.8371966_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326340.944269_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:32",
+        "start": "2021-03-09T21:45:50",
         "data": {
             "timed_id": 6,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030392.0276911_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326350.7861655_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:25",
+        "start": "2021-03-09T21:44:35",
         "data": {
             "timed_id": 7,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030385.5589156_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326275.2094927_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:13",
+        "start": "2021-03-09T21:45:34",
         "data": {
             "timed_id": 8,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030373.0675435_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326334.648966_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:23",
+        "start": "2021-03-09T21:45:30",
         "data": {
             "timed_id": 9,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030383.0693696_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326330.1787865_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:16",
+        "start": "2021-03-09T21:44:42",
         "data": {
             "timed_id": 10,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030376.8433702_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326282.8048596_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:28",
+        "start": "2021-03-09T21:44:30",
         "data": {
             "timed_id": 11,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030388.1539233_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326270.1533728_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:38",
+        "start": "2021-03-09T21:44:31",
         "data": {
             "timed_id": 12,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030398.968288_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326271.3961422_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:24",
+        "start": "2021-03-09T21:45:32",
         "data": {
             "timed_id": 13,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030384.3317354_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326332.6946743_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:37",
+        "start": "2021-03-09T21:45:31",
         "data": {
             "timed_id": 14,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030397.4253905_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326331.437223_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:30",
+        "start": "2021-03-09T21:45:35",
         "data": {
             "timed_id": 15,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030390.779103_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326335.8811796_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:33",
+        "start": "2021-03-09T21:44:41",
         "data": {
             "timed_id": 16,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030393.3553047_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326281.538223_screenshot.png"
         }
     },
     {
         "data_type": "imgPoint",
-        "start": "2021-05-03T08:26:18",
+        "start": "2021-03-09T21:44:44",
         "data": {
             "timed_id": 17,
             "type": "point",
-            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1620030378.1750126_screenshot.png"
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326284.0479376_screenshot.png"
+        }
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:37",
+        "data": {
+            "timed_id": 18,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326337.1642497_screenshot.png"
+        }
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:37",
+        "data": {
+            "timed_id": 19,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326277.8075087_screenshot.png"
+        }
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:38",
+        "data": {
+            "timed_id": 20,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326338.417029_screenshot.png"
+        }
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:39",
+        "data": {
+            "timed_id": 21,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326339.7262259_screenshot.png"
+        }
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:42",
+        "data": {
+            "timed_id": 22,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326342.2005148_screenshot.png"
+        }
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:45:43",
+        "data": {
+            "timed_id": 23,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326343.473374_screenshot.png"
+        }
+    },
+    {
+        "data_type": "imgPoint",
+        "start": "2021-03-09T21:44:28",
+        "data": {
+            "timed_id": 24,
+            "type": "point",
+            "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326268.515983_screenshot.png"
         }
     },
     {
         "data_type": "Keypresses",
-        "start": "2021-05-03T08:26:19",
+        "start": "2021-03-09T21:44:38",
         "data": {
             "keypresses_id": 0,
-            "content": "k[BackSpace]ls[Return]"
+            "content": "sudo ifconfig[Return]ping 10.0.2.1[Return][Control_L]c"
         }
     },
     {
         "data_type": "Keypresses",
-        "start": "2021-05-03T08:26:33",
+        "start": "2021-03-09T21:44:43",
         "data": {
             "keypresses_id": 1,
-            "content": "ls -l[Return]cd [Shift_L]Do[Tab]cument[Tab][Return]di[BackSpace][BackSpace][BackSpace]ls[Return]cd a[Tab][Return]dir"
+            "content": "ping 10.0.2.18"
         }
+    },
+    {
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:45:31",
+        "data": {
+            "keypresses_id": 2,
+            "content": "[Return][Control_L]c"
+        }
+    },
+    {
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:45:36",
+        "data": {
+            "keypresses_id": 3,
+            "content": "sudo ls[Return]"
+        }
+    },
+    {
+        "data_type": "Keypresses",
+        "start": "2021-03-09T21:45:43",
+        "data": {
+            "keypresses_id": 4,
+            "content": "print [Shift_L]\"done here[Shift_L]:[Return][Shift_L]\""
+        }
+    },
+    {
+        "start": "Mar  9, 2021 14:44:36.650260000 MST",
+        "data": {
+            "_index": "packets-2021-03-09",
+            "_type": "doc",
+            "_score": null,
+            "frame.interface_id": "0",
+            "frame.interface_name": "unknown",
+            "frame.encap_type": "1",
+            "frame.time": "Mar  9, 2021 14:44:36.650260000 MST",
+            "frame.offset_shift": "0.000000000",
+            "frame.time_epoch": "1615326276.650260000",
+            "frame.time_delta": "0.000000000",
+            "frame.time_delta_displayed": "0.000000000",
+            "frame.time_relative": "0.000000000",
+            "frame.number": "1",
+            "frame.len": "98",
+            "frame.cap_len": "98",
+            "frame.marked": "0",
+            "frame.ignored": "0",
+            "frame.protocols": "eth:ethertype:ip:icmp:data",
+            "eth.dst": "52:54:00:12:35:00",
+            "eth.dst_resolved": "RealtekU_12:35:00",
+            "eth.dst.oui": "5395456",
+            "eth.dst.oui_resolved": "Realtek (UpTech? also reported)",
+            "eth.addr": "08:00:27:23:ff:90",
+            "eth.addr_resolved": "PcsCompu_23:ff:90",
+            "eth.addr.oui": "524327",
+            "eth.addr.oui_resolved": "PCS Computer Systems GmbH",
+            "eth.dst.lg": "1",
+            "eth.lg": "0",
+            "eth.dst.ig": "0",
+            "eth.ig": "0",
+            "eth.src": "08:00:27:23:ff:90",
+            "eth.src_resolved": "PcsCompu_23:ff:90",
+            "eth.src.oui": "524327",
+            "eth.src.oui_resolved": "PCS Computer Systems GmbH",
+            "eth.src.lg": "0",
+            "eth.src.ig": "0",
+            "eth.type": "0x00000800",
+            "ip.version": "4",
+            "ip.hdr_len": "20",
+            "ip.dsfield": "0x00000000",
+            "ip.dsfield.dscp": "0",
+            "ip.dsfield.ecn": "0",
+            "ip.len": "84",
+            "ip.id": "0x000004b6",
+            "ip.flags": "0x00004000",
+            "ip.flags.rb": "0",
+            "ip.flags.df": "1",
+            "ip.flags.mf": "0",
+            "ip.frag_offset": "0",
+            "ip.ttl": "64",
+            "ip.proto": "1",
+            "ip.checksum": "0x00001de1",
+            "ip.checksum.status": "2",
+            "ip.src": "10.0.2.18",
+            "ip.addr": "10.0.2.1",
+            "ip.src_host": "10.0.2.18",
+            "ip.host": "10.0.2.1",
+            "ip.dst": "10.0.2.1",
+            "ip.dst_host": "10.0.2.1",
+            "icmp.type": "8",
+            "icmp.code": "0",
+            "icmp.checksum": "0x000086d3",
+            "icmp.checksum.status": "1",
+            "icmp.ident": "8208",
+            "icmp.seq": "1",
+            "icmp.seq_le": "256",
+            "icmp.data_time": "Mar  9, 2021 14:44:36.000000000 MST",
+            "icmp.data_time_relative": "0.650260000",
+            "data.data": "0c:ec:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
+            "data.len": "48"
+        },
+        "data_type": "network"
+    },
+    {
+        "start": "Mar  9, 2021 14:44:36.650474000 MST",
+        "data": {
+            "_index": "packets-2021-03-09",
+            "_type": "doc",
+            "_score": null,
+            "frame.interface_id": "0",
+            "frame.interface_name": "unknown",
+            "frame.encap_type": "1",
+            "frame.time": "Mar  9, 2021 14:44:36.650474000 MST",
+            "frame.offset_shift": "0.000000000",
+            "frame.time_epoch": "1615326276.650474000",
+            "frame.time_delta": "0.000214000",
+            "frame.time_delta_displayed": "0.000214000",
+            "frame.time_relative": "0.000214000",
+            "frame.number": "2",
+            "frame.len": "98",
+            "frame.cap_len": "98",
+            "frame.marked": "0",
+            "frame.ignored": "0",
+            "frame.protocols": "eth:ethertype:ip:icmp:data",
+            "eth.dst": "08:00:27:23:ff:90",
+            "eth.dst_resolved": "PcsCompu_23:ff:90",
+            "eth.dst.oui": "524327",
+            "eth.dst.oui_resolved": "PCS Computer Systems GmbH",
+            "eth.addr": "52:54:00:12:35:00",
+            "eth.addr_resolved": "RealtekU_12:35:00",
+            "eth.addr.oui": "5395456",
+            "eth.addr.oui_resolved": "Realtek (UpTech? also reported)",
+            "eth.dst.lg": "0",
+            "eth.lg": "1",
+            "eth.dst.ig": "0",
+            "eth.ig": "0",
+            "eth.src": "52:54:00:12:35:00",
+            "eth.src_resolved": "RealtekU_12:35:00",
+            "eth.src.oui": "5395456",
+            "eth.src.oui_resolved": "Realtek (UpTech? also reported)",
+            "eth.src.lg": "1",
+            "eth.src.ig": "0",
+            "eth.type": "0x00000800",
+            "ip.version": "4",
+            "ip.hdr_len": "20",
+            "ip.dsfield": "0x00000000",
+            "ip.dsfield.dscp": "0",
+            "ip.dsfield.ecn": "0",
+            "ip.len": "84",
+            "ip.id": "0x000004b6",
+            "ip.flags": "0x00004000",
+            "ip.flags.rb": "0",
+            "ip.flags.df": "1",
+            "ip.flags.mf": "0",
+            "ip.frag_offset": "0",
+            "ip.ttl": "255",
+            "ip.proto": "1",
+            "ip.checksum": "0x00005ee0",
+            "ip.checksum.status": "2",
+            "ip.src": "10.0.2.1",
+            "ip.addr": "10.0.2.18",
+            "ip.src_host": "10.0.2.1",
+            "ip.host": "10.0.2.18",
+            "ip.dst": "10.0.2.18",
+            "ip.dst_host": "10.0.2.18",
+            "icmp.type": "0",
+            "icmp.code": "0",
+            "icmp.checksum": "0x00008ed3",
+            "icmp.checksum.status": "1",
+            "icmp.ident": "8208",
+            "icmp.seq": "1",
+            "icmp.seq_le": "256",
+            "icmp.resp_to": "1",
+            "icmp.resptime": "0.214",
+            "icmp.data_time": "Mar  9, 2021 14:44:36.000000000 MST",
+            "icmp.data_time_relative": "0.650474000",
+            "data.data": "0c:ec:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
+            "data.len": "48"
+        },
+        "data_type": "network"
+    },
+    {
+        "start": "Mar  9, 2021 14:44:37.654760000 MST",
+        "data": {
+            "_index": "packets-2021-03-09",
+            "_type": "doc",
+            "_score": null,
+            "frame.interface_id": "0",
+            "frame.interface_name": "unknown",
+            "frame.encap_type": "1",
+            "frame.time": "Mar  9, 2021 14:44:37.654760000 MST",
+            "frame.offset_shift": "0.000000000",
+            "frame.time_epoch": "1615326277.654760000",
+            "frame.time_delta": "1.004286000",
+            "frame.time_delta_displayed": "1.004286000",
+            "frame.time_relative": "1.004500000",
+            "frame.number": "3",
+            "frame.len": "98",
+            "frame.cap_len": "98",
+            "frame.marked": "0",
+            "frame.ignored": "0",
+            "frame.protocols": "eth:ethertype:ip:icmp:data",
+            "eth.dst": "52:54:00:12:35:00",
+            "eth.dst_resolved": "RealtekU_12:35:00",
+            "eth.dst.oui": "5395456",
+            "eth.dst.oui_resolved": "Realtek (UpTech? also reported)",
+            "eth.addr": "08:00:27:23:ff:90",
+            "eth.addr_resolved": "PcsCompu_23:ff:90",
+            "eth.addr.oui": "524327",
+            "eth.addr.oui_resolved": "PCS Computer Systems GmbH",
+            "eth.dst.lg": "1",
+            "eth.lg": "0",
+            "eth.dst.ig": "0",
+            "eth.ig": "0",
+            "eth.src": "08:00:27:23:ff:90",
+            "eth.src_resolved": "PcsCompu_23:ff:90",
+            "eth.src.oui": "524327",
+            "eth.src.oui_resolved": "PCS Computer Systems GmbH",
+            "eth.src.lg": "0",
+            "eth.src.ig": "0",
+            "eth.type": "0x00000800",
+            "ip.version": "4",
+            "ip.hdr_len": "20",
+            "ip.dsfield": "0x00000000",
+            "ip.dsfield.dscp": "0",
+            "ip.dsfield.ecn": "0",
+            "ip.len": "84",
+            "ip.id": "0x000004f6",
+            "ip.flags": "0x00004000",
+            "ip.flags.rb": "0",
+            "ip.flags.df": "1",
+            "ip.flags.mf": "0",
+            "ip.frag_offset": "0",
+            "ip.ttl": "64",
+            "ip.proto": "1",
+            "ip.checksum": "0x00001da1",
+            "ip.checksum.status": "2",
+            "ip.src": "10.0.2.18",
+            "ip.addr": "10.0.2.1",
+            "ip.src_host": "10.0.2.18",
+            "ip.host": "10.0.2.1",
+            "ip.dst": "10.0.2.1",
+            "ip.dst_host": "10.0.2.1",
+            "icmp.type": "8",
+            "icmp.code": "0",
+            "icmp.checksum": "0x000010c1",
+            "icmp.checksum.status": "1",
+            "icmp.ident": "8208",
+            "icmp.seq": "2",
+            "icmp.seq_le": "512",
+            "icmp.data_time": "Mar  9, 2021 14:44:37.000000000 MST",
+            "icmp.data_time_relative": "0.654760000",
+            "data.data": "81:fd:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
+            "data.len": "48"
+        },
+        "data_type": "network"
+    },
+    {
+        "start": "Mar  9, 2021 14:44:37.655384000 MST",
+        "data": {
+            "_index": "packets-2021-03-09",
+            "_type": "doc",
+            "_score": null,
+            "frame.interface_id": "0",
+            "frame.interface_name": "unknown",
+            "frame.encap_type": "1",
+            "frame.time": "Mar  9, 2021 14:44:37.655384000 MST",
+            "frame.offset_shift": "0.000000000",
+            "frame.time_epoch": "1615326277.655384000",
+            "frame.time_delta": "0.000624000",
+            "frame.time_delta_displayed": "0.000624000",
+            "frame.time_relative": "1.005124000",
+            "frame.number": "4",
+            "frame.len": "98",
+            "frame.cap_len": "98",
+            "frame.marked": "0",
+            "frame.ignored": "0",
+            "frame.protocols": "eth:ethertype:ip:icmp:data",
+            "eth.dst": "08:00:27:23:ff:90",
+            "eth.dst_resolved": "PcsCompu_23:ff:90",
+            "eth.dst.oui": "524327",
+            "eth.dst.oui_resolved": "PCS Computer Systems GmbH",
+            "eth.addr": "52:54:00:12:35:00",
+            "eth.addr_resolved": "RealtekU_12:35:00",
+            "eth.addr.oui": "5395456",
+            "eth.addr.oui_resolved": "Realtek (UpTech? also reported)",
+            "eth.dst.lg": "0",
+            "eth.lg": "1",
+            "eth.dst.ig": "0",
+            "eth.ig": "0",
+            "eth.src": "52:54:00:12:35:00",
+            "eth.src_resolved": "RealtekU_12:35:00",
+            "eth.src.oui": "5395456",
+            "eth.src.oui_resolved": "Realtek (UpTech? also reported)",
+            "eth.src.lg": "1",
+            "eth.src.ig": "0",
+            "eth.type": "0x00000800",
+            "ip.version": "4",
+            "ip.hdr_len": "20",
+            "ip.dsfield": "0x00000000",
+            "ip.dsfield.dscp": "0",
+            "ip.dsfield.ecn": "0",
+            "ip.len": "84",
+            "ip.id": "0x000004f6",
+            "ip.flags": "0x00004000",
+            "ip.flags.rb": "0",
+            "ip.flags.df": "1",
+            "ip.flags.mf": "0",
+            "ip.frag_offset": "0",
+            "ip.ttl": "255",
+            "ip.proto": "1",
+            "ip.checksum": "0x00005ea0",
+            "ip.checksum.status": "2",
+            "ip.src": "10.0.2.1",
+            "ip.addr": "10.0.2.18",
+            "ip.src_host": "10.0.2.1",
+            "ip.host": "10.0.2.18",
+            "ip.dst": "10.0.2.18",
+            "ip.dst_host": "10.0.2.18",
+            "icmp.type": "0",
+            "icmp.code": "0",
+            "icmp.checksum": "0x000018c1",
+            "icmp.checksum.status": "1",
+            "icmp.ident": "8208",
+            "icmp.seq": "2",
+            "icmp.seq_le": "512",
+            "icmp.resp_to": "3",
+            "icmp.resptime": "0.624",
+            "icmp.data_time": "Mar  9, 2021 14:44:37.000000000 MST",
+            "icmp.data_time_relative": "0.655384000",
+            "data.data": "81:fd:09:00:00:00:00:00:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f:20:21:22:23:24:25:26:27:28:29:2a:2b:2c:2d:2e:2f:30:31:32:33:34:35:36:37",
+            "data.len": "48"
+        },
+        "data_type": "network"
+    },
+    {
+        "start": "Mar  9, 2021 14:44:41.651428000 MST",
+        "data": {
+            "_index": "packets-2021-03-09",
+            "_type": "doc",
+            "_score": null,
+            "frame.interface_id": "0",
+            "frame.interface_name": "unknown",
+            "frame.encap_type": "1",
+            "frame.time": "Mar  9, 2021 14:44:41.651428000 MST",
+            "frame.offset_shift": "0.000000000",
+            "frame.time_epoch": "1615326281.651428000",
+            "frame.time_delta": "3.996044000",
+            "frame.time_delta_displayed": "3.996044000",
+            "frame.time_relative": "5.001168000",
+            "frame.number": "5",
+            "frame.len": "42",
+            "frame.cap_len": "42",
+            "frame.marked": "0",
+            "frame.ignored": "0",
+            "frame.protocols": "eth:ethertype:arp",
+            "eth.dst": "52:54:00:12:35:00",
+            "eth.dst_resolved": "RealtekU_12:35:00",
+            "eth.dst.oui": "5395456",
+            "eth.dst.oui_resolved": "Realtek (UpTech? also reported)",
+            "eth.addr": "08:00:27:23:ff:90",
+            "eth.addr_resolved": "PcsCompu_23:ff:90",
+            "eth.addr.oui": "524327",
+            "eth.addr.oui_resolved": "PCS Computer Systems GmbH",
+            "eth.dst.lg": "1",
+            "eth.lg": "0",
+            "eth.dst.ig": "0",
+            "eth.ig": "0",
+            "eth.src": "08:00:27:23:ff:90",
+            "eth.src_resolved": "PcsCompu_23:ff:90",
+            "eth.src.oui": "524327",
+            "eth.src.oui_resolved": "PCS Computer Systems GmbH",
+            "eth.src.lg": "0",
+            "eth.src.ig": "0",
+            "eth.type": "0x00000806",
+            "arp.hw.type": "1",
+            "arp.proto.type": "0x00000800",
+            "arp.hw.size": "6",
+            "arp.proto.size": "4",
+            "arp.opcode": "1",
+            "arp.src.hw_mac": "08:00:27:23:ff:90",
+            "arp.src.proto_ipv4": "10.0.2.18",
+            "arp.dst.hw_mac": "00:00:00:00:00:00",
+            "arp.dst.proto_ipv4": "10.0.2.1"
+        },
+        "data_type": "network"
+    },
+    {
+        "start": "Mar  9, 2021 14:44:41.651644000 MST",
+        "data": {
+            "_index": "packets-2021-03-09",
+            "_type": "doc",
+            "_score": null,
+            "frame.interface_id": "0",
+            "frame.interface_name": "unknown",
+            "frame.encap_type": "1",
+            "frame.time": "Mar  9, 2021 14:44:41.651644000 MST",
+            "frame.offset_shift": "0.000000000",
+            "frame.time_epoch": "1615326281.651644000",
+            "frame.time_delta": "0.000216000",
+            "frame.time_delta_displayed": "0.000216000",
+            "frame.time_relative": "5.001384000",
+            "frame.number": "6",
+            "frame.len": "60",
+            "frame.cap_len": "60",
+            "frame.marked": "0",
+            "frame.ignored": "0",
+            "frame.protocols": "eth:ethertype:arp",
+            "eth.dst": "08:00:27:23:ff:90",
+            "eth.dst_resolved": "PcsCompu_23:ff:90",
+            "eth.dst.oui": "524327",
+            "eth.dst.oui_resolved": "PCS Computer Systems GmbH",
+            "eth.addr": "52:54:00:12:35:00",
+            "eth.addr_resolved": "RealtekU_12:35:00",
+            "eth.addr.oui": "5395456",
+            "eth.addr.oui_resolved": "Realtek (UpTech? also reported)",
+            "eth.dst.lg": "0",
+            "eth.lg": "1",
+            "eth.dst.ig": "0",
+            "eth.ig": "0",
+            "eth.src": "52:54:00:12:35:00",
+            "eth.src_resolved": "RealtekU_12:35:00",
+            "eth.src.oui": "5395456",
+            "eth.src.oui_resolved": "Realtek (UpTech? also reported)",
+            "eth.src.lg": "1",
+            "eth.src.ig": "0",
+            "eth.type": "0x00000806",
+            "eth.padding": "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00",
+            "arp.hw.type": "1",
+            "arp.proto.type": "0x00000800",
+            "arp.hw.size": "6",
+            "arp.proto.size": "4",
+            "arp.opcode": "2",
+            "arp.src.hw_mac": "52:54:00:12:35:00",
+            "arp.src.proto_ipv4": "10.0.2.1",
+            "arp.dst.hw_mac": "08:00:27:23:ff:90",
+            "arp.dst.proto_ipv4": "10.0.2.18"
+        },
+        "data_type": "network"
     }
 ]

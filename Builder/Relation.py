@@ -1,6 +1,6 @@
 import os
 import json
-from ClickCoordinate import *
+from Builder.Coordinates.ClickCoordinate import ClickCoordinate
 
 counter = 1
 
@@ -31,31 +31,33 @@ class Observation:
         self.data_type = node['data_type']
         self.artifact = node['artifact']
         self.eceld_folder = eceld_folder
-        self.imgName = ""
+        self.imgName = str
         self.is_click = True if "clicks_id" in node['data'] else False
-        self.coordinateX = 0
-        self.coordinateY = 0
 
+        # If Click image detected, get coordinates and save them as object data
         if self.is_click:
-            print("FUE CLICK???")
             self.data = node['data']
             img_Name = self.get_image_path(self.data['content'])
-            print(f"image: {img_Name}")
             self.data['content'] = img_Name
-            img_Name = img_Name.strip()
-            print("before coordinates ----")
-            analyze = ClickCoordinate()
-            print(img_Name[1:].split("/"))
-            path_list = img_Name[1:].split("/")
-            path_list.insert(5, 'Clicks')
-            print(path_list)
-            img_Name = '/'.join(path_list)
-            img_Name = '/'+img_Name
-            print(f"image: {img_Name}")
-            analyze.analyze_file(img_Name)
-            
-            self.coordinateX, self.coordinateY = analyze.click_coord()
-            print(f"x: {self.coordinateX}, y: {self.coordinateY}")
+            self.coordinateX = 0
+            self.coordinateY = 0
+            self.button = 'left'
+            self.clicks = 1
+            self.data['clicks'] = self.clicks
+            self.data['button'] = self.button
+            try:
+                analyze = ClickCoordinate()
+                analyze.analyze_file(img_Name)
+                self.coordinateX, self.coordinateY = analyze.click_coord()
+                self.data['X_Coordinate'] = int(self.coordinateX)
+                self.data['Y_Coordinate'] = int(self.coordinateY)
+            except Exception as e:
+                # If algorithm cannot determine the coordinates, they will be set to (0,0)
+                print(e)
+                self.data['X_Coordinate'] = 0
+                self.data['Y_Coordinate'] = 0    
+            #print(f"image: {img_Name}")
+            #print(f"x: {self.coordinateX}, y: {self.coordinateY}")
             
 
         # # Depicts the time to wait before looking for observation or executing script
@@ -75,10 +77,11 @@ class Observation:
         #change to 1 when ignoring observation in script
         self.ignore = 0
 
+    # Get location of image for further analysis
     def get_image_path(self,default_content):
         head_tail = os.path.split(default_content)
         pic_name = head_tail[1]
-        pic_path = self.eceld_folder+'/'+pic_name
+        pic_path = self.eceld_folder+'/Clicks/'+pic_name
         return pic_path
         
 

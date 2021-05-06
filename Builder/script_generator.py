@@ -51,7 +51,7 @@ class ScriptGenerator:
 
     def translate_observation_to_script_command(self, observation):
         if observation.data_type == "imgPoint" and observation.is_click:
-            print(f"(x={observation.coordinateX}, y={observation.coordinateY})")
+            print(f"pyautogui.click(button={observation.button},clicks={observation.clicks},x={observation.coordinateX}, y={observation.coordinateY})")
         elif observation.data_type == "Keypresses":
             string_to_print = ""
             for char in observation.data["content"]:
