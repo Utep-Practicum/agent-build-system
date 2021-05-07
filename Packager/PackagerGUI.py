@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 from ExportProject import *
+from ImportProject import *
 import virtualbox
 
 
@@ -29,13 +30,13 @@ class Ui_ABS_Packager(object):
         self.scroll_bar2.setStyleSheet("background: white;")
 
         self.machine_list = QtWidgets.QListWidget(self.ABS_Packager)
-        self.machine_list.setGeometry(QtCore.QRect(30, 40, 231, 161))
+        self.machine_list.setGeometry(QtCore.QRect(30, 50, 231, 161))
         self.machine_list.setVerticalScrollBar(self.scroll_bar)
         self.machine_list.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 10px; border: 1px solid #D2D6E0; color: #13333F;")
         self.machine_list.setObjectName("machine_list")
 
         self.export_button = QtWidgets.QPushButton(self.ABS_Packager)
-        self.export_button.setGeometry(QtCore.QRect(280, 130, 101, 61))
+        self.export_button.setGeometry(QtCore.QRect(280, 140, 101, 61))
 
         font.setPointSize(12)
         self.export_button.setFont(font)
@@ -43,7 +44,7 @@ class Ui_ABS_Packager(object):
         self.export_button.setObjectName("export_button")
 
         self.select_files_button = QtWidgets.QPushButton(self.ABS_Packager)
-        self.select_files_button.setGeometry(QtCore.QRect(280, 50, 101, 61))
+        self.select_files_button.setGeometry(QtCore.QRect(280, 60, 101, 61))
         font.setPointSize(11)
         self.select_files_button.setFont(font)
         self.select_files_button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
@@ -51,7 +52,7 @@ class Ui_ABS_Packager(object):
         
 
         self.file_List = QtWidgets.QListWidget(self.ABS_Packager)
-        self.file_List.setGeometry(QtCore.QRect(400, 40, 231, 161))
+        self.file_List.setGeometry(QtCore.QRect(400, 50, 231, 161))
         self.file_List.setVerticalScrollBar(self.scroll_bar2)
         self.file_List.setStyleSheet("background-color: rgb(255, 255, 255); border-radius: 10px; border: 1px solid #D2D6E0; color: #13333F;")
         self.file_List.setObjectName("file_List")
@@ -59,16 +60,47 @@ class Ui_ABS_Packager(object):
         self.file_List.customContextMenuRequested[QtCore.QPoint].connect(self.contextMenuEvent)
 
         self.VMs_label = QtWidgets.QLabel(self.ABS_Packager)
-        self.VMs_label.setGeometry(QtCore.QRect(40, 20, 181, 16))
+        self.VMs_label.setGeometry(QtCore.QRect(40, 30, 181, 16))
         self.VMs_label.setStyleSheet("color:black;")
         font.setPointSize(12)
         self.VMs_label.setFont(font)
         self.VMs_label.setObjectName("VMs_label")
         self.files_label = QtWidgets.QLabel(self.ABS_Packager)
         self.files_label.setStyleSheet("color:black;")
-        self.files_label.setGeometry(QtCore.QRect(410, 20, 181, 16))
+        self.files_label.setGeometry(QtCore.QRect(410, 30, 181, 16))
         self.files_label.setFont(font)
         self.files_label.setObjectName("files_label")
+
+        ################################### TOP BAR ###########################################
+        self.menubar = QtWidgets.QMenuBar(self.ABS_Packager)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 679, 21))
+        self.menubar.setObjectName("menubar")
+        self.menuProject = QtWidgets.QMenu(self.menubar)
+        self.menuProject.setObjectName("menuProject")
+        self.menuHelp = QtWidgets.QMenu(self.menubar)
+        self.menuHelp.setObjectName("menuHelp")
+        self.ABS_Packager.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ABS_Packager)
+        self.statusbar.setObjectName("statusbar")
+        self.ABS_Packager.setStatusBar(self.statusbar)
+
+        ################################## TOP BAR EXPORT ######################################
+        self.actionExport = QtWidgets.QAction(self.ABS_Packager)
+        self.actionExport.setObjectName("actionExport")
+        self.actionExport.triggered.connect(self.export)
+
+        self.actionImport = QtWidgets.QAction(self.ABS_Packager)
+        self.actionImport.setObjectName("actionImport")
+        self.actionREADME = QtWidgets.QAction(self.ABS_Packager)
+        self.actionREADME.setObjectName("actionREADME")
+        
+        self.menuProject.addAction(self.actionExport)
+        self.menuProject.addSeparator()
+        self.menuProject.addAction(self.actionImport)
+        self.menuHelp.addAction(self.actionREADME)
+        self.menubar.addAction(self.menuProject.menuAction())
+        self.menubar.addAction(self.menuHelp.menuAction())
+
         
     ################# Entry Actions ##################################
         # When Packager is executed, first gather VMs in host and show their names.
@@ -76,13 +108,23 @@ class Ui_ABS_Packager(object):
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self.ABS_Packager)
 
-    ############ Creating Objects to execute Save Project Window #####
+    ############ Creating Objects to execute Export Project Window #####
         self.Form = QtWidgets.QDialog()
         self.sP = ExportProject(self.Form,self.ABS_Packager)
 
+    ############ Create Object to execute Import Project Window
+        self.ImportWindow = QtWidgets.QMainWindow()
+        self.ui = ImportProject()
+        self.ui.setupUi(self.ImportWindow,self.ABS_Packager)
+        
     ################# Button Actions #################################
         self.export_button.clicked.connect(self.export)    
         self.select_files_button.clicked.connect(self.select_files)
+
+    ################# Top Menu Actions ###############################
+
+        self.actionExport.triggered.connect(self.export)
+        self.actionImport.triggered.connect(self.import_project)
 
     ##################################################################    
     def retranslateUi(self):
@@ -92,6 +134,11 @@ class Ui_ABS_Packager(object):
         self.select_files_button.setText(_translate("ABS_Packager", "Select Files"))
         self.VMs_label.setText(_translate("ABS_Packager", "Virtual Machines:"))
         self.files_label.setText(_translate("ABS_Packager", "Files:"))
+        self.menuProject.setTitle(_translate("MainWindow", "Project"))
+        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
+        self.actionExport.setText(_translate("MainWindow", "Export"))
+        self.actionImport.setText(_translate("MainWindow", "Import"))
+        self.actionREADME.setText(_translate("MainWindow", "README"))
 
     ################ Right Click Menu ###################################
     '''For now, right click menu only needs delete selected file functionality'''
@@ -143,9 +190,12 @@ class Ui_ABS_Packager(object):
         for i in range(self.machine_list.count()):
             if self.machine_list.item(i).checkState() == Qt.Checked:
                 checked_vms.append(self.machine_list.item(i).text())
-        '''Send File & VM List to CreateProject.py'''        
+        '''Send File & VM List to ExportProject.py'''        
         self.sP.pass_objects(self.file_List,checked_vms)
 
+    def import_project(self):
+        
+        self.ImportWindow.show()
 
 ######################### PACKAGER WINDOW EXECUTION CALLS ###############################
 if __name__ == "__main__":
