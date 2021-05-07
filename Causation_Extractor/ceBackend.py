@@ -12,7 +12,6 @@ class ceBackend:
         self.master_json = "Causation_Extractor/masterJson.json"
 
 
-    ##TODO: implement new project directory structure
     project_Name = " "
     def output_directory(self,directory,name):
         # Get filenames from the given directory (preferably "parsedLogs" within the eceld system)
@@ -142,21 +141,31 @@ class ceBackend:
         regexList = [line.rstrip() for line in open(addr)]
         count = 0
 
+        artifactFile = open('Causation_Extractor/regexLists/default.json',) #Change to be self.Whatevr
+        artifactData = json.loads(artifactFile.read())
+
+        auditdList =  artifactData['auditd']
+        networkList = artifactData['network']
+
+
+
         for relationship in relationshipList:
             for observation in relationship:
 
                 # Check to see if observation qualifies as salient artifact and searches accordingly
-                if 'auditd_id' in observation.keys() or 'keypresses_id' in observation.keys():
-                    for regex in regexList:
-                        if re.findall(regex, observation["content"]):
-                            # print("regex:%s found in observation:%s"% (regex, observation["content"]))
+                if observation["data_type"] == 'auditd' or observation["data_type"] == 'Keypresses':
+                    for regex in auditdList:
+                        #print(observation["data"]["content"])
+                        #print(type(observation["data"]))
+                        if re.findall(regex, observation["data"]["content"]):
+                            #print("regex:%s found in observation:%s"% (regex, observation["data"]["content"]))
                             observation['artifact'] = 1
                             count += 1
                             break  # stops to avoid re-adding field
                 elif 'data' in observation.keys():
-                    for regex in regexList:
+                    for regex in networkList:
                         if re.findall(regex, str(observation["data"])):
-                            # print("network artifact:," observation["data"]) #DEBUG
+                            #print("regex:%s found in observation:%s"% (regex, observation["data"]))
                             observation['artifact'] = 1
                             count += 1
                             # observation['data'] = 1 #DEBUG. Reduces output for better testing
