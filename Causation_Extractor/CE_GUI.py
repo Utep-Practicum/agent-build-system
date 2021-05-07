@@ -184,7 +184,7 @@ class CEGUI(QWidget):
         QtWidgets.qApp.processEvents()
         if self.time_input.text():
             self.time_frame = float(self.time_input.text())
-        self.ui.progressBar_update(self.num_lines, self.project_name, self.time_frame)
+        self.ui.progressBar_update(self.num_lines, self.project_name, self.time_frame, self.sa_file_path)
 
     ###################### SAVE PROJECT BUTTON #######################################
     def save_Project(self):
@@ -208,7 +208,7 @@ class CEGUI(QWidget):
                 file_name = QFileDialog.getOpenFileName()
 
         except Exception as e:
-            print("Error Selecting Json File")
+            print("Error Selecting Json File", e)
             
     ###################### CHECK THAT A PROJECT HAS BEEN CREATED #############################
     def check_project(self):

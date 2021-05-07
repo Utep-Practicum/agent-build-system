@@ -133,7 +133,7 @@ class Ui_Analyzing_Window(QWidget):
         self.SArtifacts_A.setText(_translate("Analyzing_Window", "0"))
         self.Export.setText(_translate("Analyzing_Window", "Export to builder"))
 
-    def progressBar_update(self, count, project_name, time_frame):
+    def progressBar_update(self, count, project_name, time_frame, sa_file_path):
         self.project_name = project_name
         causationObject = ceBackend()
         QtWidgets.qApp.processEvents()
@@ -150,7 +150,7 @@ class Ui_Analyzing_Window(QWidget):
             prct += frac
             time.sleep(.1)
             self.progressBar.setValue(prct)
-        artifactCount = causationObject.makeArtifacts(relationshipList)
+        artifactCount = causationObject.makeArtifacts(relationshipList, sa_file_path)
         while 98 > prct:
             prct += frac
             time.sleep(.1)

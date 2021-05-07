@@ -10,6 +10,7 @@ class ceBackend:
 
     def __init__(self):
         self.master_json = "Causation_Extractor/masterJson.json"
+        self.sa_file_path = "Causation_Extractor/regexLists/default.json"
 
 
     project_Name = " "
@@ -136,12 +137,14 @@ class ceBackend:
         return relationshipList
 
     # Finds artifacts
-    def makeArtifacts(self, relationshipList):
-        addr = 'Causation_Extractor/regexLists/userKeywords.txt'
-        regexList = [line.rstrip() for line in open(addr)]
+    def makeArtifacts(self, relationshipList, sa_file_path):
+        #addr = 'Causation_Extractor/regexLists/userKeywords.txt'
+        #regexList = [line.rstrip() for line in open(addr)]
         count = 0
 
-        artifactFile = open('Causation_Extractor/regexLists/default.json',) #Change to be self.Whatevr
+        #artifactFile = open('Causation_Extractor/regexLists/default.json',) #Change to be self.Whatevr
+        print("make artifact sa file import!:", sa_file_path)
+        artifactFile = open(sa_file_path,)
         artifactData = json.loads(artifactFile.read())
 
         auditdList =  artifactData['auditd']
