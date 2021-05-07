@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os , shutil
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QProcess 
+from PyQt5.QtCore import Qt
 from subprocess import Popen
 
 
@@ -155,6 +155,7 @@ class ExportProject(QtWidgets.QDialog):
             command_args = ['vboxmanage','export', i,'--output', out]
 
             proc = Popen(command_args,close_fds=True)
+
             
             outp, err = proc.communicate()
             if outp:

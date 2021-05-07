@@ -1,10 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import sys
 import os , shutil
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QProcess 
 from subprocess import Popen
-import time
 
 class ImportProject(object):
     def setupUi(self, ImportProject,ABS_Packager):
@@ -111,13 +108,14 @@ class ImportProject(object):
         self.project_directory = self.zip_file[:-4] 
         self.fileName.setText(name[0])
     
-    def decompress_project(self):    
+    def decompress_project(self):
+        QtWidgets.qApp.processEvents()  
         try:
             shutil.unpack_archive(self.zip_file,'Project Data/')
         except Exception as e:
             print(e)
             print('Unable to Decompress File')
-
+        QtWidgets.qApp.processEvents()
         print("ABS dirname:", self.project_directory)
         self.vms_directory = self.project_directory + '/VMs/'
         self.file_directory = self.project_directory + '/Files/'
@@ -144,10 +142,12 @@ class ImportProject(object):
 
     def import_project(self):
         QtWidgets.qApp.processEvents()
+        head_tail = os.path.split(self.project_directory)
+        print(head_tail[1])
         for vm in self.vm_names:
             vm_path = self.vms_directory + vm
             print(f"Importing: {vm}")
-            command_args = ['vboxmanage','import', vm_path]
+            command_args = ['vboxmanage','import', vm_path, '-vsys','0','--group','/'+ head_tail[1]]
             proc = Popen(command_args,close_fds=True)
             outp, err = proc.communicate()
             if outp:
