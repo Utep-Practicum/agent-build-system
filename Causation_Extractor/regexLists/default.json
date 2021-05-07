@@ -1,21 +1,4 @@
 {
-	"auditd" : "[0-9]",
-	"auditd" : "onf",
-	"auditd" : "sudo",
-	"auditd" : "ls",
-	"auditd" : "cd",
-	"auditd" : "dir",
-	"auditd" : "dri",
-	"auditd" : "tou",
-	"auditd" : "mod",
-	"auditd" : "ping",
-	"auditd" : "pnig",
-	"auditd" : "map",
-	"auditd" : "amp",
-	"auditd" : "nma",
-	"auditd" : "nam",
-	"network": "tcp",
-	"network": "udp",
-	"network": "http",
-	"network": "icmp"
+	"auditd" : ["[0-9]", "onf", "sudo", "ls", "cd","dir","dri","tou","mod","ping","pnig","map","amp","nma","nam"],
+	"network": ["tcp","udp","http","icmp", "10.0.0.1", "10.0.2.1"]
 }
