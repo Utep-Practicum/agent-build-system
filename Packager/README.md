@@ -4,6 +4,9 @@
 
 Allows user to select Virtual Machines and Files that are part of a project for packaging in a zip file.
 
+### Import ABS Project elements
+
+Allows user to select an ABS packaged project (zip file format) and extract its file contents and import machines to VirtualBox.
 
 **The Packager.exe is meant to be executed on the host machine, outside the sandbox environment.**
 
