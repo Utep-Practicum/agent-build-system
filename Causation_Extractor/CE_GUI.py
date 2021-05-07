@@ -143,7 +143,7 @@ class CEGUI(QWidget):
 
         ######## JSON FILE FOR SALIENT ARTIFACTS PATH ##############
 
-        self.sa_file_path = "Causation_Extractor/regexLists/salient_artifacts_default.json"
+        self.sa_file_path = "Causation_Extractor/regexLists/default.json"
 
         ################# BUTTON ACTIONS ###########################
         self.Browse_Button.clicked.connect(self.browse_Files)
