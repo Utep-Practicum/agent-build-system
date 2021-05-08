@@ -28,7 +28,7 @@ class GUIManager(QMainWindow):
 
     def builder(self,name = None):
         controller = Controller()
-        direct = 'Project Data/' + name + '/Builder/'
+        direct = 'Project Data/' + str(name) + '/Builder/'
         if name == None:
             print('No project loaded')
         elif (name + '.json') in os.listdir(direct):
@@ -49,7 +49,12 @@ class GUIManager(QMainWindow):
 
     def runner(self,name = None):
         print('Starting Runner')
-        Popen ('home/kali/eceld-netsys/eceld/eceld_service',cwd='/')
+        try:
+            Popen ('home/kali/eceld-netsys/eceld/eceld_service',cwd='/')
+        except Exception as e:
+            print (e)
+            print("ECELd not installed")
+            
         self.project = name
         #These lines are only to test the Runner
         #Remove upon test completion
