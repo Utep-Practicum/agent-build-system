@@ -25,8 +25,7 @@ class RunnerManager:
             # execfile()
         elif observation.user_action == False:
             print("Test")
-            # Temporary disabled
-            # Collector(observation).tshark_collector()
+            Collector(observation).tshark_collector()
 
 
     def runner_review(self):

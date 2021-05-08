@@ -8,7 +8,6 @@ from Builder.Builder_GUI import *
 from Builder.Relation import *
 from Runner.Runner_GUI import *
 from Runner.Runner_Manager import *
-from subprocess import Popen
 
 class GUIManager(QMainWindow):
 

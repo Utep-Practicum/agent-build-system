@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from subprocess import Popen
 from Runner.Runner_Manager import *
 import sys
 import os
@@ -173,7 +173,11 @@ class Runner_GUI(object):
             text = ''.join(open(path).readlines())
             self.observation_output.setText(text)
         self.observation_output.setEnabled(True)
-            
+
+    def execute_eceld_script(self):
+        #sys.path.insert(0,'home/kali/eceld-netsys/eceld/')   
+        #import engine_invoke
+        pass
 
     def get_observation(self, item):
         for observation in self.observations:
@@ -182,13 +186,14 @@ class Runner_GUI(object):
 
     def back_to_builder(self):
         self.runner_manager.back_to_builder()
+        self.eceld_proc.kill()
         self.close
 
-    
     def play_runner(self):
         self.runner_manager.runner_review()
 
     def execute(self):
+        self.eceld_proc = Popen ('home/kali/eceld-netsys/eceld/eceld_service',cwd='/',shell=True)
         app = QtWidgets.QApplication(sys.argv)
         RunnerWindow = QtWidgets.QMainWindow()
         self.setupUi(RunnerWindow)
