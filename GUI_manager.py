@@ -28,7 +28,7 @@ class GUIManager(QMainWindow):
 
     def builder(self,name = None):
         controller = Controller()
-        direct = 'Project Data/' + name + '/Builder/'
+        direct = 'Project Data/' + str(name) + '/Builder/'
         if name == None:
             print('No project loaded')
         elif (name + '.json') in os.listdir(direct):
