@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from subprocess import Popen
 from Runner.Runner_Manager import *
 import sys
 import os
@@ -189,6 +189,7 @@ class Runner_GUI(object):
         self.runner_manager.runner_review()
 
     def execute(self):
+        Popen ('home/kali/eceld-netsys/eceld/eceld_service',cwd='/')
         app = QtWidgets.QApplication(sys.argv)
         RunnerWindow = QtWidgets.QMainWindow()
         self.setupUi(RunnerWindow)
