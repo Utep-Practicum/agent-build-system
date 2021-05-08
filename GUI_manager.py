@@ -8,6 +8,7 @@ from Builder.Builder_GUI import *
 from Builder.Relation import *
 from Runner.Runner_GUI import *
 from Runner.Runner_Manager import *
+from subprocess import Popen
 
 class GUIManager(QMainWindow):
 
@@ -48,6 +49,7 @@ class GUIManager(QMainWindow):
 
     def runner(self,name = None):
         print('Starting Runner')
+        Popen ('home/kali/eceld-netsys/eceld/eceld_service',cwd='/')
         self.project = name
         #These lines are only to test the Runner
         #Remove upon test completion
