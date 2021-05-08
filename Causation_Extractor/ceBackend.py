@@ -151,30 +151,32 @@ class ceBackend:
         networkList = artifactData['network']
 
 
-
+        #Goes through observations and tags qualifying observations based on Salient Artifact regex
         for relationship in relationshipList:
             for observation in relationship:
 
-                # Check to see if observation qualifies as salient artifact and searches accordingly
+                #print(observation.keys())
+                observation['artifact'] = 0 #Normal by default, changed at regex match.
+
                 if observation["data_type"] == 'auditd' or observation["data_type"] == 'Keypresses':
                     for regex in auditdList:
-                        #print(observation["data"]["content"])
-                        #print(type(observation["data"]))
-                        if re.findall(regex, observation["data"]["content"]):
-                            #print("regex:%s found in observation:%s"% (regex, observation["data"]["content"]))
+               
+                        if re.search(regex, observation["data"]["content"]) != None:
+                            #print("regex:%s found in observation:%s"% (regex, observation["data"]["content"])) #DEBUG
+                            
                             observation['artifact'] = 1
                             count += 1
                             break  # stops to avoid re-adding field
-                elif 'data' in observation.keys():
+
+                elif observation["data_type"] == 'network':
                     for regex in networkList:
-                        if re.findall(regex, str(observation["data"])):
+                        if re.search(regex, str(observation["data"])) != None:
                             #print("regex:%s found in observation:%s"% (regex, observation["data"]))
+                            
                             observation['artifact'] = 1
                             count += 1
-                            # observation['data'] = 1 #DEBUG. Reduces output for better testing
                             break
-                else:  # observation is some type of screenshot
-                    observation['artifact'] = 0
+
 
         # print(json.dumps(relationshipList, sort_keys=True, indent=4)) #Debug, prints out entire json list in a pretty format
         return count
