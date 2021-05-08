@@ -147,6 +147,7 @@ class Runner_GUI(object):
     
     def run_scripts(self):
         self.runner.hide()
+        self.execute_eceld()
         self.runner_manager.runner_review()
         self.runner.show()
 
@@ -173,6 +174,12 @@ class Runner_GUI(object):
             text = ''.join(open(path).readlines())
             self.observation_output.setText(text)
         self.observation_output.setEnabled(True)
+
+    def execute_eceld(self):
+        sys.path.insert(0,'home/kali/eceld-netsys/eceld/')   
+        import engine_invoke
+        engine_invoke.execute_tshark_test(10)
+        engine_invoke.execute_pykeylogger_test(10)
             
 
     def get_observation(self, item):
