@@ -188,8 +188,12 @@ class Runner_GUI(object):
     def play_runner(self):
         self.runner_manager.runner_review()
 
+    def closeEvent(self,event,proc):
+        proc.kill()
+        event.accept()
+
     def execute(self):
-        Popen ('home/kali/eceld-netsys/eceld/eceld_service',cwd='/')
+        eceld_proc = Popen ('home/kali/eceld-netsys/eceld/eceld_service',cwd='/')
         app = QtWidgets.QApplication(sys.argv)
         RunnerWindow = QtWidgets.QMainWindow()
         self.setupUi(RunnerWindow)
