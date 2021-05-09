@@ -558,6 +558,10 @@ class Builder_GUI(object):
                 if observation.data_type == data_type:
                     if re.search(artifact_regex, str(observation.data)) != None:
                         observation.artifact = 1
+                if data_type == "auditd":
+                    if observation.data_type == "Keypresses":
+                        if re.search(artifact_regex, str(observation.data)) != None:
+                            observation.artifact = 1
 
         self.update_lists() #Update UI
 

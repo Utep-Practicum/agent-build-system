@@ -1,13 +1,3 @@
-#import sys
-#from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QTextEdit, QScrollArea, QPushButton, QMainWindow, QVBoxLayout,
-#                             QGridLayout, QCheckBox)
-#from PyQt5.QtGui import QFont
-#from PyQt5.QtCore import Qt
-#import json
-#from subprocess import Popen,PIPE
-
-
-# importing libraries
 from PyQt5.QtWidgets import * 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import * 
@@ -86,101 +76,29 @@ class CreateArtifact(QMainWindow):
 
         self.setCentralWidget(self.scroll)
         self.setLayout(main_grid)
-
-        # For displaying confirmation message along with user's info. 
-        #self.label = QLabel(self.centralwidget)    
-        #self.label.setGeometry(QtCore.QRect(170, 40, 201, 111))
   
-        # Keeping the text of label empty initially.       
-        #self.label.setText("dszfds")     
 
     def save_SA(self, comboBox):
         self.builder.save_controller_state()
         artifact_regex = self.artifact_entry.toPlainText()
         data_type = str(self.comboBox.currentText())
 
-        #fix string to match observation types
+        #fix variable to match observation types
         if data_type != None and data_type == "User Input":
             data_type = "auditd"
         if data_type != None and data_type == "Network Packet":
             data_type = "network"
 
-        #print("this finna crash", artifact_regex)
-        #print("data_type", data_type)
+     
         if artifact_regex:
-            self.close()
-            #return (artifact_regex, data_type)
+            self.close() #?????
         else:
             self.alert_msg("No Rule Input", "Please input a regex rule before saving. If you do not want to create a rule, close this window")
-            #self.close()
             return
-        print('is this dead code')
-        self.builder.add_new_salient_rule(data_type, artifact_regex)
-        #self.builder.display_observation_after_edit()
-
-        #obs: any = None
-        #for key in self.data_checkbox:
-        #    if self.data_checkbox[key].isChecked():
-        #        obs = self.relation_selected.observation_list[self.observation_index]
-        #        obs.select_filters.append(key)
-
-        #print("--------- End of save ---------")
+        self.builder.add_new_salient_rule(data_type, artifact_regex) #Send new rule back to Builder
         self.close()
 
-    def cancel_edit(self):
-        """
-        Check if changes were donde, if some changes were done, prompt the user if he wants to save before closing.
-        If no changes where done, then proceed to cancel the edit window.
-        """
-        print("Cancel")
-
-    """
-    def format_data(self):
-
-        start_index = self.observation_selected.find("start")
-        parentheses_index = self.observation_selected[:start_index].find(")")
-        self.observation_index = int(self.observation_selected[:parentheses_index])
-        observation_no_index = self.observation_selected[start_index:]
-
-        data_index = observation_no_index.find(", data:")
-        before_data = observation_no_index[:data_index]
-
-        split_data = before_data.strip().split(",")
-        # the number is one after the end of each key for start is 7, data_type is 11 and artifact is
-        self.start = split_data[0][7:]
-        self.data_type = split_data[1].strip()[11:]
-        self.artifact = split_data[2].strip()[10:]
-
-        data = observation_no_index[data_index+1:].strip()
-        data = data[data.find('{'):]
-        data = data[1:-1]
-
-        divided_data = data.split(", '")
-
-        for index in range(1, len(divided_data)):
-            divided_data[index] = "'"+divided_data[index]
-        self.create_data_dictionary(divided_data)
-    """
-    """
-    def create_data_dictionary(self, divided_data_list):
-        '''
-        fills the attribute data_dict and the data_clicked with False
-        '''
-        for pair_data in divided_data_list:
-            divider = pair_data.find(" ")
-            # print(pair_data[:divider-1])
-            key = pair_data[:divider-1]
-            key = key[1:-1]
-            value = pair_data[divider+1:]
-            if value.isnumeric():
-                value = int(value)
-            else:
-                value = value[1:-1]
-            self.data_dict[key] = value
-            self.data_clicked[key] = False
-    """
-
-        ###################### Alert Pop-up Window  #############################
+    ###################### Alert Pop-up Window  #############################
     def alert_msg(self, title, msg):
         print("Error occured: \n\t-Title: %s\n\t-Message: %s\n " %(str(title), str(msg)))
         msgbox = QMessageBox()
@@ -192,7 +110,5 @@ class CreateArtifact(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    #obs = 'start: 2021-03-09T21:44:36, data_type: imgPoint, artifact: 1, data: {"timed_id": 4, "type": "point", "content": "/home/kali/eceld-netsys/eceld/plugins/collectors/pykeylogger/raw/timed_screenshots/1615326276.49936_screenshot.png"}'
     window = EditForm(obs)
-    # window.format_data()
     sys.exit(app.exec_())
