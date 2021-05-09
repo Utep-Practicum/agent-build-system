@@ -11,6 +11,7 @@ class EceldValidate:
 
     def __init__(self):
         self.proc = None
+        self.project_name = 'FullTest'
 
 
     def comparison(self):
@@ -19,14 +20,22 @@ class EceldValidate:
 
     def start_eceld(self):
         # time.sleep(15)
-        for i in range(2):
+        counter = 0
+        while True:
             self.proc = Popen(['sudo','python3', 'test_engine_invoke.py'], cwd=dir)
             print('Waiting 10 sec for ECELd to complete')
             try:
-                outs, errs = self.proc.communicate(timeout=12)
+                outs, errs = self.proc.communicate(timeout=11)
             except TimeoutExpired:
                 self.proc.kill()
                 outs, errs = self.proc.communicate()
+                file_src = dir+'/plugins/collectors/tshark/parsed/networkDataAll.JSON'
+                file_dst = '/home/kali/Desktop/Practicum/agent-build-system-1/Project Data/'+self.project_name+'/Runner/Eceld/temp/comp'+str(counter)+'.json'
+                Popen(['sudo','cp',file_src,file_dst], cwd='/')
+                counter += 1
+                if counter > 1:
+                    break
+
 
         print('Moving to Runner directory for comparison')
         print('Stop ECELd')
