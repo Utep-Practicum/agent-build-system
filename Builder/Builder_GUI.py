@@ -358,7 +358,7 @@ class Builder_GUI(object):
                     self.details_list.item(count).setForeground(QtCore.Qt.gray) 
 
                 #sets salient artifact color to red
-                if self.relation_selected.observation_list[count].artifact == 1:
+                if self.relation_selected.observation_list[count].artifact == 1 and self.relation_selected.observation_list[count].ignore != 1:
                     self.details_list.item(count).setForeground(QtCore.Qt.red) 
                 count += 1
     
@@ -391,11 +391,11 @@ class Builder_GUI(object):
                 self.details_list.addItem(observation.show())
 
                 #sets font to gray
-                if self.relation_selected.observation_list[count].ignore == 1:
+                if self.relation_selected.observation_list[count].ignore == 1 :
                     self.details_list.item(count).setForeground(QtCore.Qt.gray) 
 
                 #sets font to red for salient artifacts
-                if self.relation_selected.observation_list[count].artifact == 1:
+                if self.relation_selected.observation_list[count].artifact == 1 and self.relation_selected.observation_list[count].ignore != 1:
                     self.details_list.item(count).setForeground(QtCore.Qt.red) 
                 count += 1
 
