@@ -14,6 +14,14 @@ from Runner.Runner_Manager import *
 import sys
 import os
 
+def enable_button(button):
+    button.setEnabled(True)
+    button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
+def disable_button(button):
+    button.setEnabled(False)
+    button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
+
 
 class Runner_GUI(object):
     def __init__(self, controller):
@@ -55,31 +63,41 @@ class Runner_GUI(object):
         # self.ABSOutput.setEnabled(False)
 
         self.observation_list = QtWidgets.QListWidget(self.centralwidget)
-        self.observation_list.setGeometry(QtCore.QRect(20, 50, 321, 391))
+        self.observation_list.setGeometry(QtCore.QRect(20, 50, 340, 391))
         self.observation_list.setObjectName("observation_list")
         self.observation_list.setStyleSheet(
             "background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
 
         #################### ECELd Output #######################
         self.observation_output = QtWidgets.QTextEdit(self.centralwidget)
-        self.observation_output.setGeometry(QtCore.QRect(420, 50, 301, 391))
+        self.observation_output.setGeometry(QtCore.QRect(435, 50, 340, 391))
         self.observation_output.setObjectName("observation_output")
         self.observation_output.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.observation_output.setEnabled(False)
+        
 
         ################### Back2Builder Button #########################
-        self.back2BuilderButton = QtWidgets.QPushButton(self.centralwidget)
-        self.back2BuilderButton.setGeometry(QtCore.QRect(470, 470, 150, 31))
-        self.back2BuilderButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.back2BuilderButton.setObjectName("back2Builder")
-        self.back2BuilderButton.clicked.connect(self.back_to_builder)
+        self.back_to_builder_button = QtWidgets.QPushButton(self.centralwidget)
+        self.back_to_builder_button.setGeometry(QtCore.QRect(310, 470, 150, 31))
+        self.back_to_builder_button.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.back_to_builder_button.setObjectName("back2Builder")
+        self.back_to_builder_button.clicked.connect(self.back_to_builder)
+
+
+        ###################  Save Script Button #########################
+        self.save_script_button = QtWidgets.QPushButton(self.centralwidget)
+        self.save_script_button.setGeometry(QtCore.QRect(520, 470, 150, 31))
+        self.save_script_button.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.save_script_button.setObjectName("save_script_button")
+        self.save_script_button.clicked.connect(self.save_script)
+
 
         ################### Play Button #########################
-        self.playButton = QtWidgets.QPushButton(self.centralwidget)
-        self.playButton.setGeometry(QtCore.QRect(20, 470, 81, 31))
-        self.playButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.playButton.setObjectName("playButton")
-        self.playButton.clicked.connect(self.run_scripts)
+        self.play_button = QtWidgets.QPushButton(self.centralwidget)
+        self.play_button.setGeometry(QtCore.QRect(20, 470, 81, 31))
+        self.play_button.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.play_button.setObjectName("play_button")
+        self.play_button.clicked.connect(self.run_scripts)
 
         # ################## Pause Button #########################
         # self.pauseButton = QtWidgets.QPushButton(self.centralwidget)
@@ -99,26 +117,26 @@ class Runner_GUI(object):
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
 
-        self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
-        self.menuHelp = QtWidgets.QMenu(self.menubar)
-        self.menuHelp.setObjectName("menuHelp")
+        self.menu_file = QtWidgets.QMenu(self.menubar)
+        self.menu_file.setObjectName("menu_file")
+        self.menu_help = QtWidgets.QMenu(self.menubar)
+        self.menu_help.setObjectName("menu_help")
         Runner.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(Runner)
         self.statusbar.setObjectName("statusbar")
         Runner.setStatusBar(self.statusbar)
-        self.actionSave_Project = QtWidgets.QAction(Runner)
-        self.actionSave_Project.setObjectName("actionSave_Project")
-        self.actionExit = QtWidgets.QAction(Runner)
-        self.actionExit.setObjectName("actionExit")
-        self.actionExit.triggered.connect(Runner.close)
+        self.action_save_project = QtWidgets.QAction(Runner)
+        self.action_save_project.setObjectName("action_save_project")
+        self.action_exit = QtWidgets.QAction(Runner)
+        self.action_exit.setObjectName("action_exit")
+        self.action_exit.triggered.connect(Runner.close)
         self.actionREADME = QtWidgets.QAction(Runner)
         self.actionREADME.setObjectName("actionREADME")
-        self.menuFile.addAction(self.actionSave_Project)
-        self.menuFile.addAction(self.actionExit)
-        self.menuHelp.addAction(self.actionREADME)
-        self.menubar.addAction(self.menuFile.menuAction())
-        self.menubar.addAction(self.menuHelp.menuAction())
+        self.menu_file.addAction(self.action_save_project)
+        self.menu_file.addAction(self.action_exit)
+        self.menu_help.addAction(self.actionREADME)
+        self.menubar.addAction(self.menu_file.menuAction())
+        self.menubar.addAction(self.menu_help.menuAction())
 
         self.retranslateUi(Runner)
         QtCore.QMetaObject.connectSlotsByName(Runner)
@@ -127,21 +145,27 @@ class Runner_GUI(object):
         # Actions to star
         self.display_observations()
         self.observation_list.itemClicked.connect(self.display_observation_content)
+        disable_button(self.save_script_button)
+        self.observation_output.textChanged.connect(self.enable_save_button)
+
+    def enable_save_button(self):
+        enable_button(self.save_script_button)
 
     def retranslateUi(self, Runner_GUI):
         _translate = QtCore.QCoreApplication.translate
         Runner_GUI.setWindowTitle(_translate("Runner_GUI", "ABS_Runner"))
         self.ECELd.setText(_translate("Runner_GUI", "Content:"))
 
-        self.back2BuilderButton.setText(_translate("Runner_GUI","Back to Builder"))
-        self.playButton.setIcon(self.playButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPlay))
+        self.back_to_builder_button.setText(_translate("Runner_GUI","Back to Builder"))
+        self.save_script_button.setText(_translate("Runner_GUI","Save Script"))
+        self.play_button.setIcon(self.play_button.style().standardIcon(QtWidgets.QStyle.SP_MediaPlay))
         # self.stopButton.setIcon(self.stopButton.style().standardIcon(QtWidgets.QStyle.SP_MediaStop))
         self.ABS.setText(_translate("Runner_GUI", "Observations / User Actions:"))
         # self.pauseButton.setIcon(self.pauseButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPause))
-        self.menuFile.setTitle(_translate("Runner_GUI", "File"))
-        self.menuHelp.setTitle(_translate("Runner_GUI", "Help"))
-        self.actionSave_Project.setText(_translate("Runner_GUI", "Save Project"))
-        self.actionExit.setText(_translate("Runner_GUI", "Exit"))
+        self.menu_file.setTitle(_translate("Runner_GUI", "File"))
+        self.menu_help.setTitle(_translate("Runner_GUI", "Help"))
+        self.action_save_project.setText(_translate("Runner_GUI", "Save Project"))
+        self.action_exit.setText(_translate("Runner_GUI", "Exit"))
         self.actionREADME.setText(_translate("Runner_GUI", "README"))
 
     
@@ -157,14 +181,16 @@ class Runner_GUI(object):
             self.observation_list.addItem(observation.observation_name)
 
     def display_observation_content(self, item):
-        observation = self.get_observation(item)
+        observation = self.get_observation(item.text())
 
         if observation.user_action:
             self.display_script(observation)
+            enable_button(self.save_script_button)
         
         else:
             self.observation_output.setText("No Content")
             self.observation_output.setEnabled(False)
+            disable_button(self.save_script_button)
 
 
     def display_script(self, observation):
@@ -173,11 +199,20 @@ class Runner_GUI(object):
             text = ''.join(open(path).readlines())
             self.observation_output.setText(text)
         self.observation_output.setEnabled(True)
+
+    def save_script(self):
+        text = self.observation_output.toPlainText()
+        observation = self.get_observation(self.observation_list.currentItem().text())
+        filename = "Project Data/" + self.controller_object.project_name + "/Runner/Scripts/user_action" + str(observation.user_action_number) + ".py"
+        fname = open(filename, 'w')
+        fname.write(str(text))
+        fname.close()
+        disable_button(self.save_script_button)
             
 
-    def get_observation(self, item):
+    def get_observation(self, text):
         for observation in self.observations:
-            if item.text() == observation.observation_name:
+            if text == observation.observation_name:
                 return observation
 
     def back_to_builder(self):
