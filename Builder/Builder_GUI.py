@@ -226,11 +226,20 @@ class Builder_GUI(object):
         self.menu_project.setStyleSheet("color: black")
         self.action_save_object.triggered.connect(self.save_object)
 
+        ###################### Create Salient Artifact Option ##################################
+        self.action_save_object = QtWidgets.QAction(BuilderWindow)
+        self.action_save_object.setObjectName("action_create_salient_artifact")
+        self.action_save_object.setText("Create Salient Artifact")
+        self.menu_project.addAction(self.action_save_object)
+        self.menu_project.setStyleSheet("color: black")
+        self.action_save_object.triggered.connect(self.create_salient_artifact)
+
         ###################### Quit Builder Menu Option #############################
         self.action_quit = QtWidgets.QAction(BuilderWindow)
         self.action_quit.setObjectName("action_quit")
         self.menu_project.addAction(self.action_quit)
         self.action_quit.triggered.connect(QtWidgets.qApp.quit)  # exits on click -seb
+
 
         self.menubar.addAction(self.menu_project.menuAction())
         self.retranslate_ui(BuilderWindow)
@@ -272,6 +281,7 @@ class Builder_GUI(object):
         # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
         self.delete_button.setText(_translate("BuilderWindow", "Delete"))
         self.ignore_button.setText(_translate("BuilderWindow", "Ignore"))
+        self.SA_button.setText(_translate("BuilderWindow", "Create Salient Artifact"))
         self.script_button.setText(_translate("BuilderWindow", "Generate Script"))
         self.move_button.setText(_translate("BuilderWindow", ">>"))
         self.move_button_back.setText(_translate("BuilderWindow", "<<"))
@@ -535,6 +545,9 @@ class Builder_GUI(object):
             observation.ignore = 1
             self.details_list.currentItem().setForeground(QtCore.Qt.gray) 
 
+    def create_salient_artifact(self):
+        print("creating salient artifact chump")
+        pass
 
     ###################### Manage control state  #############################
     def save_controller_state(self):
