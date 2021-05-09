@@ -2,6 +2,7 @@ from Runner.Collector import *
 from Builder.Relation import *
 
 from Builder.Controller import *
+from Runner.Eceld_Validate import *
 
 import os
 import time
@@ -11,8 +12,11 @@ import platform
 class RunnerManager:
 
     def __init__(self, controller):
+        self.eceld_dir = os.path.dirname('/home/kali/eceld-netsys/eceld/')
+        self.eceld_service_proc = Popen(['sudo', './eceld_service'],cwd=dir)
         self.controller = controller
         self.observation_list = self.controller.unified_list()
+        self.Eceld_manager = EceldValidate()
     
 
     def func_definer(self, observation):
@@ -24,9 +28,8 @@ class RunnerManager:
             os.system("python3 Project\ Data/"+ self.controller.project_name +"/Runner/Scripts/user_action"+ str(observation.user_action_number) +".py")
             # execfile()
         elif observation.user_action == False:
-            print("Test")
-            # Temporary disabled
-            # Collector(observation).tshark_collector()
+            #print("Test")
+            Eceld_manager.start_eceld()
 
 
     def runner_review(self):
@@ -35,6 +38,7 @@ class RunnerManager:
 
 
     def back_to_builder(self):
+        self.eceld_service_proc.kill()
         if platform.system() == "Windows":
             Popen(['python', 'GUI_manager.py', 'builder', self.controller.project_name],stdout=PIPE, stderr=PIPE)
         else:

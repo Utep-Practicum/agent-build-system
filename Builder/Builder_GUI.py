@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QAbstractItemView
 
 from Builder.EditForm import *
 from Builder.Controller import *
@@ -78,6 +78,7 @@ class Builder_GUI(object):
         self.details_list.setStyleSheet(
             "background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.details_list.setDragEnabled(True)
+        self.details_list.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
         ##################### Relationships Label ##################################
         self.relationships_label = QtWidgets.QLabel(self.centralwidget)
