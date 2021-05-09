@@ -20,7 +20,7 @@ System Requirements:
   
 * Add VBoxManage to PATH variable
   
-  - Terminal with Admin Privileges Command:
+  - Windows Powershell with Admin Privileges Command:
   
     _set PATH=%PATH%;"[Path to Oracle\VirtualBox\ Directory]"_
   
