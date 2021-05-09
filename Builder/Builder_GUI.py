@@ -356,6 +356,10 @@ class Builder_GUI(object):
                 #sets font to gray
                 if self.relation_selected.observation_list[count].ignore == 1:
                     self.details_list.item(count).setForeground(QtCore.Qt.gray) 
+
+                #sets salient artifact color to red
+                if self.relation_selected.observation_list[count].artifact == 1:
+                    self.details_list.item(count).setForeground(QtCore.Qt.red) 
                 count += 1
     
 
@@ -389,6 +393,10 @@ class Builder_GUI(object):
                 #sets font to gray
                 if self.relation_selected.observation_list[count].ignore == 1:
                     self.details_list.item(count).setForeground(QtCore.Qt.gray) 
+
+                #sets font to red for salient artifacts
+                if self.relation_selected.observation_list[count].artifact == 1:
+                    self.details_list.item(count).setForeground(QtCore.Qt.red) 
                 count += 1
 
     def pass_dependency(self):
