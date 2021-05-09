@@ -98,6 +98,13 @@ class CreateArtifact(QMainWindow):
         self.builder.save_controller_state()
         artifact_regex = self.artifact_entry.toPlainText()
         data_type = str(self.comboBox.currentText())
+
+        #fix string to match observation types
+        if data_type != None and data_type == "User Input":
+            data_type = "auditd"
+        if data_type != None and data_type == "Network Packet":
+            data_type = "network"
+
         #print("this finna crash", artifact_regex)
         #print("data_type", data_type)
         if artifact_regex:

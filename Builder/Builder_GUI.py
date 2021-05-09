@@ -547,42 +547,19 @@ class Builder_GUI(object):
             self.details_list.currentItem().setForeground(QtCore.Qt.gray) 
 
     def create_salient_artifact(self):
-        print("creating salient artifact")
+        #print("creating salient artifact") #DEBUG
         self.createdArtifact = CreateArtifact(self)
 
-        #1.)Give user a form to create a salient artifact
-        #2.)When form is saved, return the rule (rule is in json format data_type:phrase)
-            #run rule on current relationship list and modify matches? ----------SHould also save controller artifact then----------
-        #3.)
-
-        """ 
-    Dont need to send anything but probably need to get back the json rule
-
-        """
     def add_new_salient_rule(self, data_type, artifact_regex):
 
-        #might not work since we're in controlla
+        #runs new rule against entire relationship
         for relationship in self.controller_object.relationships_main:
             for observation in relationship.observation_list:
                 if observation.data_type == data_type:
-                    if re.search(regex, observation.data) != None:
-                        print("changing observation.artifact to 1")
+                    if re.search(artifact_regex, str(observation.data)) != None:
                         observation.artifact = 1
-                #print(observation.show())
 
-        self.display_relations()
-
-
-        # self.relation_selected = found_relation #Maybe don't need this, left in here just in case
-
-        # Go through observations from selected relationship, if observation matches selected observation, remove entirely
-        #for observation in found_relation.observation_list:
-        #    if observation.show() != selected_observation_text:
-        #        self.details_list.addItem(observation.show())
-        #    else:
-        #        found_relation.observation_list.remove(
-        #            observation)  # Kick that guy out of the club until project is reimported.
-        #        print("removing observation:", observation.show())  # DEBUG
+        self.update_lists() #Update UI
 
     ###################### Manage control state  #############################
     def save_controller_state(self):
