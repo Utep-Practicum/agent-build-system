@@ -26,7 +26,7 @@ System Requirements:
   
   - Manual Process:
     
-    - Search for *"Edit the system enviroment variables"* in start menu
+    - Search for *"Edit the system environment variables"* in start menu
     
     - *System Properties* Window
     
