@@ -62,10 +62,10 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 ### Install dependencies
-#
-REQUIRED_PROGRAMS="python3-pip python3-venv virtualbox"
-#PyQt5, python-dateutil, pyautogui, opencv-python, numpy, virtualbox
-REQUIRED_PYTHON_PACKAGES="PyQt5 python-dateutil pyautogui opencv-python numpy virtualbox" #Eventually add virtualbox
+
+#Removed python3-venv, virtualbox 5/6/21 -seb
+REQUIRED_PROGRAMS="python3-pip gimp"
+REQUIRED_PYTHON_PACKAGES="PyQt5 python-dateutil pyautogui opencv-python numpy opencv-python-headless" #Eventually add virtualbox
 
 #Installs python3 and venv
 echo -e "${GRN} $OUTPUT_PREFIX Installing Additional Dependencies ${NC}"

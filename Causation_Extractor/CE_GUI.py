@@ -143,7 +143,7 @@ class CEGUI(QWidget):
 
         ######## JSON FILE FOR SALIENT ARTIFACTS PATH ##############
 
-        self.sa_file_path = 'Causation_Extractor/regexLists/default.json'
+        self.sa_file_path = "Causation_Extractor/regexLists/default.json"
 
         ################# BUTTON ACTIONS ###########################
         self.Browse_Button.clicked.connect(self.browse_Files)
@@ -173,21 +173,19 @@ class CEGUI(QWidget):
             print("Please select an ECELd data directory")
 
     def show_analyzingWindow(self):
-        try:
-            if self.time_input.text():
-                self.time_frame = float(self.time_input.text())
-            self.hide()
-            # Make Copy of Imported JSON File
-            shutil.copy(self.sa_file_path,'Project Data/'+self.project_name + '/CE/CE_logs')
-            self.Analyzing_Window = QtWidgets.QDialog()
-            self.ui = Ui_Analyzing_Window()
-            self.ui.setupUi(self.Analyzing_Window,self.CEWindow)
-            self.Analyzing_Window.show()
-            QtWidgets.qApp.processEvents()
-            self.ui.progressBar_update(self.num_lines, self.project_name, self.time_frame)
-        except Exception as e:
-            print (e)
-            print('Please input a valid time frame')
+        self.hide()
+        # Make Copy of Imported JSON File
+        shutil.copy(self.sa_file_path,'Project Data/'+self.project_name + '/CE/CE_logs')
+        self.Analyzing_Window = QtWidgets.QDialog()
+        self.ui = Ui_Analyzing_Window()
+        self.ui.setupUi(self.Analyzing_Window,self.CEWindow)
+        self.Analyzing_Window.show()
+        
+        QtWidgets.qApp.processEvents()
+        if self.time_input.text():
+            self.time_frame = float(self.time_input.text())
+        self.ui.progressBar_update(self.num_lines, self.project_name, self.time_frame, self.sa_file_path)
+
     ###################### SAVE PROJECT BUTTON #######################################
     def save_Project(self):
         self.Form.show()
@@ -210,7 +208,7 @@ class CEGUI(QWidget):
                 file_name = QFileDialog.getOpenFileName()
 
         except Exception as e:
-            print("Error Selecting Json File")
+            print("Error Selecting Json File", e)
             
     ###################### CHECK THAT A PROJECT HAS BEEN CREATED #############################
     def check_project(self):

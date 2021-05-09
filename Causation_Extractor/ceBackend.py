@@ -10,9 +10,9 @@ class ceBackend:
 
     def __init__(self):
         self.master_json = "Causation_Extractor/masterJson.json"
+        self.sa_file_path = "Causation_Extractor/regexLists/default.json"
 
 
-    ##TODO: implement new project directory structure
     project_Name = " "
     def output_directory(self,directory,name):
         # Get filenames from the given directory (preferably "parsedLogs" within the eceld system)
@@ -137,32 +137,46 @@ class ceBackend:
         return relationshipList
 
     # Finds artifacts
-    def makeArtifacts(self, relationshipList):
-        addr = 'Causation_Extractor/regexLists/userKeywords.txt'
-        regexList = [line.rstrip() for line in open(addr)]
+    def makeArtifacts(self, relationshipList, sa_file_path):
+        #addr = 'Causation_Extractor/regexLists/userKeywords.txt'
+        #regexList = [line.rstrip() for line in open(addr)]
         count = 0
 
+        #artifactFile = open('Causation_Extractor/regexLists/default.json',) #Change to be self.Whatevr
+        print("make artifact sa file import!:", sa_file_path)
+        artifactFile = open(sa_file_path,)
+        artifactData = json.loads(artifactFile.read())
+
+        auditdList =  artifactData['auditd']
+        networkList = artifactData['network']
+
+
+        #Goes through observations and tags qualifying observations based on Salient Artifact regex
         for relationship in relationshipList:
             for observation in relationship:
 
-                # Check to see if observation qualifies as salient artifact and searches accordingly
-                if 'auditd_id' in observation.keys() or 'keypresses_id' in observation.keys():
-                    for regex in regexList:
-                        if re.findall(regex, observation["content"]):
-                            # print("regex:%s found in observation:%s"% (regex, observation["content"]))
+                #print(observation.keys())
+                observation['artifact'] = 0 #Normal by default, changed at regex match.
+
+                if observation["data_type"] == 'auditd' or observation["data_type"] == 'Keypresses':
+                    for regex in auditdList:
+               
+                        if re.search(regex, observation["data"]["content"]) != None:
+                            #print("regex:%s found in observation:%s"% (regex, observation["data"]["content"])) #DEBUG
+                            
                             observation['artifact'] = 1
                             count += 1
                             break  # stops to avoid re-adding field
-                elif 'data' in observation.keys():
-                    for regex in regexList:
-                        if re.findall(regex, str(observation["data"])):
-                            # print("network artifact:," observation["data"]) #DEBUG
+
+                elif observation["data_type"] == 'network':
+                    for regex in networkList:
+                        if re.search(regex, str(observation["data"])) != None:
+                            #print("regex:%s found in observation:%s"% (regex, observation["data"]))
+                            
                             observation['artifact'] = 1
                             count += 1
-                            # observation['data'] = 1 #DEBUG. Reduces output for better testing
                             break
-                else:  # observation is some type of screenshot
-                    observation['artifact'] = 0
+
 
         # print(json.dumps(relationshipList, sort_keys=True, indent=4)) #Debug, prints out entire json list in a pretty format
         return count
