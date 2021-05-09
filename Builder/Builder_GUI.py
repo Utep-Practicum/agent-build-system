@@ -15,12 +15,14 @@ from Builder.EditForm import *
 from Builder.Controller import *
 from Builder.EditForm import *
 from Builder.script_generator import *
+from Builder.CreateArtifact import *
 
 import json
 import sys
 import copy
 from subprocess import Popen,PIPE
 import platform
+import re
 
 
 
@@ -227,12 +229,12 @@ class Builder_GUI(object):
         self.action_save_object.triggered.connect(self.save_object)
 
         ###################### Create Salient Artifact Option ##################################
-        self.action_save_object = QtWidgets.QAction(BuilderWindow)
-        self.action_save_object.setObjectName("action_create_salient_artifact")
-        self.action_save_object.setText("Create Salient Artifact")
-        self.menu_project.addAction(self.action_save_object)
+        self.action_create_salient_artifact = QtWidgets.QAction(BuilderWindow)
+        self.action_create_salient_artifact.setObjectName("action_create_salient_artifact")
+        self.action_create_salient_artifact.setText("Create Salient Artifact")
+        self.menu_project.addAction(self.action_create_salient_artifact)
         self.menu_project.setStyleSheet("color: black")
-        self.action_save_object.triggered.connect(self.create_salient_artifact)
+        self.action_create_salient_artifact.triggered.connect(self.create_salient_artifact)
 
         ###################### Quit Builder Menu Option #############################
         self.action_quit = QtWidgets.QAction(BuilderWindow)
@@ -281,7 +283,6 @@ class Builder_GUI(object):
         # self.FilterButton.setText(_translate("BuilderWindow", "Filter"))
         self.delete_button.setText(_translate("BuilderWindow", "Delete"))
         self.ignore_button.setText(_translate("BuilderWindow", "Ignore"))
-        self.SA_button.setText(_translate("BuilderWindow", "Create Salient Artifact"))
         self.script_button.setText(_translate("BuilderWindow", "Generate Script"))
         self.move_button.setText(_translate("BuilderWindow", ">>"))
         self.move_button_back.setText(_translate("BuilderWindow", "<<"))
@@ -546,8 +547,42 @@ class Builder_GUI(object):
             self.details_list.currentItem().setForeground(QtCore.Qt.gray) 
 
     def create_salient_artifact(self):
-        print("creating salient artifact chump")
-        pass
+        print("creating salient artifact")
+        self.createdArtifact = CreateArtifact(self)
+
+        #1.)Give user a form to create a salient artifact
+        #2.)When form is saved, return the rule (rule is in json format data_type:phrase)
+            #run rule on current relationship list and modify matches? ----------SHould also save controller artifact then----------
+        #3.)
+
+        """ 
+    Dont need to send anything but probably need to get back the json rule
+
+        """
+    def add_new_salient_rule(self, data_type, artifact_regex):
+
+        #might not work since we're in controlla
+        for relationship in self.controller_object.relationships_main:
+            for observation in relationship.observation_list:
+                if observation.data_type == data_type:
+                    if re.search(regex, observation.data) != None:
+                        print("changing observation.artifact to 1")
+                        observation.artifact = 1
+                #print(observation.show())
+
+        self.display_relations()
+
+
+        # self.relation_selected = found_relation #Maybe don't need this, left in here just in case
+
+        # Go through observations from selected relationship, if observation matches selected observation, remove entirely
+        #for observation in found_relation.observation_list:
+        #    if observation.show() != selected_observation_text:
+        #        self.details_list.addItem(observation.show())
+        #    else:
+        #        found_relation.observation_list.remove(
+        #            observation)  # Kick that guy out of the club until project is reimported.
+        #        print("removing observation:", observation.show())  # DEBUG
 
     ###################### Manage control state  #############################
     def save_controller_state(self):
@@ -568,6 +603,8 @@ class Builder_GUI(object):
             self.display_dependency_detail(self.dependency_list.selectedItems()[0])
 
         self.update_lists()
+
+
 
     def execute(self):
         app = QtWidgets.QApplication(sys.argv)
