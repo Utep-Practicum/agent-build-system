@@ -41,7 +41,7 @@ class Observation:
             self.data['content'] = img_Name
             self.coordinateX = 0
             self.coordinateY = 0
-            self.button = 'left'
+            self.button = "\'left\'"
             self.clicks = 1
             self.data['clicks'] = self.clicks
             self.data['button'] = self.button
