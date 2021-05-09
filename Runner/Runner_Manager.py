@@ -29,7 +29,7 @@ class RunnerManager:
             # execfile()
         elif observation.user_action == False:
             #print("Test")
-            Eceld_manager.start_eceld()
+            self.Eceld_manager.start_eceld()
 
 
     def runner_review(self):

@@ -10,7 +10,7 @@ dir = os.path.dirname('/home/kali/eceld-netsys/eceld/')
 class EceldValidate:
 
     def __init__(self):
-        self.proc = 
+        self.proc = None
 
 
     def comparison(self):
@@ -18,15 +18,15 @@ class EceldValidate:
 
 
     def start_eceld(self):
-        time.sleep(15)
+        # time.sleep(15)
         for i in range(2):
             self.proc = Popen(['sudo','python3', 'test_engine_invoke.py'], cwd=dir)
             print('Waiting 10 sec for ECELd to complete')
             try:
-                outs, errs = proc.communicate(timeout=12)
+                outs, errs = self.proc.communicate(timeout=12)
             except TimeoutExpired:
-                proc.kill()
-                outs, errs = proc.communicate()
+                self.proc.kill()
+                outs, errs = self.proc.communicate()
 
         print('Moving to Runner directory for comparison')
         print('Stop ECELd')
