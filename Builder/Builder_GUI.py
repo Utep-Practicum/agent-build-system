@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QAbstractItemView
 
 from Builder.EditForm import *
 from Builder.Controller import *
@@ -19,14 +19,14 @@ from Builder.script_generator import *
 import json
 import sys
 import copy
-from subprocess import Popen,PIPE
+from subprocess import Popen, PIPE
 import platform
-
 
 
 def enable_button(button):
     button.setEnabled(True)
     button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+
 
 def disable_button(button):
     button.setEnabled(False)
@@ -40,7 +40,7 @@ class Builder_GUI(object):
         self.undo_stack = []
         self.dependency = ""
         self.undo_stack = []
-        self.selected_item  = None
+        self.selected_item = None
         self.relations_list = controller.relationships_main
         self.relation_selected = None
         if __name__ != "__main__":
@@ -78,6 +78,7 @@ class Builder_GUI(object):
         self.details_list.setStyleSheet(
             "background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.details_list.setDragEnabled(True)
+        self.details_list.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
         ##################### Relationships Label ##################################
         self.relationships_label = QtWidgets.QLabel(self.centralwidget)
@@ -113,7 +114,8 @@ class Builder_GUI(object):
         ################### Play Button #########################
         self.playButton = QtWidgets.QPushButton(self.centralwidget)
         self.playButton.setGeometry(QtCore.QRect(660, 0, 81, 31))
-        self.playButton.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
+        self.playButton.setStyleSheet(
+            "background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
         self.playButton.setObjectName("playButton")
         self.playButton.clicked.connect(self.open_runner)
         self.playButton.clicked.connect(BuilderWindow.close)
@@ -202,7 +204,6 @@ class Builder_GUI(object):
         self.statusbar.setObjectName("statusbar")
         BuilderWindow.setStatusBar(self.statusbar)
 
-
         ###################### Import Project Menu Option #############################
         self.action_import_project = QtWidgets.QAction(BuilderWindow)
         self.action_import_project.setObjectName("action_import_project")
@@ -236,7 +237,6 @@ class Builder_GUI(object):
         self.retranslate_ui(BuilderWindow)
         QtCore.QMetaObject.connectSlotsByName(BuilderWindow)
 
-
         ############ Call the method to display relations #####################
         self.display_relations()
         self.display_dependencies()
@@ -244,19 +244,16 @@ class Builder_GUI(object):
         disable_button(self.undo_button)
         disable_button(self.ignore_button)
 
-
         ############# Add Lists actions ####################
         self.details_list.itemClicked.connect(self.enable_ignore_button)
         self.details_list.itemClicked.connect(self.enable_edit_button)
         self.relationship_list.itemClicked.connect(self.display_content)
         self.dependency_list.itemClicked.connect(self.display_dependency_detail)
 
-
     def generate_script(self):
         sc = ScriptGenerator(self.controller_object)
         sc.generate_scripts()
         self.saved_project_alert()
-
 
     ############ Open Edit Window ####################
     def edit_observation(self):
@@ -281,7 +278,6 @@ class Builder_GUI(object):
         self.action_quit.setText(_translate("BuilderWindow", "Quit"))
         self.playButton.setIcon(self.playButton.style().standardIcon(QtWidgets.QStyle.SP_MediaPlay))
 
-
     def display_relations(self):
         self.relationship_list.clear()
         # For each relation add them to the relations display list
@@ -295,11 +291,9 @@ class Builder_GUI(object):
             self.dependency_list.addItem(dependency.name)
         # self.relationship_list.itemClicked.connect(self.display_content)
 
-
     def update_lists(self):
         self.display_relations()
         self.display_dependencies()
-
 
     def load_object(self):
         """
@@ -309,10 +303,9 @@ class Builder_GUI(object):
         self.details_list.clear()
         self.relations_list.clear()
         self.relation_selected = None
-        self.controller_object.load_object()
+        self.controller_object.load_object(self.controller_object.project_name)
         # Display the object in their windows.
         self.update_lists()
-
 
     def save_object(self):
         """
@@ -321,15 +314,12 @@ class Builder_GUI(object):
         print("save object")
         self.controller_object.save_object()
 
-
     def display_search_results(self, text):
         self.relationship_list.clear()
 
         # For each relation add them to the relations display list
         for relation in self.controller_object.search(text):
             self.relationship_list.addItem(relation.name)
-
-
 
     ##################################### Display the content in the Detail Box ########################################
     def display_content(self, item):
@@ -352,16 +342,16 @@ class Builder_GUI(object):
         if found_relation != None:
             for observation in found_relation.observation_list:
                 self.details_list.addItem(observation.show())
-            
-                #sets font to gray
-                if self.relation_selected.observation_list[count].ignore == 1:
-                    self.details_list.item(count).setForeground(QtCore.Qt.gray) 
 
-                #sets salient artifact color to red
-                if self.relation_selected.observation_list[count].artifact == 1 and self.relation_selected.observation_list[count].ignore != 1:
-                    self.details_list.item(count).setForeground(QtCore.Qt.red) 
+                # sets font to gray
+                if self.relation_selected.observation_list[count].ignore == 1:
+                    self.details_list.item(count).setForeground(QtCore.Qt.gray)
+
+                # sets salient artifact color to red
+                if self.relation_selected.observation_list[count].artifact == 1 and \
+                        self.relation_selected.observation_list[count].ignore != 1:
+                    self.details_list.item(count).setForeground(QtCore.Qt.red)
                 count += 1
-    
 
         disable_button(self.edit_button)
         disable_button(self.ignore_button)
@@ -373,7 +363,6 @@ class Builder_GUI(object):
             self.details_list.addItem(observation.show())
         disable_button(self.edit_button)
 
-
     def display_dependency_detail(self, item):
         self.selected_item = "Dependency"
         self.details_list.clear()
@@ -383,20 +372,20 @@ class Builder_GUI(object):
             if item.text() == dependency_loop.name:
                 found_dependency = dependency_loop
 
-
         self.relation_selected = found_dependency
         count = 0
         if found_dependency != None:
             for observation in found_dependency.observation_list:
                 self.details_list.addItem(observation.show())
 
-                #sets font to gray
-                if self.relation_selected.observation_list[count].ignore == 1 :
-                    self.details_list.item(count).setForeground(QtCore.Qt.gray) 
+                # sets font to gray
+                if self.relation_selected.observation_list[count].ignore == 1:
+                    self.details_list.item(count).setForeground(QtCore.Qt.gray)
 
-                #sets font to red for salient artifacts
-                if self.relation_selected.observation_list[count].artifact == 1 and self.relation_selected.observation_list[count].ignore != 1:
-                    self.details_list.item(count).setForeground(QtCore.Qt.red) 
+                    # sets font to red for salient artifacts
+                if self.relation_selected.observation_list[count].artifact == 1 and \
+                        self.relation_selected.observation_list[count].ignore != 1:
+                    self.details_list.item(count).setForeground(QtCore.Qt.red)
                 count += 1
 
     def pass_dependency(self):
@@ -438,6 +427,11 @@ class Builder_GUI(object):
         self.save_controller_state()
         selected_relationship = self.relationship_list.selectedItems()  # Stores relationship that was selected
         selectItems = self.details_list.selectedItems()  # Stores item that was selected
+        selectItems_index = []
+        for salamah in selectItems:
+            print(salamah.text())
+            acosta = salamah.text().find(")")
+            selectItems_index.append(int(salamah.text()[:acosta]))
 
         # ======================Copied display_content code here===================================================
         selected_observation_text = selectItems[0].text()  # Called before clear to avoid segmentation fault
@@ -450,16 +444,29 @@ class Builder_GUI(object):
                 found_relation = relation_loop
 
         # self.relation_selected = found_relation #Maybe don't need this, left in here just in case
+        deleted = False
+        if found_relation:
+            for index in selectItems_index:
+                for observation in found_relation.observation_list:
+                    if observation.index_observation == index:
+                        print("removing observation:", observation.show())
+                        found_relation.observation_list.remove(observation)
+                        deleted = True
+
+        if deleted:
+            self.details_list.clear()
+            for observation in found_relation.observation_list:
+                self.details_list.addItem(observation.show())
 
         # Go through observations from selected relationship, if observation matches selected observation, remove entirely
-        for observation in found_relation.observation_list:
-            if observation.show() != selected_observation_text:
-                self.details_list.addItem(observation.show())
-            else:
-                found_relation.observation_list.remove(
-                    observation)  # Kick that guy out of the club until project is reimported.
-                print("removing observation:", observation.show())  # DEBUG
-    
+        # for observation in found_relation.observation_list:
+        #     if observation.show() != selected_observation_text:
+        #         self.details_list.addItem(observation.show())
+        #     else:
+        #         found_relation.observation_list.remove(
+        #             observation)  # Kick that guy out of the club until project is reimported.
+        #         print("removing observation:", observation.show())  # DEBUG
+
     def disable_edit_button(self):
         self.edit_button.setEnabled(False)
         self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
@@ -484,7 +491,8 @@ class Builder_GUI(object):
 
     def enable_script_button(self):
         self.script_button.setEnabled(True)
-        self.script_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+        self.script_button.setStyleSheet(
+            "background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
     ###################### Ignore Button Functions #########################
     def disable_ignore_button(self):
@@ -493,7 +501,8 @@ class Builder_GUI(object):
 
     def enable_ignore_button(self):
         self.ignore_button.setEnabled(True)
-        self.ignore_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
+        self.ignore_button.setStyleSheet(
+            "background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
 
     def show_analyzingWindow(self):
         self.Analyzing_Window = QtWidgets.QDialog()
@@ -508,26 +517,25 @@ class Builder_GUI(object):
         currentDirectory = os.getcwd()
         name = QtWidgets.QFileDialog.getExistingDirectory(self.menu_project, 'Choose Src Dir', 'currentDirectory')
         print("directory selected:", name)
-        print("dirname:", os.path.dirname(name))  #The path leading up to the chosen folder
-        print("basename:",os.path.basename(name)) #The actual chosen folder name
+        print("dirname:", os.path.dirname(name))  # The path leading up to the chosen folder
+        print("basename:", os.path.basename(name))  # The actual chosen folder name
 
         try:
             subdir_folders = os.listdir(name)
             # print(subdir_folders[0]) #DEBUG: list elements are str
             if "Builder" not in subdir_folders:
-                #print("This directory is not properly formatted, please select a project data directory")
-                self.alert_msg("Invalid Directory","This directory is not properly formatted, please select a project data directory")
-                
+                # print("This directory is not properly formatted, please select a project data directory")
+                self.alert_msg("Invalid Directory",
+                               "This directory is not properly formatted, please select a project data directory")
+
             else:
-                #print("folder with relationships:", name) #DEBUG
+                # print("folder with relationships:", name) #DEBUG
                 print("updating controller with new project:", name)
                 self.controller_object.update(os.path.basename(name))
                 self.display_relations()
 
-        except Exception as e: 
-            print("The following error has occured:",e)
-
-
+        except Exception as e:
+            print("The following error has occured:", e)
 
     ###################### Ignore Project Function -Seb #############################
     def ignore_observation(self):
@@ -535,16 +543,16 @@ class Builder_GUI(object):
         observationIndex = int(self.details_list.currentItem().text()[0])
         observation = self.relation_selected.observation_list[observationIndex]
 
-        #If ignore has already been set, allow an user to revert the choice by clicking "ignore" again
+        # If ignore has already been set, allow an user to revert the choice by clicking "ignore" again
         if observation.ignore == 1:
             observation.ignore = 0
-            self.details_list.currentItem().setForeground(QtCore.Qt.black) 
+            self.details_list.currentItem().setForeground(QtCore.Qt.black)
         else:
             observation.ignore = 1
-            self.details_list.currentItem().setForeground(QtCore.Qt.gray) 
+            self.details_list.currentItem().setForeground(QtCore.Qt.gray)
 
+            ###################### Manage control state  #############################
 
-    ###################### Manage control state  #############################
     def save_controller_state(self):
         if len(self.undo_stack) > 20:
             self.undo_stack.pop(0)
@@ -573,7 +581,7 @@ class Builder_GUI(object):
 
     ###################### Alert Pop-up Window  #############################
     def alert_msg(self, title, msg):
-        print("Error occured. Title:%s Message:%s " %(str(title), str(msg)))
+        print("Error occured. Title:%s Message:%s " % (str(title), str(msg)))
         msgbox = QtWidgets.QMessageBox()
         msgbox.setWindowTitle(str(title))
         msgbox.setText(str(msg))
@@ -585,18 +593,16 @@ class Builder_GUI(object):
         msgbox.setText("The state of the project has been saved.")
         msgbox.exec_()
 
-
     def open_runner(self):
-        #Save all changes before opening runner
+        # Save all changes before opening runner
         self.controller_object.save_object()
         print('Finished saving changes')
-        
+
         if platform.system() == "Windows":
-            Popen(['python', 'GUI_manager.py', 'runner', self.controller_object.project_name],stdout=PIPE, stderr=PIPE)
+            Popen(['python', 'GUI_manager.py', 'runner', self.controller_object.project_name], stdout=PIPE, stderr=PIPE)
         else:
-            Popen(['python3', 'GUI_manager.py', 'runner', self.controller_object.project_name],stdout=PIPE, stderr=PIPE)
-
-
+            Popen(['python3', 'GUI_manager.py', 'runner', self.controller_object.project_name], stdout=PIPE,
+                  stderr=PIPE)
 
 # if __name__ == "__main__":
 #     import sys
