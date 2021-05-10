@@ -65,9 +65,9 @@ fi
 
 #Removed python3-venv, virtualbox 5/6/21 -seb
 REQUIRED_PROGRAMS="python3-pip gimp"
-REQUIRED_PYTHON_PACKAGES="PyQt5 python-dateutil pyautogui opencv-python numpy opencv-python-headless" #Eventually add virtualbox
+REQUIRED_PYTHON_PACKAGES="PyQt5 python-dateutil pyautogui numpy opencv-python-headless" #Eventually add virtualbox
 
-#Installs python3 and venv
+#Installs python3
 echo -e "${GRN} $OUTPUT_PREFIX Installing Additional Dependencies ${NC}"
 if [ -x "/usr/bin/apt-get" ]; then
     OS_VERSION="Debian"
@@ -80,10 +80,10 @@ fi
 
 ######might need to instantiate a venv enviornment in order to get vboxapi to work#######
 ### Create virtualenv if it doesn't currently exist
-echo -e "${GRN} $OUTPUT_PREFIX Installing python dependencies ${NC}"
-if [ ! -d "venv" ]; then
-    $PYTHON_EXEC -m venv venv
-fi
+#echo -e "${GRN} $OUTPUT_PREFIX Installing python dependencies ${NC}"
+#if [ ! -d "venv" ]; then
+#    $PYTHON_EXEC -m venv venv
+#fi
 
 #source venv/bin/activate
 pip install pip --upgrade
@@ -92,7 +92,7 @@ pip install $REQUIRED_PYTHON_PACKAGES
 ### Creating executable
 #
 echo -e "${BLUE} $OUTPUT_PREFIX Creating executables ${NC}"
-cat > "$ABS_DIR"/Agent-Build-System <<-'EOFagent-build-system'
+cat > "$ABS_DIR"/agent-build-system <<-'EOFagent-build-system'
 #!/bin/bash
 prompt_accepted_Yn() {
     read -r -p "$1 [Y/n] " yn
@@ -112,7 +112,7 @@ cd "$ABS_DIR"
 python3 GUI_manager.py $1 $2
 EOFagent-build-system
 
-chmod +x "$ABS_DIR"/Agent-Build-System
+chmod +x "$ABS_DIR"/agent-build-system
 echo
 echo "***************************************************"
 echo -e "${GRN} $OUTPUT_PREFIX Installation Complete ${NC}"
