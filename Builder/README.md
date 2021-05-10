@@ -1,18 +1,21 @@
 
 # Builder Component
 
-### Construct Dependencies
+      sudo ./Agent-Build-System 
+    
+      sudo ./Agent-Build-System builder [Project_Name]
 
-Provides a graphical means to confirm relationships as dependencies
+### Construct Dependencies From Relationships
 
-A dependency is defined as a user-verified relationship that must be executed and fed to the runner component.
+  - Provides a graphical means to confirm relationships as dependencies
 
-A relationship's artifacts can be edited, deleted, and ignored as desired.
+  - A dependency is defined as a user-verified relationship that must be executed and fed to the runner component.
 
-Each artifact contains a delta time attribute to indicate the time taken before the next artifact was captured.
+  - A relationship's artifacts can be edited, deleted, and ignored as desired.
 
-Find, Undo, and Save Capabilites are provided for all builder projects.
+  - Each artifact contains a delta time attribute to indicate the time taken before the next artifact was captured.
 
-Requirements:
+  - Find, Undo, and Save Capabilites are provided for all builder projects.
 
-  - Causation Extractor Project Folder
+
+
