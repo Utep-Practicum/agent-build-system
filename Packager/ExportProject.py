@@ -26,7 +26,7 @@ class ExportProject(QtWidgets.QDialog):
         Form.setStyleSheet("background-color: white")
 
         self.Projectlabel = QtWidgets.QLabel(Form)
-        self.Projectlabel.setGeometry(QtCore.QRect(40, 20, 231, 51))
+        self.Projectlabel.setGeometry(QtCore.QRect(40, 20, 261, 51))
         font = QtGui.QFont()
         font.setFamily("MS Sans Serif")
         font.setPointSize(18)

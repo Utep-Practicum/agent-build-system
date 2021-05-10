@@ -29,6 +29,7 @@ class ImportProject(object):
         ###################### IMPORT BUTTON ####################################
         self.ImportProject_Button = QtWidgets.QPushButton(self.centralwidget)
         self.ImportProject_Button.setGeometry(QtCore.QRect(440, 100, 141, 71))
+        font.setPointSize(11)
         self.ImportProject_Button.setFont(font)
         self.ImportProject_Button.setStyleSheet("background-color: #13333F; color: #FFFFFF; border-radius: 5px;")
         self.ImportProject_Button.setObjectName("ImportProject_Button")
