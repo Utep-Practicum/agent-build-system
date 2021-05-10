@@ -13,7 +13,6 @@ from PyQt5.QtWidgets import QFileDialog
 
 from Builder.EditForm import *
 from Builder.Controller import *
-from Builder.EditForm import *
 from Builder.script_generator import *
 
 import json
@@ -486,14 +485,6 @@ class Builder_GUI(object):
     def enable_ignore_button(self):
         self.ignore_button.setEnabled(True)
         self.ignore_button.setStyleSheet("background-color: rgba(18, 51, 62, 100%); color: #FFFFFF; border-radius: 5px;")
-
-    def show_analyzingWindow(self):
-        self.Analyzing_Window = QtWidgets.QDialog()
-        self.ui = Ui_Analyzing_Window()
-        self.ui.setupUi(self.Analyzing_Window)
-        self.Analyzing_Window.show()
-        QtWidgets.qApp.processEvents()
-        self.ui.progressBar_update()
 
     ###################### Import Project Function ###############################
     def import_project(self):
