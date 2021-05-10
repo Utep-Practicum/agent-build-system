@@ -2,13 +2,13 @@
 
 ### Export all project elements
 
-Allows user to select Virtual Machines and Files that are part of a project for packaging in a zip file.
+  - Allows user to select Virtual Machines and Files that are part of a project for packaging in a zip file.
 
 ### Import ABS Project elements
 
-Allows user to select an ABS packaged project (zip file format) and extract its file contents and import machines to VirtualBox.
+  - Allows user to select an ABS packaged project (zip file format) and extract its file contents and import machines to VirtualBox.
 
-**The Packager.exe is meant to be executed on the host machine, outside the sandbox environment.**
+### The Packager.exe is meant to be executed on the host machine, outside the sandbox environment.**
 
 [Packager.exe zip folder] (https://drive.google.com/file/d/10qXRhQtLRpNQ4C0c9eU4rUiXgr8-GQGE/view?usp=sharing)
 
@@ -40,5 +40,6 @@ System Requirements:
     
       Paste the location of *Oracle\VirtualBox* directory
   
-    > Default Location: C:\Program Files\Oracle\VirtualBox\
+  
+  <sub>Default Location of VirtualBox Directory: C:\Program Files\Oracle\VirtualBox\ </sub>
     
