@@ -439,16 +439,26 @@ class Builder_GUI(object):
     ###################### Delete Button Functions ##################################
     def delete_observation(self):
         self.save_controller_state()
-        selected_relationship = self.relationship_list.selectedItems()  # Stores relationship that was selected
+        if self.relationship_list.selectedItems():
+            selected_relationship = self.relationship_list.selectedItems()  # Stores relationship that was selected
+            controller_relationship = self.controller_object.relationships_main
+        else:
+            print("selecting dependency")
+            selected_relationship = self.dependency_list.selectedItems()  # Stores relationship that was selected
+            controller_relationship = self.controller_object.dependencies_main
         selectItems = self.details_list.selectedItems()  # Stores item that was selected
 
         # ======================Copied display_content code here===================================================
-        selected_observation_text = selectItems[0].text()  # Called before clear to avoid segmentation fault
+        try:
+            selected_observation_text = selectItems[0].text()  # Called before clear to avoid segmentation fault
+        except:
+            self.alert_msg("No Observation Selected", "Please select an observation before attempting to delete")
+            return
         self.details_list.clear()
 
         # Look for relation that matches clicked relationship
         found_relation = None
-        for relation_loop in self.controller_object.relationships_main:
+        for relation_loop in controller_relationship:
             if selected_relationship[0].text() == relation_loop.name:
                 found_relation = relation_loop
 
@@ -459,8 +469,7 @@ class Builder_GUI(object):
             if observation.show() != selected_observation_text:
                 self.details_list.addItem(observation.show())
             else:
-                found_relation.observation_list.remove(
-                    observation)  # Kick that guy out of the club until project is reimported.
+                found_relation.observation_list.remove(observation)  # Kick that guy out of the club until project is reimported.
                 print("removing observation:", observation.show())  # DEBUG
     
     def disable_edit_button(self):
@@ -600,6 +609,7 @@ class Builder_GUI(object):
         msgbox = QtWidgets.QMessageBox()
         msgbox.setWindowTitle(str(title))
         msgbox.setText(str(msg))
+        msgbox.setStyleSheet("QLabel{ color: red}");
         msgbox.exec_()
 
     def saved_project_alert(self):
