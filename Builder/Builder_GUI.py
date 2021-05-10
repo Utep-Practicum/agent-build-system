@@ -459,6 +459,7 @@ class Builder_GUI(object):
             selectItems_index.append(int(salamah.text()[:acosta]))
 
         # ======================Copied display_content code here===================================================
+        
         try:
             selected_observation_text = selectItems[0].text()  # Called before clear to avoid segmentation fault
         except:
@@ -486,14 +487,6 @@ class Builder_GUI(object):
             self.details_list.clear()
             for observation in found_relation.observation_list:
                 self.details_list.addItem(observation.show())
-
-        # Go through observations from selected relationship, if observation matches selected observation, remove entirely
-        for observation in found_relation.observation_list:
-            if observation.show() != selected_observation_text:
-                self.details_list.addItem(observation.show())
-            else:
-                found_relation.observation_list.remove(observation)  # Kick that guy out of the club until project is reimported.
-                print("removing observation:", observation.show())  # DEBUG
     
     def disable_edit_button(self):
         self.edit_button.setEnabled(False)
