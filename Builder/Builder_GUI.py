@@ -458,7 +458,7 @@ class Builder_GUI(object):
         try:
             selected_observation_text = selectItems[0].text()  # Called before clear to avoid segmentation fault
         except:
-            self.alert_msg("No Observation Selected", "Please select an observation before attempting to delete")
+            self.alert_msg("NO OBSERVATION SELECTED", "Please select an observation before attempting to delete")
             return
         self.details_list.clear()
 
@@ -534,7 +534,7 @@ class Builder_GUI(object):
             # print(subdir_folders[0]) #DEBUG: list elements are str
             if "Builder" not in subdir_folders:
                 #print("This directory is not properly formatted, please select a project data directory")
-                self.alert_msg("Invalid Directory","This directory is not properly formatted, please select a project data directory")
+                self.alert_msg("INVALID DIRECTORY","This directory is not properly formatted, please select a project data directory")
                 
             else:
                 #print("folder with relationships:", name) #DEBUG
@@ -550,7 +550,12 @@ class Builder_GUI(object):
     ###################### Ignore Project Function -Seb #############################
     def ignore_observation(self):
         self.save_controller_state()
-        observationIndex = int(self.details_list.currentItem().text()[0])
+        try:
+            observationIndex = int(self.details_list.currentItem().text()[0])
+        except:
+            self.alert_msg("NO OBSERVATION SELECTED", "Please select an observation before using the ignore feature")
+            return
+
         observation = self.relation_selected.observation_list[observationIndex]
 
         #If ignore has already been set, allow an user to revert the choice by clicking "ignore" again
