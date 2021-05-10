@@ -15,12 +15,14 @@ from Builder.EditForm import *
 from Builder.Controller import *
 from Builder.EditForm import *
 from Builder.script_generator import *
+from Builder.CreateArtifact import *
 
 import json
 import sys
 import copy
 from subprocess import Popen, PIPE
 import platform
+import re
 
 
 def enable_button(button):
@@ -227,11 +229,20 @@ class Builder_GUI(object):
         self.menu_project.setStyleSheet("color: black")
         self.action_save_object.triggered.connect(self.save_object)
 
+        ###################### Create Salient Artifact Option ##################################
+        self.action_create_salient_artifact = QtWidgets.QAction(BuilderWindow)
+        self.action_create_salient_artifact.setObjectName("action_create_salient_artifact")
+        self.action_create_salient_artifact.setText("Create Salient Artifact")
+        self.menu_project.addAction(self.action_create_salient_artifact)
+        self.menu_project.setStyleSheet("color: black")
+        self.action_create_salient_artifact.triggered.connect(self.create_salient_artifact)
+
         ###################### Quit Builder Menu Option #############################
         self.action_quit = QtWidgets.QAction(BuilderWindow)
         self.action_quit.setObjectName("action_quit")
         self.menu_project.addAction(self.action_quit)
         self.action_quit.triggered.connect(QtWidgets.qApp.quit)  # exits on click -seb
+
 
         self.menubar.addAction(self.menu_project.menuAction())
         self.retranslate_ui(BuilderWindow)
@@ -316,10 +327,18 @@ class Builder_GUI(object):
 
     def display_search_results(self, text):
         self.relationship_list.clear()
+        self.dependency_list.clear()
+
 
         # For each relation add them to the relations display list
         for relation in self.controller_object.search(text):
             self.relationship_list.addItem(relation.name)
+
+        #Same as above
+        for relation in self.controller_object.search_dep(text):
+            self.dependency_list.addItem(relation.name)
+
+
 
     ##################################### Display the content in the Detail Box ########################################
     def display_content(self, item):
@@ -425,7 +444,13 @@ class Builder_GUI(object):
     ###################### Delete Button Functions ##################################
     def delete_observation(self):
         self.save_controller_state()
-        selected_relationship = self.relationship_list.selectedItems()  # Stores relationship that was selected
+        if self.relationship_list.selectedItems():
+            selected_relationship = self.relationship_list.selectedItems()  # Stores relationship that was selected
+            controller_relationship = self.controller_object.relationships_main
+        else:
+            print("selecting dependency")
+            selected_relationship = self.dependency_list.selectedItems()  # Stores relationship that was selected
+            controller_relationship = self.controller_object.dependencies_main
         selectItems = self.details_list.selectedItems()  # Stores item that was selected
         selectItems_index = []
         for salamah in selectItems:
@@ -434,12 +459,16 @@ class Builder_GUI(object):
             selectItems_index.append(int(salamah.text()[:acosta]))
 
         # ======================Copied display_content code here===================================================
-        selected_observation_text = selectItems[0].text()  # Called before clear to avoid segmentation fault
+        try:
+            selected_observation_text = selectItems[0].text()  # Called before clear to avoid segmentation fault
+        except:
+            self.alert_msg("NO OBSERVATION SELECTED", "Please select an observation before attempting to delete")
+            return
         self.details_list.clear()
 
         # Look for relation that matches clicked relationship
         found_relation = None
-        for relation_loop in self.controller_object.relationships_main:
+        for relation_loop in controller_relationship:
             if selected_relationship[0].text() == relation_loop.name:
                 found_relation = relation_loop
 
@@ -459,14 +488,13 @@ class Builder_GUI(object):
                 self.details_list.addItem(observation.show())
 
         # Go through observations from selected relationship, if observation matches selected observation, remove entirely
-        # for observation in found_relation.observation_list:
-        #     if observation.show() != selected_observation_text:
-        #         self.details_list.addItem(observation.show())
-        #     else:
-        #         found_relation.observation_list.remove(
-        #             observation)  # Kick that guy out of the club until project is reimported.
-        #         print("removing observation:", observation.show())  # DEBUG
-
+        for observation in found_relation.observation_list:
+            if observation.show() != selected_observation_text:
+                self.details_list.addItem(observation.show())
+            else:
+                found_relation.observation_list.remove(observation)  # Kick that guy out of the club until project is reimported.
+                print("removing observation:", observation.show())  # DEBUG
+    
     def disable_edit_button(self):
         self.edit_button.setEnabled(False)
         self.edit_button.setStyleSheet("background-color: rgba(18, 51, 62, 50%); color: #FFFFFF; border-radius: 5px;")
@@ -524,10 +552,9 @@ class Builder_GUI(object):
             subdir_folders = os.listdir(name)
             # print(subdir_folders[0]) #DEBUG: list elements are str
             if "Builder" not in subdir_folders:
-                # print("This directory is not properly formatted, please select a project data directory")
-                self.alert_msg("Invalid Directory",
-                               "This directory is not properly formatted, please select a project data directory")
-
+                #print("This directory is not properly formatted, please select a project data directory")
+                self.alert_msg("INVALID DIRECTORY","This directory is not properly formatted, please select a project data directory")
+                
             else:
                 # print("folder with relationships:", name) #DEBUG
                 print("updating controller with new project:", name)
@@ -540,7 +567,12 @@ class Builder_GUI(object):
     ###################### Ignore Project Function -Seb #############################
     def ignore_observation(self):
         self.save_controller_state()
-        observationIndex = int(self.details_list.currentItem().text()[0])
+        try:
+            observationIndex = int(self.details_list.currentItem().text()[0])
+        except:
+            self.alert_msg("NO OBSERVATION SELECTED", "Please select an observation before using the ignore feature")
+            return
+
         observation = self.relation_selected.observation_list[observationIndex]
 
         # If ignore has already been set, allow an user to revert the choice by clicking "ignore" again
@@ -551,7 +583,24 @@ class Builder_GUI(object):
             observation.ignore = 1
             self.details_list.currentItem().setForeground(QtCore.Qt.gray)
 
-            ###################### Manage control state  #############################
+    def create_salient_artifact(self):
+        #print("creating salient artifact") #DEBUG
+        self.createdArtifact = CreateArtifact(self)
+
+    def add_new_salient_rule(self, data_type, artifact_regex):
+
+        #runs new rule against entire relationship
+        for relationship in self.controller_object.relationships_main:
+            for observation in relationship.observation_list:
+                if observation.data_type == data_type:
+                    if re.search(artifact_regex, str(observation.data)) != None:
+                        observation.artifact = 1
+                if data_type == "auditd":
+                    if observation.data_type == "Keypresses":
+                        if re.search(artifact_regex, str(observation.data)) != None:
+                            observation.artifact = 1
+
+        self.update_lists() #Update UI
 
     def save_controller_state(self):
         if len(self.undo_stack) > 20:
@@ -572,6 +621,8 @@ class Builder_GUI(object):
 
         self.update_lists()
 
+
+
     def execute(self):
         app = QtWidgets.QApplication(sys.argv)
         BuilderWindow = QtWidgets.QMainWindow()
@@ -585,6 +636,7 @@ class Builder_GUI(object):
         msgbox = QtWidgets.QMessageBox()
         msgbox.setWindowTitle(str(title))
         msgbox.setText(str(msg))
+        msgbox.setStyleSheet("QLabel{ color: red}");
         msgbox.exec_()
 
     def saved_project_alert(self):

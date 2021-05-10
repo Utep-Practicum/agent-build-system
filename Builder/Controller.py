@@ -75,6 +75,17 @@ class Controller:
                             search.append(relation)
                             break
                 return search
+    def search_dep(self, keyword = '', table = 'dependencies'):
+        search = []
+        if keyword == '' or keyword == None:
+            return self.dependencies_main
+        else:
+            for relation in self.dependencies_main:
+                for item in relation.observation_list:
+                    if keyword in item.show():
+                        search.append(relation)
+                        break
+            return search
 
     #NOTE: start is a str before and after translation to deltaTime
     def create_delta(self): 
