@@ -335,10 +335,16 @@ class Builder_GUI(object):
 
     def display_search_results(self, text):
         self.relationship_list.clear()
+        self.dependency_list.clear()
+
 
         # For each relation add them to the relations display list
         for relation in self.controller_object.search(text):
             self.relationship_list.addItem(relation.name)
+
+        #Same as above
+        for relation in self.controller_object.search_dep(text):
+            self.dependency_list.addItem(relation.name)
 
 
 
