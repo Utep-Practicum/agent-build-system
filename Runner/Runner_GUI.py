@@ -73,7 +73,7 @@ class Runner_GUI(object):
         self.observation_output.setGeometry(QtCore.QRect(435, 50, 340, 391))
         self.observation_output.setObjectName("observation_output")
         self.observation_output.setStyleSheet("background-color: #FFFFFF; border-radius: 10px; border: 1px solid #D2D6E0; color: black;")
-        self.observation_output.setEnabled(False)
+        # self.observation_output.setEnabled(False)
         
 
         ################### Back2Builder Button #########################
@@ -188,8 +188,16 @@ class Runner_GUI(object):
             enable_button(self.save_script_button)
         
         else:
-            self.observation_output.setText("No Content")
-            self.observation_output.setEnabled(False)
+            text_to_show = "Observation number: " + str(observation.observation_number) + "\nData:\n"
+            print(type(observation.data))
+
+            for key in observation.data.keys():
+                if observation.data[key]:
+                    text_to_show = text_to_show + key + " : " + observation.data[key] + "\n"
+            self.observation_output.setText(text_to_show)
+
+
+            # self.observation_output.setEnabled(False)
             disable_button(self.save_script_button)
 
 

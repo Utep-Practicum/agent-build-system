@@ -43,6 +43,11 @@ class ScriptGenerator:
 
         print("import pyautogui")
         print("")
+        # This conditions is to prevent running high delta times
+        if float(observation.start) < 20:
+            print("time.sleep(float(" + observation.start + "))")
+        else:
+            print("time.sleep(20)")
 
     
         self.translate_observation_to_script_command(observation)
