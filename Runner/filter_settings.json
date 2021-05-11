@@ -1,9 +1,0 @@
-[{
-    "ip.src":"src net",
-    "ip.dst":"dst net", 
-    "ip.len":"len <= ",
-    "eth.dst":"ether dst",
-    "eth.src":"ether src",
-    "arp.src.proto_ipv4":"arp src net",
-    "arp.dst.proto_ipv4":"arp dst net"
-    }]
