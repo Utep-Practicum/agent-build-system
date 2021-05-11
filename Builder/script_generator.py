@@ -82,14 +82,10 @@ class ScriptGenerator:
             return "ctrl"
         elif string == "[Shift_L]" or string == "[Shift_R]":
             return "shift"
-        # elif string == "[Control_L]" or string == "[Control_R]":
-        #     return "ctrl"
-        # elif string == "[Control_L]" or string == "[Control_R]":
-        #     return "ctrl"
-        # elif string == "[Control_L]" or string == "[Control_R]":
-        #     return "ctrl"
-        # elif string == "[Control_L]" or string == "[Control_R]":
-        #     return "ctrl"
+        elif string == "[Alt_L]" or string == "[Alt_R]":
+            return "alt"
+        elif string == "Caps_Lock":
+            return "ctrl"
         else:
             return string[1:-1]
         
