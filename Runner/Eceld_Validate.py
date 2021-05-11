@@ -7,6 +7,7 @@ from subprocess import Popen,PIPE,TimeoutExpired
 
 traffic_found = False
 dir = os.path.dirname('/home/kali/eceld-netsys/eceld/')
+abs_dir = os.getcwd()
 
 class EceldValidate:
 
@@ -23,21 +24,26 @@ class EceldValidate:
         self.compare_thread.start()
         counter = 0
         while not self.stop_eceld:
+            #Start Eceld
             self.proc = Popen(['sudo','python3', 'test_engine_invoke.py'], cwd=dir)
             print('Waiting 10 sec for ECELd to complete')
             try:
+                # Add timeout to wait for eceld to complete
                 outs, errs = self.proc.communicate(timeout=12)
             except TimeoutExpired:
                 self.proc.kill()
                 outs, errs = self.proc.communicate()
+
+                #Move eceld parsed log to ABS directory
                 file_src = dir+'/plugins/collectors/tshark/parsed/networkDataAll.JSON'
                 if 'networkDataAll.JSON' in os.listdir(dir+'/plugins/collectors/tshark/parsed/'):
-                    file_dst = '/home/kali/Desktop/Practicum/agent-build-system/Project Data/'+self.project_name+'/Runner/Eceld/temp/comp'+str(counter)+'.json'
+                    file_dst = abs_dir + '/Project Data/'+self.project_name+'/Runner/Eceld/temp/comp'+str(counter)+'.json'
                     Popen(['sudo','cp',file_src,file_dst], cwd='/')
                 counter += 1
-                if counter > 10:
+                # Counter determines how long to keep attempting Eceld data capture
+                if counter > 30:
                     break
-
+                    
 
 
     def validate(self, observation):
@@ -47,7 +53,7 @@ class EceldValidate:
         if not os.path.exists("Project Data/"+self.project_name+"/Runner/Eceld/temp"):
             os.makedirs("Project Data/"+self.project_name+"/Runner/Eceld/temp")
 
-        # Remove existing files
+        # Clear directory before use
         file_list = os.listdir("Project Data/"+self.project_name+"/Runner/Eceld/temp")
         if len(file_list) > 0:
             for f in file_list:
