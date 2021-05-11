@@ -42,6 +42,7 @@ class ScriptGenerator:
         sys.stdout = file
 
         print("import pyautogui")
+        print("import time")
         print("")
         # This conditions is to prevent running high delta times
         if float(observation.start) < 20:
