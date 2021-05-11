@@ -42,12 +42,17 @@ class EceldValidate:
 
     def validate(self, observation):
         # Eceld files will be saved in "Project Data/Runner/Eceld/temp"
-        #traffic_found = bool(input('Has the packet been found'))
-        #observation.select_filters = ['ip.src']
         print(observation.select_filters)
         # 1) Create directory where files are going to be stored
         if not os.path.exists("Project Data/"+self.project_name+"/Runner/Eceld/temp"):
             os.makedirs("Project Data/"+self.project_name+"/Runner/Eceld/temp")
+
+        # Remove existing files
+        file_list = os.listdir("Project Data/"+self.project_name+"/Runner/Eceld/temp")
+        if len(file_list) > 0:
+            for f in file_list:
+                temp = os.path.join("Project Data/"+self.project_name+"/Runner/Eceld/temp", f)
+                os.remove(temp)
             
 
         # 2) get the list of files of the folder we created, if this is empty wait 5 seconds
@@ -101,9 +106,10 @@ class EceldValidate:
                         # Compare based on the filters chosen
                         for item in observation.select_filters:
                             if observation.data[item] == network_dict[item]:
-                                print("\n\n\n\n\nMatch Found" + item + ': ' + str(observation.data[item]) + '\n\n\n\n')
+                                print("\n\n\n\n\nMatch Found - " + item + ': ' + str(observation.data[item]) + '\n\n\n\n')
                                 self.stop_eceld = True
                                 return True
                             break
-                os.remove(os.path.join("Project Data/"+self.project_name+"/Runner/Eceld/temp", file_name))
+                temp = "Project Data/"+self.project_name+"/Runner/Eceld/temp/"+file_name
+                os.remove(temp)
 
