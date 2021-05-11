@@ -88,7 +88,7 @@ class ScriptGenerator:
         elif string == "[Caps_Lock]":
             return "capslock"
         else:
-            return string[1:-1]
+            return string[1:-1].lower()
         
 
 
