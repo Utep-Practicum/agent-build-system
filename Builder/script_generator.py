@@ -48,7 +48,7 @@ class ScriptGenerator:
         if float(observation.start) < 20:
             print("time.sleep(float(" + observation.start + "))")
         else:
-            print("time.sleep(float(20.0))")
+            print("time.sleep(float(10.0))")
 
     
         self.translate_observation_to_script_command(observation)
