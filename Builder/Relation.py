@@ -72,7 +72,13 @@ class Observation:
         self.script = None
 
         # Selected labels which will be used to filter traffic on the Runner
-        self.select_filters = []
+        try:
+            self.select_filters = node["select_filters"]
+            if len(self.select_filters) == 0:
+                self.select_filters = ['ip.src']
+            
+        except:
+            self.select_filters = []
 
         #change to 1 when ignoring observation in script
         self.ignore = 0

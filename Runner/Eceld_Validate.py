@@ -43,8 +43,8 @@ class EceldValidate:
     def validate(self, observation):
         # Eceld files will be saved in "Project Data/Runner/Eceld/temp"
         #traffic_found = bool(input('Has the packet been found'))
-        observation.select_filters = ['ip.src']
-        #print(observation.select_filters)
+        #observation.select_filters = ['ip.src']
+        print(observation.select_filters)
         # 1) Create directory where files are going to be stored
         if not os.path.exists("Project Data/"+self.project_name+"/Runner/Eceld/temp"):
             os.makedirs("Project Data/"+self.project_name+"/Runner/Eceld/temp")
@@ -84,34 +84,26 @@ class EceldValidate:
                         if lastValue[1] == "x":
                             netInfoList = netInfoList[:-1]  # Remove the 0x000000 that Bebe said we don't need
                         # fill the dictionary ------------------------------------
-                        network_dict['eth.src'] = netInfoList[0]
-                        network_dict['eth.dst'] = netInfoList[1]
-                        network_dict['ip.src'] = netInfoList[2]
-                        network_dict['ip.dst'] = netInfoList[3]
-                        network_dict['tcp.srcport'] = netInfoList[4]
-                        network_dict['tcp.dstport'] = netInfoList[5]
+                        
+                        if len(netInfoList) >= 1:
+                            network_dict['eth.src'] = netInfoList[0]
+                        if len(netInfoList) >= 2:
+                            network_dict['eth.dst'] = netInfoList[1]
+                        if len(netInfoList) >= 3:
+                            network_dict['ip.src'] = netInfoList[2]
+                        if len(netInfoList) >= 4:
+                            network_dict['ip.dst'] = netInfoList[3]
+                        if len(netInfoList) >= 5:
+                            network_dict['tcp.srcport'] = netInfoList[4]
+                        if len(netInfoList) >= 6:
+                            network_dict['tcp.dstport'] = netInfoList[5]
             
                         # Compare based on the filters chosen
                         for item in observation.select_filters:
                             if observation.data[item] == network_dict[item]:
-                                print("Match Found\n\n\n\n\n\n\n")
+                                print("Match Found" + item + ': ' + str(observation.data[item]))
                                 self.stop_eceld = True
                                 return True
                             break
                 os.remove(os.path.join("Project Data/"+self.project_name+"/Runner/Eceld/temp", file_name))
 
-
-if __name__ == "__main__":
-    t0 = threading.Thread(target=init_eceld_service, daemon=True)
-    t1 = threading.Thread(target=start_eceld,daemon=True)
-    #t2 = threading.Thread(target=validate)
-
-    t0.start()
-    t1.start()
-    #t2.start()
-
-    t0.join()
-    t1.join()
-    # t2.join()
-    
-    print(traffic_found)
