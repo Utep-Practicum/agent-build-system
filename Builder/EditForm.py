@@ -66,7 +66,7 @@ class EditForm(QMainWindow):
         self.gimp_button.setDisabled(True)
         
         try:
-            if self.data_dict['clicks_id']:
+            if self.data_dict['clicks_id'] or self.data_dict['clicks_id'] == 0:
                 self.gimp_button.setDisabled(False)
                 self.gimp_button.clicked.connect(self.open_gimp)
                 
