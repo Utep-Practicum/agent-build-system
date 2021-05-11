@@ -150,6 +150,11 @@ class EditForm(QMainWindow):
 
     def save_modifications(self):
         self.builder.save_controller_state()
+        obs: any = None
+        for key in self.data_checkbox:
+            if self.data_checkbox[key].isChecked():
+                obs = self.relation_selected.observation_list[self.observation_index]
+                obs.select_filters.append(key)
         if self.changes:
             # Get the same observation from the Relation selected
             observation_object = self.relation_selected.observation_list[self.observation_index]
@@ -166,12 +171,6 @@ class EditForm(QMainWindow):
             self.close()
             return
         self.builder.display_observation_after_edit()
-
-        obs: any = None
-        for key in self.data_checkbox:
-            if self.data_checkbox[key].isChecked():
-                obs = self.relation_selected.observation_list[self.observation_index]
-                obs.select_filters.append(key)
 
         print("--------- End of save ---------")
         self.close()

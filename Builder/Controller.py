@@ -116,6 +116,7 @@ class Controller:
                 objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data'] = observation.data
                 objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['data_type'] = observation.data_type
                 objectToSaveRelations["Relationships"][relation.name][observation.index_observation]['artifact'] = observation.artifact
+                objectToSaveRelations["Relationships"][relation.name][observation.index_observation]["select_filters"] = observation.select_filters
 
         objectToSave.append(objectToSaveRelations)
 
@@ -130,6 +131,7 @@ class Controller:
                 objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data'] = observation.data
                 objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['data_type'] = observation.data_type
                 objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]['artifact'] = observation.artifact
+                objectToSaveDependencies["Dependencies"][dependency.name][observation.index_observation]["select_filters"] = observation.select_filters
             #objectToSave["dependencies"].append(dependency.name)
 
         objectToSave.append(objectToSaveDependencies)

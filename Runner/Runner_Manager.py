@@ -1,4 +1,3 @@
-from Runner.Collector import *
 from Builder.Relation import *
 
 from Builder.Controller import *
@@ -16,7 +15,7 @@ class RunnerManager:
         self.eceld_service_proc = Popen(['sudo', './eceld_service'],cwd=dir)
         self.controller = controller
         self.observation_list = self.controller.unified_list()
-        self.Eceld_manager = EceldValidate()
+        self.Eceld_manager = EceldValidate(controller.project_name)
     
 
     def func_definer(self, observation):
@@ -29,12 +28,14 @@ class RunnerManager:
             # execfile()
         elif observation.user_action == False:
             #print("Test")
-            self.Eceld_manager.start_eceld()
+            self.Eceld_manager.start_eceld(observation)
 
 
     def runner_review(self):
         for item in self.observation_list:
             self.func_definer(item)
+
+        print("Done")
 
 
     def back_to_builder(self):
