@@ -32,7 +32,7 @@ class EceldValidate:
                 outs, errs = self.proc.communicate()
                 file_src = dir+'/plugins/collectors/tshark/parsed/networkDataAll.JSON'
                 if 'networkDataAll.JSON' in os.listdir(dir+'/plugins/collectors/tshark/parsed/'):
-                    file_dst = '/home/kali/Desktop/Practicum/agent-build-system-1/Project Data/'+self.project_name+'/Runner/Eceld/temp/comp'+str(counter)+'.json'
+                    file_dst = '/home/kali/Desktop/Practicum/agent-build-system/Project Data/'+self.project_name+'/Runner/Eceld/temp/comp'+str(counter)+'.json'
                     Popen(['sudo','cp',file_src,file_dst], cwd='/')
                 counter += 1
                 if counter > 10:
@@ -101,7 +101,7 @@ class EceldValidate:
                         # Compare based on the filters chosen
                         for item in observation.select_filters:
                             if observation.data[item] == network_dict[item]:
-                                print("Match Found" + item + ': ' + str(observation.data[item]))
+                                print("\n\n\n\n\nMatch Found" + item + ': ' + str(observation.data[item]) + '\n\n\n\n')
                                 self.stop_eceld = True
                                 return True
                             break

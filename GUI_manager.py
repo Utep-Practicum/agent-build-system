@@ -48,11 +48,6 @@ class GUIManager(QMainWindow):
 
     def runner(self,name = None):
         print('Starting Runner')
-        try:
-            Popen ('home/kali/eceld-netsys/eceld/eceld_service',cwd='/')
-        except Exception as e:
-            print (e)
-            print("ECELd not installed")
             
         self.project = name
         #These lines are only to test the Runner
