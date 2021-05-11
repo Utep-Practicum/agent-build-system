@@ -25,6 +25,7 @@ class RunnerManager:
             # execfile()
         elif observation.user_action == False:
             self.Eceld_manager.start_eceld(observation)
+            print("\n\n\n\n\n\nObservation "+str(observation.index_observation)+" was found\n\n\n\n\n\n")
 
 
     def runner_review(self):

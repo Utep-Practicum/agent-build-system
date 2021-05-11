@@ -106,7 +106,7 @@ class EceldValidate:
                         # Compare based on the filters chosen
                         for item in observation.select_filters:
                             if observation.data[item] == network_dict[item]:
-                                print("\n\n\n\n\nMatch Found - " + item + ': ' + str(observation.data[item]) + '\n\n\n\n')
+                                # print("\n\n\n\n\nMatch Found - " + item + ': ' + str(observation.data[item]) + '\n\n\n\n')
                                 self.stop_eceld = True
                                 return True
                             break
